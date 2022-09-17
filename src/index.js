@@ -102,7 +102,6 @@ async function makeMoney(config) {
                 args: getBrowserArgs()
             });
         } else {
-            console.log('Running on Raspberry');
             return await puppeteerCore.launch({
                 headless: true,
                 executablePath: "chromium-browser",
