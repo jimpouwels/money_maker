@@ -3,7 +3,6 @@ import GmailClient from './gmailClient.js';
 
 import puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
-import path from 'path';
 
 if (process.env.MACBOOK === 'true') {
     console.log('Running on macbook...');
@@ -71,8 +70,6 @@ async function makeMoney() {
 
             const screenshotId = `${cashUrl.from}-${cashUrls.indexOf(cashUrl)}`;
             setTimeout(async () => {
-                // await page.screenshot({path: path.join(process.cwd(), `/screenshots/${screenshotId}.png`)});
-                // console.log(`Taking screenshot for ${cashUrl.from}`);
                 console.log('Waited 10 seconds for page to have redirected successfully...');
                 completedCount++;
             }, 10000, screenshotId);
