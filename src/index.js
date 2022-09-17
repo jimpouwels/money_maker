@@ -24,7 +24,7 @@ for (const config of configs) {
 }
 
 async function makeMoney(config, matchers) {
-    console.log(`---SEARCHING CASH MAILS FOR ${config.userId}---`);
+    console.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
 
     const client = getClient(config);
     if (!client) {
@@ -39,23 +39,20 @@ async function makeMoney(config, matchers) {
         process.exit();
     }
 
-    console.log('---SCANNING CASH MAILS FOR URLS---');
+    console.log('\n---SCANNING CASH MAILS FOR URLS---');
     let browser = await getBrowserByPlatform();
     let cashUrls = filterCashUrls(cashmails, matchers);
 
-    console.log('---CLICKING CASH LINKS, MAKING MONEY!---');
+    console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
     let completedCount = 0;
     if (cashUrls && cashUrls.length > 0) {
         for (const cashUrl of cashUrls) {
-            console.log(`Trying to open the link ${cashUrl.url}`);
-            const page = await browser.newPage();
-            await page.goto(cashUrl.url.replaceAll('&amp;', '&'));
+            browseTo(cashUrl);
 
-            const screenshotId = `${cashUrl.from}-${cashUrls.indexOf(cashUrl)}`;
             setTimeout(async () => {
                 console.log('Waited 10 seconds for page to have redirected successfully...');
                 completedCount++;
-            }, 10000, screenshotId);
+            }, 10000);
         }
     }
 
@@ -64,11 +61,8 @@ async function makeMoney(config, matchers) {
             console.log('All cash URLs were handled, closing browser');
             browser.close();
 
-            console.log('---DELETE CASH MAILS---');
-            for (const cashmail of cashmails) {
-                client.deleteMail(cashmail.id);
-                console.log(`mail from ${cashmail.from} deleted`);
-            }
+            console.log('\n---DELETE CASH MAILS---');
+            deleteMails(cashmails);
 
             clearInterval(intervalId);
         }
@@ -149,4 +143,17 @@ function filterCashUrls(cashmails, matchers) {
         }
     }
     return cashUrls;
+}
+
+function deleteMails(cashmails) {
+    for (const cashmail of cashmails) {
+        client.deleteMail(cashmail.id);
+        console.log(`mail from ${cashmail.from} deleted`);
+    }
+}
+
+async function browseTo(cacheUrl) {
+    console.log(`Trying to open the link ${cashUrl.url}`);
+    const page = await browser.newPage();
+    await page.goto(cashUrl.url.replaceAll('&amp;', '&'));
 }
