@@ -25,7 +25,7 @@ async function makeMoney(config) {
         return;
     }
     const cashmails = [];
-    await client.getMessages().then(async mails => {
+    await client.getCashMails().then(async mails => {
         for (const mail of mails) {
             if (mail.from.includes('<noreply@euroclix.nl>') ||
                 mail.from.includes('<info@zinngeld.nl>') ||
@@ -90,7 +90,7 @@ async function makeMoney(config) {
 
             console.log('---DELETE CASH MAILS---');
             for (const cashmail of cashmails) {
-                client.deleteMessage(cashmail.id);
+                client.getMail(cashmail.id);
                 console.log(`mail from ${cashmail.from} deleted`);
             }
 

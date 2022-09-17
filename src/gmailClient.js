@@ -13,7 +13,7 @@ export default class GmailClient {
         this.createOAuth2Client();
     }
 
-    async getMessages() {
+    async getCashMails() {
         try {
           const url = `https://gmail.googleapis.com/gmail/v1/users/${this.config.userId}/messages?labelIds=${this.config.labelId}`;
           return this.oAuth2Client.getAccessToken().then(async token => {
@@ -22,7 +22,7 @@ export default class GmailClient {
                     if (response.data.messages) {
                         let mails = [];
                         for (const messageId of response.data.messages) {
-                            const mail = await this.getMessage(messageId.id).then(message => {
+                            const mail = await this.getMail(messageId.id).then(message => {
                                 const from = message.payload.headers.find(header => {
                                     return header.name === 'From';
                                 }).value;
@@ -56,7 +56,7 @@ export default class GmailClient {
         }
     }
 
-    async getMessage(id) {
+    async getMail(id) {
         try {
             const url = `https://gmail.googleapis.com//gmail/v1/users/${this.config.userId}/messages/${id}`;
             return this.oAuth2Client.getAccessToken().then(async token => {
