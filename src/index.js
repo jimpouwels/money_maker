@@ -90,7 +90,7 @@ async function makeMoney(config) {
 
             console.log('---DELETE CASH MAILS---');
             for (const cashmail of cashmails) {
-                client.getMail(cashmail.id);
+                client.deleteMail(cashmail.id);
                 console.log(`mail from ${cashmail.from} deleted`);
             }
 

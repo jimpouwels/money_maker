@@ -30,21 +30,7 @@ export default class GmailClient {
                     if (response.data.messages) {
                         let mails = [];
                         for (const messageId of response.data.messages) {
-                            const mail = await this.getMail(messageId.id).then(message => {
-                                const from = message.payload.headers.find(header => {
-                                    return header.name === 'From';
-                                }).value;
-                                let mailBody = '';
-                                if (message.payload.parts) {
-                                    for (const bodyPart of message.payload.parts) {
-                                        mailBody += Buffer.from(bodyPart.body.data, 'base64').toString();
-                                    }
-                                } else {
-                                    mailBody = Buffer.from(message.payload.body.data, 'base64').toString();
-                                }
-                                return new Mail(message.id, from, mailBody);
-                            });
-                            mails.push(mail);
+                            mails.push(await this.getMail(messageId.id));
                         }
                         return mails;
                     } else {
@@ -70,7 +56,8 @@ export default class GmailClient {
             return this.oAuth2Client.getAccessToken().then(async token => {
                 const config = this.createGetConfig(url, token.token);
                 return axios(config).then(response => {
-                    return response.data;
+                    const message = response.data;
+                    return new Mail(message.id, this.getSenderFrom(message), this.getBodyFrom(message));
                 }).catch(error => {
                     console.log(error.response.data);
                 });
@@ -126,5 +113,23 @@ export default class GmailClient {
             this.redirectUri
         );
         this.oAuth2Client.setCredentials({ refresh_token: this.refreshToken });
+    }
+
+    getBodyFrom(mail) {
+        let mailBody = '';
+        if (mail.payload.parts) {
+            for (const bodyPart of mail.payload.parts) {
+                mailBody += Buffer.from(bodyPart.body.data, 'base64').toString();
+            }
+        } else {
+            mailBody = Buffer.from(mail.payload.body.data, 'base64').toString();
+        }
+        return mailBody;
+    }
+
+    getSenderFrom(mail) {
+        return mail.payload.headers.find(header => {
+            return header.name === 'From';
+        }).value;
     }
 }
