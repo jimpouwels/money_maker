@@ -8,4 +8,8 @@ export default class ZinnGeldMatcher {
         return url.includes('zinngeld') && url.includes('maillink');
     }
 
+    canHaveMultipleCashUrls() {
+        return false;
+    }
+
 }

@@ -31,44 +31,20 @@ async function makeMoney(config, matchers) {
         console.log(`ERROR: Unknown mail type ${config.type}`);
         return;
     }
-     [];
-     const cashmails = await client.getCashMails(config.labelId).then(async mails => {
+    const cashmails = await client.getCashMails(config.labelId).then(async mails => {
         return getMatchingMails(mails, matchers);
     });
-
     if (cashmails.length === 0) {
         console.log('No cashmails at this time, exiting...');
         process.exit();
     }
 
     console.log('---SCANNING CASH MAILS FOR URLS---');
-    let browser = await getBrowserByPlatform();    
-    let completedCount = 0;
-    let cashUrls = [];
-    for (const cashmail of cashmails) {
-        console.log(`Searching for links in ${cashmail.from}`);
-        const matches = cashmail.body.matchAll('<a[^>]+href=\"(.*?)\"[^>]*>');
-        if (matches.length < 1) {
-            console.log(`No cashlink found for ${cashmail.from}, did they change the URL format?`);
-        }
-        for (const match of matches) {
-            const url = match[1];
-            if ((url.includes('enqueteclub') && url.includes('cm-l') && !url.includes('sid='))
-                || (url.includes('zinngeld') && url.includes('maillink'))
-                || (url.includes('euroclix') && url.includes('reference'))) {
-                    let cashUrl = { url: url, from: cashmail.from };
-                    cashUrls.push(cashUrl);
-                    console.log(`Found URL ${cashUrl.url} for ${cashUrl.from}`);
-                    if (url.includes('euroclix')) {
-                        // euroclix possibly has multiple url's
-                        continue;
-                    } else {
-                        break;
-                    }
-                }
-        }
-    }
+    let browser = await getBrowserByPlatform();
+    let cashUrls = filterCashUrls(cashmails, matchers);
+
     console.log('---CLICKING CASH LINKS, MAKING MONEY!---');
+    let completedCount = 0;
     if (cashUrls && cashUrls.length > 0) {
         for (const cashUrl of cashUrls) {
             console.log(`Trying to open the link ${cashUrl.url}`);
@@ -97,53 +73,80 @@ async function makeMoney(config, matchers) {
             clearInterval(intervalId);
         }
     }, 1000);
+}
 
-    async function getBrowserByPlatform() {
-        if (process.env.MACBOOK === 'true') {
-            return await puppeteer.launch({
-                headless: true,
-                args: getBrowserArgs()
-            });
-        } else {
-            return await puppeteerCore.launch({
-                headless: true,
-                executablePath: "chromium-browser",
-                args: getBrowserArgs()
-            });
+async function getBrowserByPlatform() {
+    if (process.env.MACBOOK === 'true') {
+        return await puppeteer.launch({
+            headless: true,
+            args: getBrowserArgs()
+        });
+    } else {
+        return await puppeteerCore.launch({
+            headless: true,
+            executablePath: "chromium-browser",
+            args: getBrowserArgs()
+        });
+    }
+}
+
+function getBrowserArgs() {
+    return [
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+    ];
+}
+
+function getClient(config) {
+    if (config.type === 'gmail') {
+        return new GmailClient(config.userId, 
+                                config.clientId, 
+                                config.clientSecret, 
+                                config.refreshToken, 
+                                config.redirectUri);
+    }
+    return null;
+}
+
+function getMatchingMails(mails, matchers) {
+    const matchingMails = [];
+    for (const mail of mails) {
+        for (const matcher of matchers) {
+            if (matcher.matchFrom(mail.from)) {
+                matchingMails.push(mail);
+                console.log(`Found cashmail from ${mail.from}`);
+                break;
+            }
+        };
+    }
+    return matchingMails;
+}
+
+function filterCashUrls(cashmails, matchers) {
+    let cashUrls = [];
+    for (const cashmail of cashmails) {
+        console.log(`Searching for links in ${cashmail.from}`);
+        const matches = cashmail.body.matchAll('<a[^>]+href=\"(.*?)\"[^>]*>');
+        if (matches.length < 1) {
+            console.log(`No cashlink found for ${cashmail.from}, did they change the URL format?`);
         }
-    }
-
-    function getBrowserArgs() {
-        return [
-            "--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--disable-setuid-sandbox",
-            "--no-sandbox",
-        ];
-    }
-
-    function getClient(config) {
-        if (config.type === 'gmail') {
-            return new GmailClient(config.userId, 
-                                    config.clientId, 
-                                    config.clientSecret, 
-                                    config.refreshToken, 
-                                    config.redirectUri);
-        }
-        return null;
-    }
-
-    function getMatchingMails(mails, matchers) {
-        const matchingMails = [];
-        for (const mail of mails) {
+        matchesLoop: for (const match of matches) {
+            const url = match[1];
             for (const matcher of matchers) {
-                if (matcher.matchFrom(mail.from)) {
-                    matchingMails.push(mail);
-                    console.log(`Found cashmail from ${mail.from}`);
-                    break;
+                if (matcher.matchUrl(url)) {
+                    let cashUrl = { url: url, from: cashmail.from };
+                    cashUrls.push(cashUrl);
+                    console.log(`Found URL ${cashUrl.url} for ${cashUrl.from}`);
+                    if (matcher.canHaveMultipleCashUrls()) {
+                        continue;
+                    } else {
+                        break matchesLoop;
+                    }
                 }
-            };
+            }
         }
-        return matchingMails;
     }
+    return cashUrls;
 }

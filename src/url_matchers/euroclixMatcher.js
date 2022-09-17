@@ -8,4 +8,8 @@ export default class EuroClixMatcher {
         return url.includes('euroclix') && url.includes('reference');
     }
 
+    canHaveMultipleCashUrls() {
+        return true;
+    }
+
 }
