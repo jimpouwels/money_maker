@@ -36,32 +36,7 @@ async function makeMoney() {
     }
 
     console.log('---SCANNING CASH MAILS FOR URLS---');
-    let browser = null;
-
-    if (process.env.MACBOOK === 'true') {
-        browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                "--disable-gpu",
-                "--disable-dev-shm-usage",
-                "--disable-setuid-sandbox",
-                "--no-sandbox",
-            ]
-        });
-    } else {
-        console.log('Running on Raspberry');
-        browser = await puppeteerCore.launch({
-            headless: true,
-            executablePath: "chromium-browser",
-            args: [
-                "--disable-gpu",
-                "--disable-dev-shm-usage",
-                "--disable-setuid-sandbox",
-                "--no-sandbox",
-            ]
-        });
-    }
-    
+    let browser = await getBrowserByPlatform();    
     let completedCount = 0;
     let cashUrls = [];
     for (const cashmail of cashmails) {
@@ -118,4 +93,29 @@ async function makeMoney() {
             clearInterval(intervalId);
         }
     }, 1000);
+
+    async function getBrowserByPlatform() {
+        if (process.env.MACBOOK === 'true') {
+            return await puppeteer.launch({
+                headless: true,
+                args: getBrowserArgs()
+            });
+        } else {
+            console.log('Running on Raspberry');
+            return await puppeteerCore.launch({
+                headless: true,
+                executablePath: "chromium-browser",
+                args: getBrowserArgs()
+            });
+        }
+    }
+
+    function getBrowserArgs() {
+        return [
+            "--disable-gpu",
+            "--disable-dev-shm-usage",
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+        ];
+    }
 }
