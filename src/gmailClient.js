@@ -6,15 +6,16 @@ export default class GmailClient {
 
     auth;
     oAuth2Client;
+    config;
 
-    constructor() {
-        this.createAuth();
+    constructor(config) {
+        this.config = config;
         this.createOAuth2Client();
     }
 
     async getMessages() {
         try {
-          const url = `https://gmail.googleapis.com/gmail/v1/users/jim.pouwels@gmail.com/messages?labelIds=Label_4918427780235740182`;
+          const url = `https://gmail.googleapis.com/gmail/v1/users/${this.config.userId}/messages?labelIds=${this.config.labelId}`;
           return this.oAuth2Client.getAccessToken().then(async token => {
                 const config = this.createGetConfig(url, token.token);
                 return axios(config).then(async response => {
@@ -57,7 +58,7 @@ export default class GmailClient {
 
     async getMessage(id) {
         try {
-            const url = `https://gmail.googleapis.com//gmail/v1/users/jim.pouwels@gmail.com/messages/${id}`;
+            const url = `https://gmail.googleapis.com//gmail/v1/users/${this.config.userId}/messages/${id}`;
             return this.oAuth2Client.getAccessToken().then(async token => {
                 const config = this.createGetConfig(url, token.token);
                 return axios(config).then(response => {
@@ -74,7 +75,7 @@ export default class GmailClient {
 
     async deleteMessage(id) {
         try {
-            const url = `https://gmail.googleapis.com//gmail/v1/users/jim.pouwels@gmail.com/messages/${id}`;
+            const url = `https://gmail.googleapis.com//gmail/v1/users/${this.config.userId}/messages/${id}`;
             return this.oAuth2Client.getAccessToken().then(async token => {
                 const config = this.createDeleteConfig(url, token.token);
                 return axios(config).then(_response => {
@@ -87,16 +88,6 @@ export default class GmailClient {
             console.log(error);
             return error;
           }
-    }
-
-    createAuth() {
-        this.auth = {
-            type: "OAuth2",
-            user: "jim.pouwels@gmail.com",
-            clientId: process.env.CLIENT_ID,
-            clientSecret: process.env.CLIENT_SECRET,
-            refreshToken: process.env.REFRESH_TOKEN,
-        };
     }
 
     createGetConfig(url, accessToken) {
@@ -122,10 +113,10 @@ export default class GmailClient {
 
     createOAuth2Client() {
         this.oAuth2Client = new google.auth.OAuth2(
-            process.env.CLIENT_ID,
-            process.env.CLIENT_SECRET,
-            process.env.REDIRECT_URL
+            this.config.clientId,
+            this.config.clientSecret,
+            this.config.redirectUri
         );
-        this.oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
+        this.oAuth2Client.setCredentials({ refresh_token: this.config.refreshToken });
     }
 }

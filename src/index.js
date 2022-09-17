@@ -1,22 +1,24 @@
-import config from 'dotenv';
 import GmailClient from './gmailClient.js';
-
 import puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
+import fs from 'fs';
+import path from 'path';
 
 if (process.env.MACBOOK === 'true') {
     console.log('Running on macbook...');
 }
 
-config.config();
+const configs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'config.json')));
 
-const gmailClient = new GmailClient();
+for (const config of configs) {
+    makeMoney(config);
+}
 
-console.log('---SEARCHING CASH MAILS---');
+async function makeMoney(config) {
+    console.log(`---SEARCHING CASH MAILS FOR ${config.userId}---`);
 
-makeMoney();
+    const gmailClient = new GmailClient(config);
 
-async function makeMoney() {
     const cashmails = [];
     await gmailClient.getMessages().then(async mails => {
         for (const mail of mails) {
