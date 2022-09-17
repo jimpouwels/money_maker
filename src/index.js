@@ -1,7 +1,13 @@
 import config from 'dotenv';
 import GmailClient from './gmailClient.js';
+
 import puppeteer from 'puppeteer';
+import puppeteerCore from 'puppeteer-core';
 import path from 'path';
+
+if (process.env.MACBOOK === 'true') {
+    console.log('Running on macbook...');
+}
 
 config.config();
 
@@ -13,20 +19,14 @@ makeMoney();
 
 async function makeMoney() {
     const cashmails = [];
-    await gmailClient.getMessages().then(async messages => {
-        for (const message of messages) {
-            await gmailClient.getMessage(message.id).then(message => {
-                const from = message.payload.headers.find(header => {
-                    return header.name === 'From';
-                }).value;
-                if (from.includes('<noreply@euroclix.nl>') ||
-                    from.includes('<info@zinngeld.nl>') ||
-                    from.includes('<info@enqueteclub.nl>')) {
-                    message.from = from;
-                    console.log(`Found cashmail from ${from}`);
-                    cashmails.push(message);
-                }
-            });
+    await gmailClient.getMessages().then(async mails => {
+        for (const mail of mails) {
+            if (mail.from.includes('<noreply@euroclix.nl>') ||
+                mail.from.includes('<info@zinngeld.nl>') ||
+                mail.from.includes('<info@enqueteclub.nl>')) {
+                console.log(`Found cashmail from ${mail.from}`);
+                cashmails.push(mail);
+            }
         }
     });
 
@@ -36,28 +36,37 @@ async function makeMoney() {
     }
 
     console.log('---SCANNING CASH MAILS FOR URLS---');
-    const browser = await puppeteer.launch({
-        headless: true,
-        args: [
-            "--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--disable-setuid-sandbox",
-            "--no-sandbox",
-        ]
-    });
+    let browser = null;
+
+    if (process.env.MACBOOK === 'true') {
+        browser = await puppeteer.launch({
+            headless: true,
+            args: [
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--disable-setuid-sandbox",
+                "--no-sandbox",
+            ]
+        });
+    } else {
+        console.log('Running on Raspberry');
+        browser = await puppeteerCore.launch({
+            headless: true,
+            executablePath: "chromium-browser",
+            args: [
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--disable-setuid-sandbox",
+                "--no-sandbox",
+            ]
+        });
+    }
+    
     let completedCount = 0;
     let cashUrls = [];
     for (const cashmail of cashmails) {
         console.log(`Searching for links in ${cashmail.from}`);
-        let mailBody = '';
-        if (cashmail.payload.parts) {
-            for (const bodyPart of cashmail.payload.parts) {
-                mailBody += Buffer.from(bodyPart.body.data, 'base64').toString();
-            }
-        } else {
-            mailBody = Buffer.from(cashmail.payload.body.data, 'base64').toString();
-        }
-        const matches = mailBody.matchAll('<a[^>]+href=\"(.*?)\"[^>]*>');
+        const matches = cashmail.body.matchAll('<a[^>]+href=\"(.*?)\"[^>]*>');
         if (matches.length < 1) {
             console.log(`No cashlink found for ${cashmail.from}, did they change the URL format?`);
         }
