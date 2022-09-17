@@ -25,7 +25,7 @@ async function makeMoney(config) {
         return;
     }
     const cashmails = [];
-    await client.getCashMails().then(async mails => {
+    await client.getCashMails(config.labelId).then(async mails => {
         for (const mail of mails) {
             if (mail.from.includes('<noreply@euroclix.nl>') ||
                 mail.from.includes('<info@zinngeld.nl>') ||
@@ -124,7 +124,11 @@ async function makeMoney(config) {
 
     function getClient(config) {
         if (config.type === 'gmail') {
-            return new GmailClient(config);
+            return new GmailClient(config.userId, 
+                                    config.clientId, 
+                                    config.clientSecret, 
+                                    config.refreshToken, 
+                                    config.redirectUri);
         }
         return null;
     }

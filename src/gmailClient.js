@@ -6,16 +6,24 @@ export default class GmailClient {
 
     auth;
     oAuth2Client;
-    config;
+    userId;
+    clientId;
+    clientSecret;
+    refreshToken;
+    redirectUri;
 
-    constructor(config) {
-        this.config = config;
+    constructor(userId, clientId, clientSecret, refreshToken, redirectUri) {
+        this.userId = userId;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.refreshToken = refreshToken;
+        this.redirectUri = redirectUri;
         this.createOAuth2Client();
     }
 
-    async getCashMails() {
+    async getCashMails(labelId) {
         try {
-          const url = `https://gmail.googleapis.com/gmail/v1/users/${this.config.userId}/messages?labelIds=${this.config.labelId}`;
+          const url = `https://gmail.googleapis.com/gmail/v1/users/${this.userId}/messages?labelIds=${labelId}`;
           return this.oAuth2Client.getAccessToken().then(async token => {
                 const config = this.createGetConfig(url, token.token);
                 return axios(config).then(async response => {
@@ -58,7 +66,7 @@ export default class GmailClient {
 
     async getMail(id) {
         try {
-            const url = `https://gmail.googleapis.com//gmail/v1/users/${this.config.userId}/messages/${id}`;
+            const url = `https://gmail.googleapis.com//gmail/v1/users/${this.userId}/messages/${id}`;
             return this.oAuth2Client.getAccessToken().then(async token => {
                 const config = this.createGetConfig(url, token.token);
                 return axios(config).then(response => {
@@ -73,9 +81,9 @@ export default class GmailClient {
           }
     }
 
-    async deleteMessage(id) {
+    async deleteMail(id) {
         try {
-            const url = `https://gmail.googleapis.com//gmail/v1/users/${this.config.userId}/messages/${id}`;
+            const url = `https://gmail.googleapis.com//gmail/v1/users/${this.userId}/messages/${id}`;
             return this.oAuth2Client.getAccessToken().then(async token => {
                 const config = this.createDeleteConfig(url, token.token);
                 return axios(config).then(_response => {
@@ -113,10 +121,10 @@ export default class GmailClient {
 
     createOAuth2Client() {
         this.oAuth2Client = new google.auth.OAuth2(
-            this.config.clientId,
-            this.config.clientSecret,
-            this.config.redirectUri
+            this.clientId,
+            this.clientSecret,
+            this.redirectUri
         );
-        this.oAuth2Client.setCredentials({ refresh_token: this.config.refreshToken });
+        this.oAuth2Client.setCredentials({ refresh_token: this.refreshToken });
     }
 }
