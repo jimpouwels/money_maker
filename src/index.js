@@ -19,10 +19,13 @@ for (const config of configs) {
 async function makeMoney(config) {
     console.log(`---SEARCHING CASH MAILS FOR ${config.userId}---`);
 
-    const gmailClient = new GmailClient(config);
-
+    const client = getClient(config);
+    if (!client) {
+        console.log(`ERROR: Unknown mail type ${config.type}`);
+        return;
+    }
     const cashmails = [];
-    await gmailClient.getMessages().then(async mails => {
+    await client.getMessages().then(async mails => {
         for (const mail of mails) {
             if (mail.from.includes('<noreply@euroclix.nl>') ||
                 mail.from.includes('<info@zinngeld.nl>') ||
@@ -87,7 +90,7 @@ async function makeMoney(config) {
 
             console.log('---DELETE CASH MAILS---');
             for (const cashmail of cashmails) {
-                gmailClient.deleteMessage(cashmail.id);
+                client.deleteMessage(cashmail.id);
                 console.log(`mail from ${cashmail.from} deleted`);
             }
 
@@ -117,5 +120,12 @@ async function makeMoney(config) {
             "--disable-setuid-sandbox",
             "--no-sandbox",
         ];
+    }
+
+    function getClient(config) {
+        if (config.type === 'gmail') {
+            return new GmailClient(config);
+        }
+        return null;
     }
 }
