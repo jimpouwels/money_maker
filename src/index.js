@@ -5,7 +5,9 @@ import fs from 'fs';
 import path from 'path';
 
 if (process.env.MACBOOK === 'true') {
-    console.log('Running on macbook...');
+    console.log('Running on Macbook...');
+} else {
+    console.log('Running on RaspBerry');
 }
 
 const configs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'config.json')));
