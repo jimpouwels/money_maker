@@ -3,6 +3,9 @@ import puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
 import fs from 'fs';
 import path from 'path';
+import EnqueteClubMatcher from './url_matchers/enqueteclubMatcher.js';
+import ZinnGeldMatcher from './url_matchers/zinngeldMatcher.js';
+import EuroClixMatcher from './url_matchers/euroclixMatcher.js';
 
 if (process.env.MACBOOK === 'true') {
     console.log('Running on Macbook...');
@@ -11,12 +14,16 @@ if (process.env.MACBOOK === 'true') {
 }
 
 const configs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'config.json')));
+const matchers = [];
+matchers.push(new EnqueteClubMatcher());
+matchers.push(new ZinnGeldMatcher());
+matchers.push(new EuroClixMatcher());
 
 for (const config of configs) {
-    makeMoney(config);
+    makeMoney(config, matchers);
 }
 
-async function makeMoney(config) {
+async function makeMoney(config, matchers) {
     console.log(`---SEARCHING CASH MAILS FOR ${config.userId}---`);
 
     const client = getClient(config);
@@ -24,16 +31,9 @@ async function makeMoney(config) {
         console.log(`ERROR: Unknown mail type ${config.type}`);
         return;
     }
-    const cashmails = [];
-    await client.getCashMails(config.labelId).then(async mails => {
-        for (const mail of mails) {
-            if (mail.from.includes('<noreply@euroclix.nl>') ||
-                mail.from.includes('<info@zinngeld.nl>') ||
-                mail.from.includes('<info@enqueteclub.nl>')) {
-                console.log(`Found cashmail from ${mail.from}`);
-                cashmails.push(mail);
-            }
-        }
+     [];
+     const cashmails = await client.getCashMails(config.labelId).then(async mails => {
+        return getMatchingMails(mails, matchers);
     });
 
     if (cashmails.length === 0) {
@@ -131,5 +131,19 @@ async function makeMoney(config) {
                                     config.redirectUri);
         }
         return null;
+    }
+
+    function getMatchingMails(mails, matchers) {
+        const matchingMails = [];
+        for (const mail of mails) {
+            for (const matcher of matchers) {
+                if (matcher.matchFrom(mail.from)) {
+                    matchingMails.push(mail);
+                    console.log(`Found cashmail from ${mail.from}`);
+                    break;
+                }
+            };
+        }
+        return matchingMails;
     }
 }
