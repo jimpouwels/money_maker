@@ -127,17 +127,17 @@ function filterCashUrls(cashmails, matchers) {
         if (matches.length < 1) {
             console.log(`No cashlink found for ${cashmail.from}, did they change the URL format?`);
         }
-        matchesLoop: for (const match of matches) {
+        urlsLoop: for (const match of matches) {
             const url = match[1];
-            for (const matcher of matchers) {
+            matchersLoop: for (const matcher of matchers) {
                 if (matcher.matchUrl(url)) {
                     let cashUrl = { url: url, from: cashmail.from };
                     cashUrls.push(cashUrl);
                     console.log(`Found URL ${cashUrl.url} for ${cashUrl.from}`);
                     if (matcher.canHaveMultipleCashUrls()) {
-                        continue;
+                        break matchersLoop;
                     } else {
-                        break matchesLoop;
+                        break urlsLoop;
                     }
                 }
             }
