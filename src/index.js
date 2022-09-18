@@ -62,7 +62,7 @@ async function makeMoney(config, matchers) {
             browser.close();
 
             console.log('\n---DELETE CASH MAILS---');
-            deleteMails(cashmails);
+            deleteMails(client, cashmails);
 
             clearInterval(intervalId);
         }
@@ -145,7 +145,7 @@ function filterCashUrls(cashmails, matchers) {
     return cashUrls;
 }
 
-function deleteMails(cashmails) {
+function deleteMails(client, cashmails) {
     for (const cashmail of cashmails) {
         client.deleteMail(cashmail.id);
         console.log(`mail from ${cashmail.from} deleted`);
