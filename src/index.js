@@ -155,5 +155,7 @@ function deleteMails(client, cashmails) {
 async function browseTo(browser, cashUrl) {
     console.log(`Trying to open the link ${cashUrl.url}`);
     const page = await browser.newPage();
-    await page.goto(cashUrl.url.replaceAll('&amp;', '&'));
+    await page.goto(cashUrl.url.replaceAll('&amp;', '&')).catch(error => {
+        console.log('The browser was closed while navigating');
+    });
 }
