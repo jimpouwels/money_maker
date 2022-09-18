@@ -137,7 +137,7 @@ function filterCashUrls(cashmails, matchers) {
             const url = match[1];
             matchersLoop: for (const matcher of matchers) {
                 if (matcher.matchUrl(url)) {
-                    let cashUrl = { url: url, from: cashmail.from };
+                    let cashUrl = { url: url.replaceAll('&amp;', '&'), from: cashmail.from };
                     cashUrls.push(cashUrl);
                     console.log(`Found URL ${cashUrl.url} for ${cashUrl.from}`);
                     if (matcher.canHaveMultipleCashUrls()) {
@@ -162,7 +162,7 @@ function deleteMails(client, cashmails) {
 async function browseTo(browser, cashUrl) {
     console.log(`Trying to open the link ${cashUrl.url}`);
     const page = await browser.newPage();
-    await page.goto(cashUrl.url.replaceAll('&amp;', '&')).catch(_error => {
+    await page.goto(cashUrl.url).catch(_error => {
         console.log('WARNING: The browser was closed while navigating, but probably everyting is OK!');
     });
 }
