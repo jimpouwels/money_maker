@@ -52,7 +52,7 @@ async function makeMoney(config, matchers) {
             setTimeout(async () => {
                 console.log('Waited 10 seconds for page to have redirected successfully...');
                 completedCount++;
-            }, 10000);
+            }, 15000);
         }
     }
 
