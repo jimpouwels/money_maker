@@ -49,10 +49,11 @@ async function makeMoney(config, matchers) {
         for (const cashUrl of cashUrls) {
             browseTo(browser, cashUrl);
 
+            const waitingTime = 15000;
             setTimeout(async () => {
-                console.log('Waited 10 seconds for page to have redirected successfully...');
+                console.log(`Waited ${waitingTime} seconds for page to have redirected successfully...`);
                 completedCount++;
-            }, 15000);
+            }, waitingTime);
         }
     }
 
