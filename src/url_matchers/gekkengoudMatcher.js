@@ -1,7 +1,7 @@
 export default class GekkengoudMatcher {
 
     matchFrom(from) {
-        return from.includes('<info@gekkengoud.nl>>');
+        return from.includes('<info@gekkengoud.nl>');
     }
 
     matchUrl(url) {
