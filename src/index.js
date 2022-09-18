@@ -152,7 +152,7 @@ function deleteMails(cashmails) {
     }
 }
 
-async function browseTo(cacheUrl) {
+async function browseTo(cashUrl) {
     console.log(`Trying to open the link ${cashUrl.url}`);
     const page = await browser.newPage();
     await page.goto(cashUrl.url.replaceAll('&amp;', '&'));
