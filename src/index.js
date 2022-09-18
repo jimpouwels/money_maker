@@ -6,6 +6,8 @@ import path from 'path';
 import EnqueteClubMatcher from './url_matchers/enqueteclubMatcher.js';
 import ZinnGeldMatcher from './url_matchers/zinngeldMatcher.js';
 import EuroClixMatcher from './url_matchers/euroclixMatcher.js';
+import CashbackKortingMatcher from './url_matchers/cashbackkortingMatcher.js';
+import LadyCashbackMatcher from './url_matchers/ladycashbackMatcher.js';
 
 if (process.env.MACBOOK === 'true') {
     console.log('Running on Macbook...');
@@ -18,6 +20,8 @@ const matchers = [];
 matchers.push(new EnqueteClubMatcher());
 matchers.push(new ZinnGeldMatcher());
 matchers.push(new EuroClixMatcher());
+matchers.push(new CashbackKortingMatcher());
+matchers.push(new LadyCashbackMatcher());
 
 for (const config of configs) {
     makeMoney(config, matchers);

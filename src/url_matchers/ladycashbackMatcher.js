@@ -1,0 +1,15 @@
+export default class LadyCashbackMatcher {
+
+    matchFrom(from) {
+        return from.includes('<info@ladycashback.nl>');
+    }
+
+    matchUrl(url) {
+        return url.includes('ladycashback') && url.includes('cm-l') && !url.includes('sid=');
+    }
+
+    canHaveMultipleCashUrls() {
+        return false;
+    }
+
+}
