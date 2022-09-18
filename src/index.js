@@ -47,7 +47,7 @@ async function makeMoney(config, matchers) {
     let completedCount = 0;
     if (cashUrls && cashUrls.length > 0) {
         for (const cashUrl of cashUrls) {
-            browseTo(cashUrl);
+            browseTo(browser, cashUrl);
 
             setTimeout(async () => {
                 console.log('Waited 10 seconds for page to have redirected successfully...');
@@ -152,7 +152,7 @@ function deleteMails(cashmails) {
     }
 }
 
-async function browseTo(cashUrl) {
+async function browseTo(browser, cashUrl) {
     console.log(`Trying to open the link ${cashUrl.url}`);
     const page = await browser.newPage();
     await page.goto(cashUrl.url.replaceAll('&amp;', '&'));
