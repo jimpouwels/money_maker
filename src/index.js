@@ -149,7 +149,7 @@ function filterCashUrls(cashmails, matchers) {
 function deleteMails(client, cashmails) {
     for (const cashmail of cashmails) {
         client.deleteMail(cashmail.id);
-        console.log(`mail from ${cashmail.from} deleted`);
+        console.log(`Mail from ${cashmail.from} deleted`);
     }
 }
 
