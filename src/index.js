@@ -55,13 +55,13 @@ async function makeMoney(config, matchers) {
     let completedCount = 0;
     if (cashUrls && cashUrls.length > 0) {
         for (const cashUrl of cashUrls) {
-            browseTo(browser, cashUrl);
+            const page = browseTo(browser, cashUrl);
 
             const waitingTime = 15000;
             setTimeout(async () => {
                 console.log(`Waited ${waitingTime} seconds for page to have redirected successfully...`);
                 completedCount++;
-            }, waitingTime);
+            }, waitingTime, page);
         }
     }
 
@@ -134,18 +134,21 @@ function filterCashUrls(cashmails, matchers) {
         const matches = cashmail.body.matchAll('<a[^>]+href=\"(.*?)\"[^>]*>');
         if (matches.length < 1) {
             console.log(`No cashlink found for ${cashmail.from}, did they change the URL format?`);
-        }
-        urlsLoop: for (const match of matches) {
-            const url = match[1];
-            matchersLoop: for (const matcher of matchers) {
-                if (matcher.matchUrl(url)) {
-                    let cashUrl = { url: url.replaceAll('&amp;', '&'), from: cashmail.from };
-                    cashUrls.push(cashUrl);
-                    console.log(`Found URL ${cashUrl.url} for ${cashUrl.from}`);
-                    if (matcher.canHaveMultipleCashUrls()) {
-                        break matchersLoop;
-                    } else {
-                        break urlsLoop;
+            cashmail.linksFound = false;
+        } else {
+            cashmail.linksFound = true;
+            urlsLoop: for (const match of matches) {
+                const url = match[1];
+                matchersLoop: for (const matcher of matchers) {
+                    if (matcher.matchUrl(url)) {
+                        let cashUrl = { url: url.replaceAll('&amp;', '&'), from: cashmail.from };
+                        cashUrls.push(cashUrl);
+                        console.log(`Found URL ${cashUrl.url} for ${cashUrl.from}`);
+                        if (matcher.canHaveMultipleCashUrls()) {
+                            break matchersLoop;
+                        } else {
+                            break urlsLoop;
+                        }
                     }
                 }
             }
@@ -156,6 +159,10 @@ function filterCashUrls(cashmails, matchers) {
 
 function deleteMails(client, cashmails) {
     for (const cashmail of cashmails) {
+        if (!cashmail.linksFound) {
+            console.log(`No links were found for ${cashmail.from}, keeping the mail for review...`)
+            continue;
+        }
         client.deleteMail(cashmail.id);
         console.log(`Mail from ${cashmail.from} deleted`);
     }
@@ -167,4 +174,5 @@ async function browseTo(browser, cashUrl) {
     await page.goto(cashUrl.url).catch(_error => {
         console.log('WARNING: The browser was closed while navigating, but probably everyting is OK!');
     });
+    return page;
 }
