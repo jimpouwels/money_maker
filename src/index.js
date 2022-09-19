@@ -53,7 +53,6 @@ async function makeMoney(config, matchers) {
     let cashUrls = filterCashUrls(cashmails, matchers);
 
     console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
-    let completedCount = 0;
     if (cashUrls && cashUrls.length > 0) {
         for (const cashUrl of cashUrls) {
             await browseTo(cashUrl);
@@ -139,17 +138,17 @@ async function browseTo(cashUrl) {
     console.log(`Trying to open the link ${cashUrl.url}`);
     const page = await browser.newPage();
     await page.goto(cashUrl.url)
-    .then(async () => {
-        await sleep(waitingTime);
-        console.log(`Waited ${waitingTime} seconds for page to have redirected successfully...`);
-    })
-    .catch(_error => {
-        console.log('WARNING: The browser was closed while navigating, but probably everyting is OK!');
-    })
-    .finally(() => {
-        console.log('Closing browser');
-        browser.close();
-    });
+        .then(async () => {
+            await sleep(waitingTime);
+            console.log(`Waited ${waitingTime} seconds for page to have redirected successfully...`);
+        })
+        .catch(_error => {
+            console.log('WARNING: The browser was closed while navigating, but probably everyting is OK!');
+        })
+        .finally(() => {
+            console.log('Closing browser');
+            browser.close();
+        });
 }
 
 async function sleep(ms) {
