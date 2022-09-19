@@ -62,7 +62,7 @@ async function makeMoney(config, matchers) {
     console.log('\nAll cash URLs were handled, closing browser');
 
     console.log('\n---DELETE CASH MAILS---');
-    deleteMails(client, cashmails);
+    // deleteMails(client, cashmails);
 }
 
 function getClient(config) {
