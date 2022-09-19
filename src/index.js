@@ -69,7 +69,7 @@ async function makeMoney(config, matchers) {
 
     let intervalId = setInterval(async () => {
         if (completedCount == cashUrls.length) {
-            console.log('All cash URLs were handled, closing browser');
+            console.log('\nAll cash URLs were handled, closing browser');
             browser.close();
 
             console.log('\n---DELETE CASH MAILS---');
