@@ -9,6 +9,7 @@ import EuroClixMatcher from './url_matchers/euroclixMatcher.js';
 import CashbackKortingMatcher from './url_matchers/cashbackkortingMatcher.js';
 import LadyCashbackMatcher from './url_matchers/ladycashbackMatcher.js';
 import GekkengoudMatcher from './url_matchers/gekkengoudMatcher.js';
+import IPayMatcher from './url_matchers/ipayMatcher.js';
 
 if (process.env.MACBOOK === 'true') {
     console.log('Running on Macbook...');
@@ -24,6 +25,7 @@ matchers.push(new EuroClixMatcher());
 matchers.push(new CashbackKortingMatcher());
 matchers.push(new LadyCashbackMatcher());
 matchers.push(new GekkengoudMatcher());
+matchers.push(new IPayMatcher());
 
 for (const config of configs) {
     makeMoney(config, matchers);
