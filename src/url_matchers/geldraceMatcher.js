@@ -1,4 +1,4 @@
-export default class ZinnGeldMatcher {
+export default class GeldraceMatcher {
 
     matchFrom(from) {
         return from.includes('<ledenservice@geldrace.nl>');
