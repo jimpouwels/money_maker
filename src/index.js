@@ -62,7 +62,7 @@ async function makeMoney(config, matchers) {
     console.log('\nAll cash URLs were handled, closing browser');
 
     console.log('\n---DELETE CASH MAILS---');
-    // deleteMails(client, cashmails);
+    deleteMails(client, cashmails);
 }
 
 function getClient(config) {
@@ -105,6 +105,7 @@ function filterCashUrls(cashmails, matchers) {
                 matchersLoop: for (const matcher of matchers) {
                     if (matcher.matchUrl(url)) {
                         let cashUrl = { url: url.replaceAll('&amp;', '&'), from: cashmail.from };
+                        cashUrl.from = cashmail.from;
                         cashUrls.push(cashUrl);
                         console.log(`Found URL ${cashUrl.url} for ${cashUrl.from}`);
                         if (matcher.canHaveMultipleCashUrls()) {
@@ -141,13 +142,12 @@ async function browseTo(cashUrl) {
         .then(async () => {
             await sleep(waitingTime);
             console.log(`Waited ${waitingTime} seconds for page to have redirected successfully...`);
+            // await page.screenshot({path: path.join(process.cwd(), `/screenshots/${cashUrl.from}.png`)});
+            console.log('Closing browser');
+            await browser.close();
         })
         .catch(_error => {
             console.log('WARNING: The browser was closed while navigating, but probably everyting is OK!');
-        })
-        .finally(() => {
-            console.log('Closing browser');
-            browser.close();
         });
 }
 
