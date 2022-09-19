@@ -50,58 +50,20 @@ async function makeMoney(config, matchers) {
     }
 
     console.log('\n---SCANNING CASH MAILS FOR URLS---');
-    let browser = await getBrowserByPlatform();
     let cashUrls = filterCashUrls(cashmails, matchers);
 
     console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
     let completedCount = 0;
     if (cashUrls && cashUrls.length > 0) {
         for (const cashUrl of cashUrls) {
-            const page = browseTo(browser, cashUrl);
-
-            const waitingTime = 15000;
-            setTimeout(async () => {
-                console.log(`Waited ${waitingTime} seconds for page to have redirected successfully...`);
-                completedCount++;
-            }, waitingTime, page);
+            await browseTo(cashUrl);
         }
     }
 
-    let intervalId = setInterval(async () => {
-        if (completedCount == cashUrls.length) {
-            console.log('\nAll cash URLs were handled, closing browser');
-            browser.close();
+    console.log('\nAll cash URLs were handled, closing browser');
 
-            console.log('\n---DELETE CASH MAILS---');
-            deleteMails(client, cashmails);
-
-            clearInterval(intervalId);
-        }
-    }, 1000);
-}
-
-async function getBrowserByPlatform() {
-    if (process.env.MACBOOK === 'true') {
-        return await puppeteer.launch({
-            headless: true,
-            args: getBrowserArgs()
-        });
-    } else {
-        return await puppeteerCore.launch({
-            headless: true,
-            executablePath: "chromium-browser",
-            args: getBrowserArgs()
-        });
-    }
-}
-
-function getBrowserArgs() {
-    return [
-        "--disable-gpu",
-        "--disable-dev-shm-usage",
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-    ];
+    console.log('\n---DELETE CASH MAILS---');
+    deleteMails(client, cashmails);
 }
 
 function getClient(config) {
@@ -118,11 +80,11 @@ function getClient(config) {
 function getMatchingMails(mails, matchers) {
     const matchingMails = [];
     for (const mail of mails) {
-        for (const matcher of matchers) {
+        matchersLoop: for (const matcher of matchers) {
             if (matcher.matchFrom(mail.from)) {
                 matchingMails.push(mail);
                 console.log(`Found cashmail from ${mail.from}`);
-                break;
+                break matchersLoop;
             }
         };
     }
@@ -170,11 +132,52 @@ function deleteMails(client, cashmails) {
     }
 }
 
-async function browseTo(browser, cashUrl) {
+async function browseTo(cashUrl) {
+    const waitingTime = 15000;
+    console.log('Opening browser');
+    let browser = await getBrowserByPlatform();
     console.log(`Trying to open the link ${cashUrl.url}`);
     const page = await browser.newPage();
-    await page.goto(cashUrl.url).catch(_error => {
+    await page.goto(cashUrl.url)
+    .then(async () => {
+        await sleep(waitingTime);
+        console.log(`Waited ${waitingTime} seconds for page to have redirected successfully...`);
+    })
+    .catch(_error => {
         console.log('WARNING: The browser was closed while navigating, but probably everyting is OK!');
+    })
+    .finally(() => {
+        console.log('Closing browser');
+        browser.close();
     });
-    return page;
+}
+
+async function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
+async function getBrowserByPlatform() {
+    if (process.env.MACBOOK === 'true') {
+        return await puppeteer.launch({
+            headless: true,
+            args: getBrowserArgs()
+        });
+    } else {
+        return await puppeteerCore.launch({
+            headless: true,
+            executablePath: "chromium-browser",
+            args: getBrowserArgs()
+        });
+    }
+}
+
+function getBrowserArgs() {
+    return [
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+    ];
 }
