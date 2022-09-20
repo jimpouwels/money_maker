@@ -22,7 +22,7 @@ if (process.env.MACBOOK === 'true') {
     console.log('Running on RaspBerry');
 }
 
-console.log('Reading mail configurations..')
+console.log('Reading mail configurations...')
 const configs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'config.json')));
 const matchers = [];
 matchers.push(new EnqueteClubMatcher());
