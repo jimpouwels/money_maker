@@ -56,7 +56,7 @@ async function makeMoney(config) {
         console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
         await mailClicker.clickLinks(cashUrls);
 
-        console.log('\nAll cash URLs were handled');
+        console.log('\nAll cash URL\'s were clicked!');
         console.log('\n---DELETE CASH MAILS---');
         deleteMails(client, cashMails);
     } catch (error) {
