@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 import axios from 'axios';
-import Mail from './domain/mail.js';
+import Mail from '../domain/mail.js';
 
 export default class GmailClient {
 

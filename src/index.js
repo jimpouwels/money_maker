@@ -1,16 +1,16 @@
-import GmailClient from './gmailClient.js';
+import GmailClient from './clients/gmail_client.js';
 import puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
 import fs from 'fs';
 import path from 'path';
-import EnqueteClubMatcher from './url_matchers/enqueteclubMatcher.js';
-import ZinnGeldMatcher from './url_matchers/zinngeldMatcher.js';
-import EuroClixMatcher from './url_matchers/euroclixMatcher.js';
-import CashbackKortingMatcher from './url_matchers/cashbackkortingMatcher.js';
-import LadyCashbackMatcher from './url_matchers/ladycashbackMatcher.js';
-import GekkengoudMatcher from './url_matchers/gekkengoudMatcher.js';
-import IPayMatcher from './url_matchers/ipayMatcher.js';
-import GeldraceMatcher from './url_matchers/geldraceMatcher.js';
+import EnqueteClubMatcher from './url_matchers/enqueteclub_matcher.js';
+import ZinnGeldMatcher from './url_matchers/zinngeld_matcher.js';
+import EuroClixMatcher from './url_matchers/euroclix_matcher.js';
+import CashbackKortingMatcher from './url_matchers/cashbackkorting_matcher.js';
+import LadyCashbackMatcher from './url_matchers/ladycashback_matcher.js';
+import GekkengoudMatcher from './url_matchers/gekkengoud_matcher.js';
+import IPayMatcher from './url_matchers/ipay_matcher.js';
+import GeldraceMatcher from './url_matchers/geldrace_matcher.js';
 
 if (process.env.MACBOOK === 'true') {
     console.log('Running on Macbook...');
@@ -52,17 +52,17 @@ async function makeMoney(config, matchers) {
     console.log('\n---SCANNING CASH MAILS FOR URLS---');
     let cashUrls = filterCashUrls(cashmails, matchers);
 
-    console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
-    if (cashUrls && cashUrls.length > 0) {
-        for (const cashUrl of cashUrls) {
-            await browseTo(cashUrl);
-        }
-    }
+    // console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
+    // if (cashUrls && cashUrls.length > 0) {
+    //     for (const cashUrl of cashUrls) {
+    //         await browseTo(cashUrl);
+    //     }
+    // }
 
-    console.log('\nAll cash URLs were handled');
+    // console.log('\nAll cash URLs were handled');
 
-    console.log('\n---DELETE CASH MAILS---');
-    deleteMails(client, cashmails);
+    // console.log('\n---DELETE CASH MAILS---');
+    // deleteMails(client, cashmails);
 }
 
 function getClient(config) {
