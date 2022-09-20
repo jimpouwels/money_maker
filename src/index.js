@@ -11,6 +11,8 @@ import LadyCashbackMatcher from './url_matchers/ladycashback_matcher.js';
 import GekkengoudMatcher from './url_matchers/gekkengoud_matcher.js';
 import IPayMatcher from './url_matchers/ipay_matcher.js';
 import GeldraceMatcher from './url_matchers/geldrace_matcher.js';
+import MailFilter from './mail_filter.js';
+import NoCashmailsFoundError from './error/no_cashmails_found_error.js';
 
 if (process.env.MACBOOK === 'true') {
     console.log('Running on Macbook...');
@@ -29,6 +31,8 @@ matchers.push(new GekkengoudMatcher());
 matchers.push(new IPayMatcher());
 matchers.push(new GeldraceMatcher());
 
+const mailFilter = new MailFilter(matchers);
+
 for (const config of configs) {
     makeMoney(config, matchers);
 }
@@ -41,13 +45,19 @@ async function makeMoney(config, matchers) {
         console.log(`ERROR: Unknown mail type ${config.type}`);
         return;
     }
+    
     const cashmails = await client.getCashMails(config.labelId).then(async mails => {
-        return getMatchingMails(mails, matchers);
+        try {
+            return mailFilter.filterCashMails([]);
+        } catch (error) {
+            if (error instanceof NoCashmailsFoundError) {
+                console.log('No cashmails found at this time, done!');
+            } else {
+                console.log(error);
+            }
+            process.exit(1);
+        }
     });
-    if (cashmails.length === 0) {
-        console.log('No cashmails at this time, exiting...');
-        process.exit();
-    }
 
     console.log('\n---SCANNING CASH MAILS FOR URLS---');
     let cashUrls = filterCashUrls(cashmails, matchers);
@@ -74,20 +84,6 @@ function getClient(config) {
                                 config.redirectUri);
     }
     return null;
-}
-
-function getMatchingMails(mails, matchers) {
-    const matchingMails = [];
-    for (const mail of mails) {
-        matchersLoop: for (const matcher of matchers) {
-            if (matcher.matchFrom(mail.from)) {
-                matchingMails.push(mail);
-                console.log(`Found cashmail from ${mail.from}`);
-                break matchersLoop;
-            }
-        };
-    }
-    return matchingMails;
 }
 
 function filterCashUrls(cashmails, matchers) {
