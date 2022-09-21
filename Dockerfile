@@ -18,7 +18,7 @@ RUN  apt-get update \
 RUN mkdir /app
 WORKDIR /app
 
-COPY .env package-lock.json package.json entrypoint.sh /app/
+COPY .env package-lock.json package.json config.json entrypoint.sh /app/
 
 RUN npm install
 
