@@ -55,7 +55,8 @@ export default class MoneyMakerService {
         
                 console.log('\nAll cash URL\'s were clicked!');
                 console.log('\n---DELETE CASH MAILS---');
-                this.deleteMails(client, cashMails);
+                
+                await this.deleteMails(client, cashMails);
 
                 console.log('\nAll done!');
             } catch (error) {
