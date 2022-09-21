@@ -1,0 +1,34 @@
+[
+    {
+        "type": "EnqueteClub",
+        "mailsClicked": 0
+    },
+    {
+        "type": "ZinnGeld",
+        "mailsClicked": 0
+    },
+    {
+        "type": "Euroclix",
+        "mailsClicked": 0
+    },
+    {
+        "type": "iPay",
+        "mailsClicked": 0
+    },
+    {
+        "type": "LadyCashback",
+        "mailsClicked": 0
+    },
+    {
+        "type": "CashbackKorting",
+        "mailsClicked": 0
+    },
+    {
+        "type": "GeldRace",
+        "mailsClicked": 0
+    },
+    {
+        "type": "GekkenGoud",
+        "mailsClicked": 0
+    }
+]
