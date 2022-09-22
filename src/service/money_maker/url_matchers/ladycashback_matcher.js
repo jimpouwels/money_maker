@@ -12,4 +12,8 @@ export default class LadyCashbackMatcher {
         return false;
     }
 
+    hasDomain(url) {
+        return url.includes('ladycashback.nl');
+    }
+
 }

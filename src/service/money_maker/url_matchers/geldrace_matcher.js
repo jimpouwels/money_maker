@@ -12,4 +12,8 @@ export default class GeldraceMatcher {
         return false;
     }
 
+    hasDomain(url) {
+        return url.includes('geldrace.nl');
+    }
+
 }

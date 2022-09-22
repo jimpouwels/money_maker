@@ -35,7 +35,7 @@ export default class MoneyMakerService {
         this.matchers.push(new GeldraceMatcher());
         this.mailFilter = new MailFilter(this.matchers);
         this.urlExtractor = new UrlExtractor(this.matchers);
-        this.mailClicker = new MailClicker();
+        this.mailClicker = new MailClicker(this.matchers);
     }
 
     async makeMoney() {

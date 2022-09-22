@@ -12,4 +12,7 @@ export default class IPayMatcher {
         return false;
     }
 
+    hasDomain(url) {
+        return url.includes('ipay.nl');
+    }
 }

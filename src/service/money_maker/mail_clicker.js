@@ -4,7 +4,11 @@ import puppeteerCore from 'puppeteer-core';
 export default class MailClicker {
 
     $browser = null;
-    $page = null;
+    $matchers = null;
+
+    constructor(matchers) {
+        this.matchers = matchers;
+    }
 
     async clickLinks(links) {
         for (const link of links) {
@@ -15,16 +19,19 @@ export default class MailClicker {
     async browseTo(cashUrl) {
         if (!this.browser) {
             this.browser = await this.getBrowserByPlatform();
-            this.page = await this.browser.newPage();
         }
+        let page = await this.browser.newPage();
         const waitingTime = 20000;
         console.log(`Trying to open the link ${cashUrl.url}`);
-        await this.page.goto(cashUrl.url)
+        await page.goto(cashUrl.url)
             .then(async () => {
-                console.log(`Waiting ${waitingTime} seconds for page to have redirected successfully...`);
-                await this.sleep(waitingTime);
-            })
-            .catch(error => {
+                while (this.matchers.filter(m => m.hasDomain(page.url())).length > 0) {
+                    console.log(`Waiting for page to redirect away from ${page.url()}`);
+                    await(this.sleep(1000));
+                }
+                console.log(`Redirected to ${page.url()}, closing page...`);
+                await page.close();
+            }).catch(error => {
                 console.log(`WARNING: There was an error while navigation: ${error}`);
             });
     }
