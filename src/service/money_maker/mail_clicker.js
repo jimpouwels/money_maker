@@ -4,6 +4,7 @@ import puppeteerCore from 'puppeteer-core';
 export default class MailClicker {
 
     $browser = null;
+    $page = null;
 
     async clickLinks(links) {
         for (const link of links) {
@@ -14,17 +15,14 @@ export default class MailClicker {
     async browseTo(cashUrl) {
         if (!this.browser) {
             this.browser = await this.getBrowserByPlatform();
+            this.page = await this.browser.newPage();
         }
         const waitingTime = 15000;
         console.log(`Trying to open the link ${cashUrl.url}`);
-        const page = await this.browser.newPage();
-        await page.goto(cashUrl.url)
+        await this.page.goto(cashUrl.url)
             .then(async () => {
+                console.log(`Waiting ${waitingTime} seconds for page to have redirected successfully...`);
                 await this.sleep(waitingTime);
-                console.log(`Waited ${waitingTime} seconds for page to have redirected successfully...`);
-                // await page.screenshot({path: path.join(process.cwd(), `/screenshots/${cashUrl.from}.png`)});
-                console.log('Closing page');
-                await page.close();
             })
             .catch(_error => {
                 console.log('WARNING: The browser was closed while navigating, but probably everyting is OK!');
