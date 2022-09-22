@@ -24,8 +24,8 @@ export default class MailClicker {
                 console.log(`Waiting ${waitingTime} seconds for page to have redirected successfully...`);
                 await this.sleep(waitingTime);
             })
-            .catch(_error => {
-                console.log('WARNING: The browser was closed while navigating, but probably everyting is OK!');
+            .catch(error => {
+                console.log(`WARNING: There was an error while navigation: ${error}`);
             });
     }
 
