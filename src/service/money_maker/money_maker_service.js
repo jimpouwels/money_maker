@@ -45,13 +45,15 @@ export default class MoneyMakerService {
         
                 console.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
                 const allMails = await client.getCashMails(config.labelId)
-                const cashMails = this.mailFilter.filterCashMails(allMails);
+                const cashmails = this.mailFilter.filterCashMails(allMails);
         
                 console.log('\n---SCANNING CASH MAILS FOR URLS---');
-                let cashUrls = this.urlExtractor.extractUrls(cashMails);
+                this.urlExtractor.extractUrls(cashmails);
                 
                 console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
-                await mailClicker.clickLinks(cashUrls);
+                for (const cashmail of cashmails) {
+                    await mailClicker.click(cashmail);
+                };
         
                 console.log('\nAll cash URL\'s were clicked!');
             } catch (error) {

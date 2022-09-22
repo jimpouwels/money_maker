@@ -12,25 +12,23 @@ export default class MailClicker {
         this.mailClient = mailClient;
     }
 
-    async clickLinks(links) {
-        for (const link of links) {
-            await this.browseTo(link);
-        }
-    }
-
-    async browseTo(cashUrl) {
+    async click(cashmail) {
         if (!this.browser) {
             this.browser = await this.getBrowserByPlatform();
         }
-        let page = await this.browser.newPage();
-        const waitingTime = 20000;
-        console.log(`\nTrying to open the link ${cashUrl.url}`);
-        await page.goto(cashUrl.url)
-            .then(async () => {
+        if (cashmail.cashUrls.length == 0) {
+            console.log(`No cash URL's were found for cashmail from ${cashmail.from}`);
+            return;
+        }
+        let clickFailed = false;
+        for (const cashUrl of cashmail.cashUrls) {
+            let page = await this.browser.newPage();
+            const waitingTime = 20000;
+            console.log(`\nTrying to open the link ${cashUrl.url}`);
+            await page.goto(cashUrl.url).then(async () => {
                 let startLoop = Date.now();
-                let clickFailed = false;
                 while (this.matchers.filter(m => m.hasDomain(page.url())).length > 0) {
-                    console.log(`Waiting for page to redirect away from ${page.url()}`);
+                    console.log(`Waiting for page to redirect to target from ${page.url()}`);
                     await(this.sleep(1000));
                     if ((Date.now() - startLoop) > 30000) {
                         clickFailed = true;
@@ -39,14 +37,21 @@ export default class MailClicker {
                 }
                 if (!clickFailed) {
                     console.log(`Redirected to ${page.url()}`);
-                    console.log(`Deleting mail from ${cashUrl.originatingMail.from}`);
-                    this.mailClient.deleteMail(cashUrl.originatingMail.id);
+                } else {
+                    console.log(`Timed out waiting for redirect to target`);
                 }
                 console.log(`Closing browser page`);
                 await page.close();
             }).catch(error => {
                 console.log(`WARNING: There was an error while navigation: ${error}`);
             });
+        }
+        if (!clickFailed) {
+            console.log(`Deleting mail from ${cashmail.from}`);
+            this.mailClient.deleteMail(cashmail.id);
+        } else {
+            console.log(`At least 1 click in this mail failed, preserving email for review`);
+        }
     }
 
     async sleep(ms) {
