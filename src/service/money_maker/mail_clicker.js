@@ -17,7 +17,7 @@ export default class MailClicker {
             this.browser = await this.getBrowserByPlatform();
             this.page = await this.browser.newPage();
         }
-        const waitingTime = 15000;
+        const waitingTime = 10000;
         console.log(`Trying to open the link ${cashUrl.url}`);
         await this.page.goto(cashUrl.url)
             .then(async () => {
