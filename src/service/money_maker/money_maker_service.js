@@ -35,13 +35,13 @@ export default class MoneyMakerService {
         this.matchers.push(new GeldraceMatcher());
         this.mailFilter = new MailFilter(this.matchers);
         this.urlExtractor = new UrlExtractor(this.matchers);
-        this.mailClicker = new MailClicker(this.matchers);
     }
 
     async makeMoney() {
         for (const config of this.configs) {
             try {
                 const client = this.getClient(config);
+                let mailClicker = new MailClicker(this.matchers, client);
         
                 console.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
                 const allMails = await client.getCashMails(config.labelId)
@@ -51,14 +51,9 @@ export default class MoneyMakerService {
                 let cashUrls = this.urlExtractor.extractUrls(cashMails);
                 
                 console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
-                await this.mailClicker.clickLinks(cashUrls);
+                await mailClicker.clickLinks(cashUrls);
         
                 console.log('\nAll cash URL\'s were clicked!');
-                console.log('\n---DELETE CASH MAILS---');
-                
-                await this.deleteMails(client, cashMails);
-
-                console.log('\nAll done!');
             } catch (error) {
                 if (error instanceof NoCashUrlsFoundError) {
                     console.log('ERROR: There were cashmails, but no cash URL\'s were found');

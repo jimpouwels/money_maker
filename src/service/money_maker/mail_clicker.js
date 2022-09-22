@@ -3,11 +3,13 @@ import puppeteerCore from 'puppeteer-core';
 
 export default class MailClicker {
 
-    $browser = null;
-    $matchers = null;
+    browser = null;
+    matchers = null;
+    mailClient = null;
 
-    constructor(matchers) {
+    constructor(matchers, mailClient) {
         this.matchers = matchers;
+        this.mailClient = mailClient;
     }
 
     async clickLinks(links) {
@@ -22,14 +24,25 @@ export default class MailClicker {
         }
         let page = await this.browser.newPage();
         const waitingTime = 20000;
-        console.log(`Trying to open the link ${cashUrl.url}`);
+        console.log(`\nTrying to open the link ${cashUrl.url}`);
         await page.goto(cashUrl.url)
             .then(async () => {
+                let startLoop = Date.now();
+                let clickFailed = false;
                 while (this.matchers.filter(m => m.hasDomain(page.url())).length > 0) {
                     console.log(`Waiting for page to redirect away from ${page.url()}`);
                     await(this.sleep(1000));
+                    if ((Date.now() - startLoop) > 30000) {
+                        clickFailed = true;
+                        break;
+                    }
                 }
-                console.log(`Redirected to ${page.url()}, closing page...`);
+                if (!clickFailed) {
+                    console.log(`Redirected to ${page.url()}`);
+                    console.log(`Deleting mail from ${cashUrl.originatingMail.from}`);
+                    this.mailClient.deleteMail(cashUrl.originatingMail.id);
+                }
+                console.log(`Closing browser page`);
                 await page.close();
             }).catch(error => {
                 console.log(`WARNING: There was an error while navigation: ${error}`);
