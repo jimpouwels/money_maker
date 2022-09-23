@@ -13,6 +13,7 @@ import UrlExtractor from './url_extractor.js';
 import NoCashUrlsFoundError from './error/no_cashurls_found_error.js';
 import MailClicker from './mail_clicker.js';
 import NoSuchClientError from './error/no_such_client_error.js';
+import NuCashMatcher from './url_matchers/nucash_matcher.js';
 
 export default class MoneyMakerService {
 
@@ -33,6 +34,7 @@ export default class MoneyMakerService {
         this.matchers.push(new GekkengoudMatcher());
         this.matchers.push(new IPayMatcher());
         this.matchers.push(new GeldraceMatcher());
+        this.matchers.push(new NuCashMatcher());
         this.mailFilter = new MailFilter(this.matchers);
         this.urlExtractor = new UrlExtractor(this.matchers);
     }
