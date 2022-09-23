@@ -40,11 +40,12 @@ export default class MailClicker {
                 } else {
                     console.log(`Timed out waiting for redirect to target`);
                 }
-                console.log(`Closing browser page`);
-                await page.close();
             }).catch(error => {
                 console.log(`WARNING: There was an error while navigation: ${error}`);
                 clickFailed = true;
+            }).finally(async () => {
+                console.log(`Closing browser page`);
+                await page.close();
             });
         }
         if (!clickFailed) {
