@@ -44,6 +44,7 @@ export default class MailClicker {
                 await page.close();
             }).catch(error => {
                 console.log(`WARNING: There was an error while navigation: ${error}`);
+                clickFailed = true;
             });
         }
         if (!clickFailed) {
