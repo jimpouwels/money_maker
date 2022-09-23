@@ -67,7 +67,7 @@ export default class MoneyMakerService {
                     console.log(`ERROR: Unknown mail type ${config.type}, skipping clicks for ${config.userId}`);
                     return;
                 } else {
-                    console.log(`ERROR: There was an unexpected error when extracting cash URL\'s:`, error);
+                    console.log(`ERROR: There was an unexpected error when making money:`, error);
                 }
             }
         }
