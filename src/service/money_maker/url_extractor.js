@@ -21,7 +21,7 @@ export default class UrlExtractor {
                         if (matcher.matchUrl(url)) {
                             let cashUrl = { url: url.replaceAll('&amp;', '&'), from: cashmail.from };
                             cashmail.addCashUrl(cashUrl);
-                            console.log(`Found URL ${cashUrl} for ${cashmail.from}`);
+                            console.log(`Found URL ${cashUrl.url} for ${cashmail.from}`);
                             if (matcher.canHaveMultipleCashUrls()) {
                                 break matchersLoop;
                             } else {
