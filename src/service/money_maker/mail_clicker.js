@@ -26,7 +26,7 @@ export default class MailClicker {
             await page.goto(cashUrl.url).then(async () => {
                 let startLoop = Date.now();
                 const matcher = cashmail.matcher;
-                await matcher.performCustomAction(page, this.browser);
+                await matcher.performCustomAction(page);
                 while (!matcher.hasRedirected(page)) {
                     console.log(`Waiting for page to redirect to target from ${page.url()}`);
                     await(this.sleep(1000));
@@ -44,8 +44,10 @@ export default class MailClicker {
                 console.log(`WARNING: There was an error while navigation: ${error}`);
                 clickFailed = true;
             }).finally(async () => {
-                console.log(`Closing browser page`);
-                await page.close();
+                console.log(`Closing all browser pages`);
+                await this.browser.pages().forEach(async page => {
+                    await page.close();
+                });
             });
         }
         if (!clickFailed) {
