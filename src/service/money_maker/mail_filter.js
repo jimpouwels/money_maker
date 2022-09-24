@@ -22,6 +22,7 @@ export default class MailFilter {
             matchersLoop: for (const matcher of this.matchers) {
                 if (matcher.matchFrom(mail.from)) {
                     matchingMails.push(mail);
+                    mail.matcher = matcher;
                     console.log(`Found cashmail from ${mail.from}`);
                     break matchersLoop;
                 }

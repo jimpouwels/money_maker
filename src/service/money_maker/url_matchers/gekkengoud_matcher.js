@@ -12,10 +12,6 @@ export default class GekkengoudMatcher {
         return false;
     }
 
-    hasDomain(url) {
-        return url.includes('gekkengoud.nl');
-    }
-
     async performCustomAction(_page) {
     }
     

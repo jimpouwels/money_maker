@@ -12,10 +12,6 @@ export default class EnqueteClubMatcher {
         return false;
     }
 
-    hasDomain(url) {
-        return url.includes('enqueteclub.nl');
-    }
-
     async performCustomAction(_page) {
     }
     

@@ -12,10 +12,6 @@ export default class NuCashMatcher {
         return false;
     }
 
-    hasDomain(url) {
-        return url.includes('nucash.nl');
-    }
-
     async performCustomAction(_page) {
     }
     

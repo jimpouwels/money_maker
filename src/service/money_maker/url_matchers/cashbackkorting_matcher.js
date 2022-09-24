@@ -12,10 +12,6 @@ export default class CashbackKortingMatcher {
         return false;
     }
 
-    hasDomain(url) {
-        return url.includes('cashbackkorting.nl');
-    }
-
     async performCustomAction(_page) {
     }
 

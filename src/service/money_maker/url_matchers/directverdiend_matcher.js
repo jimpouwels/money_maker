@@ -12,10 +12,6 @@ export default class DirectVerdiendMatcher {
         return false;
     }
 
-    hasDomain(url) {
-        return url.includes('directverdiend.nl');
-    }
-
     async performCustomAction(page) {
         console.log(`Waiting for green 'click' button for 'DirectVerdiend'`);
         await page.waitForSelector('.btn-green')
