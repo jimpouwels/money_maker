@@ -12,6 +12,10 @@ export default class LadyCashbackMatcher {
         return false;
     }
 
+    hasDomain(url) {
+        return url.includes('ladycashback.nl');
+    }
+
     async performCustomAction(_page) {
     }
     
