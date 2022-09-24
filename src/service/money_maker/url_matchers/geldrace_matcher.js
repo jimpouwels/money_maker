@@ -12,7 +12,7 @@ export default class GeldraceMatcher {
         return false;
     }
 
-    async performCustomAction(_page) {
+    async performCustomAction(_page, _browser) {
     }
     
     hasRedirected(page) {

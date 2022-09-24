@@ -12,7 +12,7 @@ export default class IPayMatcher {
         return false;
     }
 
-    async performCustomAction(_page) {
+    async performCustomAction(_page, _browser) {
     }
     
     hasRedirected(page) {

@@ -26,7 +26,7 @@ export default class MailClicker {
             await page.goto(cashUrl.url).then(async () => {
                 let startLoop = Date.now();
                 const matcher = cashmail.matcher;
-                await matcher.performCustomAction(page);
+                await matcher.performCustomAction(page, this.browser);
                 while (!matcher.hasRedirected(page)) {
                     console.log(`Waiting for page to redirect to target from ${page.url()}`);
                     await(this.sleep(1000));

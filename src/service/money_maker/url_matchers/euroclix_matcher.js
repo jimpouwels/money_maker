@@ -12,7 +12,7 @@ export default class EuroClixMatcher {
         return true;
     }
 
-    async performCustomAction(_page) {
+    async performCustomAction(_page, _browser) {
     }
     
     hasRedirected(page) {
