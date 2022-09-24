@@ -14,8 +14,8 @@ export default class DirectVerdiendMatcher {
 
     async performCustomAction(page, browser) {
         console.log(`Waiting for green 'click' button for 'DirectVerdiend'`);
-        const pageTarget = page.target();
         await page.waitForSelector('.btn-green')
+        const pageTarget = page.target();
         await page.click('.btn-green');
         console.log(`Green button clicked!`);
         const newTarget = await browser.waitForTarget(target => target.opener() === pageTarget);
