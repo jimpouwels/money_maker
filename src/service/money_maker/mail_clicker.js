@@ -25,7 +25,9 @@ export default class MailClicker {
             console.log(`\nTrying to open the link ${cashUrl.url}`);
             await page.goto(cashUrl.url).then(async () => {
                 let startLoop = Date.now();
-                while (this.matchers.filter(m => m.hasDomain(page.url())).length > 0) {
+                const matcher = this.getMatcherFor(cashmail);
+                matcher.performCustomAction(page);
+                while (!matcher.hasRedirected(page)) {
                     console.log(`Waiting for page to redirect to target from ${page.url()}`);
                     await(this.sleep(1000));
                     if ((Date.now() - startLoop) > 30000) {
@@ -73,6 +75,10 @@ export default class MailClicker {
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
         }
+    }
+
+    getMatcherFor(cashmail) {
+        return this.matchers.find(m => m.hasDomain(cashmail.cashUrl));
     }
 
     getBrowserArgs() {

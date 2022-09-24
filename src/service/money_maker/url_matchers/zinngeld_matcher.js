@@ -12,8 +12,11 @@ export default class ZinnGeldMatcher {
         return false;
     }
 
-    hasDomain(url) {
-        return url.includes('zinngeld.nl');
+    async performCustomAction(_page) {
+    }
+    
+    hasRedirected(page) {
+        return page.url().includes('zinngeld.nl');
     }
 
 }

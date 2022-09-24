@@ -12,8 +12,11 @@ export default class EuroClixMatcher {
         return true;
     }
 
-    hasDomain(url) {
-        return url.includes('euroclix.nl');
+    async performCustomAction(_page) {
+    }
+    
+    hasRedirected(page) {
+        return page.url().includes('euroclix.nl');
     }
 
 }

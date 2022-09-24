@@ -12,8 +12,11 @@ export default class GeldraceMatcher {
         return false;
     }
 
-    hasDomain(url) {
-        return url.includes('geldrace.nl');
+    async performCustomAction(_page) {
+    }
+    
+    hasRedirected(page) {
+        return page.url().includes('geldrace.nl');
     }
 
 }
