@@ -16,7 +16,7 @@ export default class EnqueteClubMatcher {
     }
     
     hasRedirected(page) {
-        return page.url().includes('enqueteclub.nl');
+        return !page.url().includes('enqueteclub.nl');
     }
 
 }

@@ -16,7 +16,7 @@ export default class CashbackKortingMatcher {
     }
 
     hasRedirected(page) {
-        return page.url().includes('cashbackkorting.nl');
+        return !page.url().includes('cashbackkorting.nl');
     }
 
 }

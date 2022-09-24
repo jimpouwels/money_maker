@@ -20,7 +20,7 @@ export default class DirectVerdiendMatcher {
     }
 
     hasRedirected(page) {
-        return page.url().includes('directverdiend.nl');
+        return !page.url().includes('directverdiend.nl');
     }
 
 }

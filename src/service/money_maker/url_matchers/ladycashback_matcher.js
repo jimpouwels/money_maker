@@ -16,7 +16,7 @@ export default class LadyCashbackMatcher {
     }
     
     hasRedirected(page) {
-        return page.url().includes('ladycashback.nl');
+        return !page.url().includes('ladycashback.nl');
     }
 
 }

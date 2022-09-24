@@ -16,7 +16,7 @@ export default class GeldraceMatcher {
     }
     
     hasRedirected(page) {
-        return page.url().includes('geldrace.nl');
+        return !page.url().includes('geldrace.nl');
     }
 
 }

@@ -16,6 +16,6 @@ export default class IPayMatcher {
     }
     
     hasRedirected(page) {
-        return page.url().includes('ipay.nl');
+        return !page.url().includes('ipay.nl');
     }
 }

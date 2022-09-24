@@ -16,7 +16,7 @@ export default class NuCashMatcher {
     }
     
     hasRedirected(page) {
-        return page.url().includes('nucash.nl');
+        return !page.url().includes('nucash.nl');
     }
 
 }

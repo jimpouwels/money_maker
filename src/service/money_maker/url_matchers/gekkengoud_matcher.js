@@ -16,7 +16,7 @@ export default class GekkengoudMatcher {
     }
     
     hasRedirected(page) {
-        return page.url().includes('gekkengoud.nl');
+        return !page.url().includes('gekkengoud.nl');
     }
 
 }

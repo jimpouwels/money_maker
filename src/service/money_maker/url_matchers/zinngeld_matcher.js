@@ -16,7 +16,7 @@ export default class ZinnGeldMatcher {
     }
     
     hasRedirected(page) {
-        return page.url().includes('zinngeld.nl');
+        return !page.url().includes('zinngeld.nl');
     }
 
 }

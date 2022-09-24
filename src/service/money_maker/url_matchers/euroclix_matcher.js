@@ -16,7 +16,7 @@ export default class EuroClixMatcher {
     }
     
     hasRedirected(page) {
-        return page.url().includes('euroclix.nl');
+        return !page.url().includes('euroclix.nl');
     }
 
 }
