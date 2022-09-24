@@ -78,7 +78,7 @@ export default class MailClicker {
     }
 
     getMatcherFor(cashmail) {
-        return this.matchers.find(m => m.hasDomain(cashmail.cashUrl));
+        return this.matchers.find(m => m.hasDomain(cashmail.cashUrls[0]));
     }
 
     getBrowserArgs() {
