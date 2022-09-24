@@ -68,7 +68,7 @@ export default class MailClicker {
                 args: this.getBrowserArgs()
             });
         } else {
-            return await puppeteerCore.launch({
+            return await puppeteer.launch({
                 executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
                 headless: true,
                 args: this.getBrowserArgs()
