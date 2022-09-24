@@ -8,11 +8,7 @@ export default class GeldraceMatcher {
         return url.includes('geldrace') && url.includes("/c") && !url.includes('login');
     }
 
-    canHaveMultipleCashUrls() {
-        return false;
-    }
-
-    async performCustomAction(_page) {
+    async performCustomAction(_page, _browser) {
     }
     
     hasRedirected(page) {

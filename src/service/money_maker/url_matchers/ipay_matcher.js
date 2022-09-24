@@ -8,11 +8,7 @@ export default class IPayMatcher {
         return url.includes('ipay') && url.includes('cm-l') && !url.includes('sid=');
     }
 
-    canHaveMultipleCashUrls() {
-        return false;
-    }
-
-    async performCustomAction(_page) {
+    async performCustomAction(_page, _browser) {
     }
     
     hasRedirected(page) {

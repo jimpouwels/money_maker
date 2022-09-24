@@ -8,11 +8,7 @@ export default class LadyCashbackMatcher {
         return url.includes('ladycashback') && url.includes('cm-l') && !url.includes('sid=');
     }
 
-    canHaveMultipleCashUrls() {
-        return false;
-    }
-
-    async performCustomAction(_page) {
+    async performCustomAction(_page, _browser) {
     }
     
     hasRedirected(page) {

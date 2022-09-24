@@ -8,11 +8,7 @@ export default class EnqueteClubMatcher {
         return url.includes('enqueteclub') && url.includes('cm-l') && !url.includes('sid=');
     }
 
-    canHaveMultipleCashUrls() {
-        return false;
-    }
-
-    async performCustomAction(_page) {
+    async performCustomAction(_page, _browser) {
     }
     
     hasRedirected(page) {
