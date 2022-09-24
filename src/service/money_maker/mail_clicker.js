@@ -45,9 +45,9 @@ export default class MailClicker {
                 clickFailed = true;
             }).finally(async () => {
                 console.log(`Closing all browser pages`);
-                await this.browser.pages().forEach(async page => {
-                    await page.close();
-                });
+                for (const openPage of this.browser.pages()) {
+                    await openPage.close();
+                }
             });
         }
         if (!clickFailed) {
