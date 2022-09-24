@@ -23,7 +23,6 @@ export default class MailClicker {
         let clickFailed = false;
         for (const cashUrl of cashmail.cashUrls) {
             let page = await this.browser.newPage();
-            const waitingTime = 20000;
             console.log(`\nTrying to open the link ${cashUrl.url}`);
             await page.goto(cashUrl.url).then(async () => {
                 let startLoop = Date.now();
@@ -63,6 +62,8 @@ export default class MailClicker {
     }
 
     async getBrowserByPlatform() {
+        const xcsrftoken = await xcsrftoken();
+        const cookies = JSON.parse(process.env.cookies);
         if (process.env.MACBOOK === 'true') {
             return await puppeteer.launch({
                 headless: true,
@@ -71,7 +72,6 @@ export default class MailClicker {
         } else {
             return await puppeteerCore.launch({
                 headless: true,
-                executablePath: "chromium-browser",
                 args: this.getBrowserArgs()
             });
         }
