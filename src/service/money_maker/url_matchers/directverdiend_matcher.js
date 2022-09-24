@@ -16,10 +16,14 @@ export default class DirectVerdiendMatcher {
         console.log(`Waiting for green 'click' button for 'DirectVerdiend'`);
         await page.waitForSelector('.btn-green')
         console.log('Found green button, extracting URL');
-        const targetUrl = await page.$eval('.btn-green', e => e.getAttribute('href'));
-        console.log(`Redirecting to ${targetUrl}`);
-        await page.goto(targetUrl);
-        console.log(`Redirected to ${targetUrl}`);
+        const linkElement = await page.$('a[href]');
+        const hrefAttributeValue = await page.evaluate(
+            link => link.getAttribute('href'),
+            linkElement,
+        );
+        console.log(`Redirecting to ${hrefAttributeValue}`);
+        await page.goto(hrefAttributeValue);
+        console.log(`Redirected to ${hrefAttributeValue}`);
     }
 
     hasRedirected(page) {
