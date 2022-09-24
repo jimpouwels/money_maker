@@ -1,5 +1,4 @@
 import puppeteer from 'puppeteer';
-import puppeteerCore from 'puppeteer-core';
 
 export default class MailClicker {
 
@@ -69,10 +68,10 @@ export default class MailClicker {
             });
         } else {
             return await puppeteer.launch({
-                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
                 headless: true,
-                args: this.getBrowserArgs()
-            });
+                executablePath: '/usr/bin/chromium-browser',
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
         }
     }
 
