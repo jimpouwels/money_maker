@@ -62,8 +62,6 @@ export default class MailClicker {
     }
 
     async getBrowserByPlatform() {
-        const xcsrftoken = await xcsrftoken();
-        const cookies = JSON.parse(process.env.cookies);
         if (process.env.MACBOOK === 'true') {
             return await puppeteer.launch({
                 headless: true,
