@@ -1,4 +1,5 @@
-import puppeteer from 'puppeteer-core';
+import puppeteerCore from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 
 export default class MailClicker {
 
@@ -30,8 +31,8 @@ export default class MailClicker {
         let clickFailed = false;
         for (const cashUrl of cashmail.cashUrls) {
             let page = await this.browser.newPage();
-            console.log(`\nTrying to open the link ${cashUrl.url}`);
-            await page.goto(cashUrl.url).then(async () => {
+            console.log(`\nTrying to open the link ${cashUrl}`);
+            await page.goto(cashUrl).then(async () => {
                 let startLoop = Date.now();
                 const matcher = cashmail.matcher;
                 await matcher.performCustomAction(page, this.browser);
@@ -79,7 +80,7 @@ export default class MailClicker {
                 args: this.getBrowserArgs()
             });
         } else {
-            return await puppeteer.launch({
+            return await puppeteerCore.launch({
                 headless: true,
                 executablePath: '/usr/bin/chromium-browser',
                 args: this.getBrowserArgs()

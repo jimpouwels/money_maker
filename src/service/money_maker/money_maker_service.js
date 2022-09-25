@@ -27,6 +27,7 @@ export default class MoneyMakerService {
     constructor(configs) {
         this.configs = configs;
         this.matchers = [];
+        this.urlExtractor = new UrlExtractor(this.matchers);
         this.matchers.push(new EnqueteClubMatcher());
         this.matchers.push(new ZinnGeldMatcher());
         this.matchers.push(new EuroClixMatcher());
@@ -36,9 +37,8 @@ export default class MoneyMakerService {
         this.matchers.push(new IPayMatcher());
         this.matchers.push(new GeldraceMatcher());
         this.matchers.push(new NuCashMatcher());
-        // this.matchers.push(new BespaarTotaalMatcher());
+        this.matchers.push(new BespaarTotaalMatcher(this.urlExtractor));
         this.mailFilter = new MailFilter(this.matchers);
-        this.urlExtractor = new UrlExtractor(this.matchers);
     }
 
     async makeMoney() {

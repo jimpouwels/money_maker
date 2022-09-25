@@ -2,40 +2,51 @@ import path from 'path';
 
 export default class BespaarTotaalMatcher {
 
+    urlExtractor;
+
+    constructor(urlExtractor) {
+        this.urlExtractor = urlExtractor;
+    }
+
     matchFrom(from) {
         return from.includes('<info@bespaarportaal.nl>');
     }
 
     matchUrl(url) {
-        return url.includes('/newsletter/click/');
+        return url.includes('/click/');
     }
 
     async performCustomAction(page, browser) {
-        const pageTarget = page.target();
-        
-        await page.screenshot({
-            path: path.join(process.cwd(), "screenshot1.png"),
-            fullPage: true
-        });
-        await page.waitForSelector('.btn-green');
-        await page.click('.btn-green');
-        await page.screenshot({
-            path: path.join(process.cwd(), "screenshot2.png"),
-            fullPage: true
-        });
+        const prePageCount = (await browser.pages()).length;
 
-        const newTarget = await browser.waitForTarget(target => target.opener() === pageTarget);
-        const newPage = await newTarget.page();
-        await page.goto(newPage.url());
-        await newPage.close();
-        await page.screenshot({
-            path: path.join(process.cwd(), "screenshot3.png"),
-            fullPage: true
+        console.log(`BespaarTotaal opens the newsletter in a webversion, another click is required`);
+        let button1Url = await page.evaluate(() => {
+            return document.getElementsByClassName('btn-green')[0].href;
         });
+        await page.goto(button1Url);
+
+        console.log(`BespaarTotaal opens another page with a button to be clicked, finding and clicking it`);
+        await page.waitForSelector('.btn-green')
+        await page.click('.btn-green');
+
+        while ((((await browser.pages()).length) - prePageCount) == 0) {
+            console.log('Waiting for new tab to open');
+            await this.sleep(1000);
+        }
+        const allPages = await browser.pages();
+        console.log('Capturing the redirect URL from the new tab and redirecting the current page to that URL');
+        const targetUrl = allPages[allPages.length - 1].url();
+        await page.goto(targetUrl);
     }
     
     hasRedirected(page) {
         return !page.url().includes('bespaarportaal.nl');
+    }
+
+    async sleep(ms) {
+        return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        });
     }
 
 }

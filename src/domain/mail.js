@@ -11,8 +11,4 @@ export default class Mail {
         this.body = body;
     }
 
-    addCashUrl(cashUrl) {
-        this.cashUrls.push(cashUrl);
-    }
-
 }
