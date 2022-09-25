@@ -1,4 +1,4 @@
-export default class GeldraceMatcher {
+export default class GeldraceHandler {
 
     matchFrom(from) {
         return from.includes('<ledenservice@geldrace.nl>');

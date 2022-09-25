@@ -2,10 +2,10 @@ import NoCashmailsFoundError from "./error/no_cashmails_found_error.js";
 
 export default class MailFilter {
 
-    matchers;
+    handlers;
 
-    constructor(matchers) {
-        this.matchers = matchers;
+    constructor(handlers) {
+        this.handlers = handlers;
     }
 
     filterCashMails(mails) {
@@ -19,10 +19,10 @@ export default class MailFilter {
     getMatchingMails(mails) {
         const matchingMails = [];
         for (const mail of mails) {
-            matchersLoop: for (const matcher of this.matchers) {
-                if (matcher.matchFrom(mail.from)) {
+            matchersLoop: for (const handler of this.handlers) {
+                if (handler.matchFrom(mail.from)) {
                     matchingMails.push(mail);
-                    mail.matcher = matcher;
+                    mail.handler = handler;
                     console.log(`Found cashmail from ${mail.from}`);
                     break matchersLoop;
                 }

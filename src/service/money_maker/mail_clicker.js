@@ -4,11 +4,11 @@ import puppeteer from 'puppeteer';
 export default class MailClicker {
 
     browser = null;
-    matchers = null;
+    handlers = null;
     mailClient = null;
 
-    constructor(matchers, mailClient) {
-        this.matchers = matchers;
+    constructor(handlers, mailClient) {
+        this.handlers = handlers;
         this.mailClient = mailClient;
     }
 
@@ -34,9 +34,9 @@ export default class MailClicker {
             console.log(`\nTrying to open the link ${cashUrl}`);
             await page.goto(cashUrl).then(async () => {
                 let startLoop = Date.now();
-                const matcher = cashmail.matcher;
-                await matcher.performCustomAction(page, this.browser);
-                while (!matcher.hasRedirected(page)) {
+                const handler = cashmail.handler;
+                await handler.performCustomAction(page, this.browser);
+                while (!handler.hasRedirected(page)) {
                     console.log(`Waiting for page to redirect to target from ${page.url()}`);
                     await(this.sleep(1000));
                     if ((Date.now() - startLoop) > 30000) {

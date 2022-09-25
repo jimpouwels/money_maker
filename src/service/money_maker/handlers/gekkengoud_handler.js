@@ -1,4 +1,4 @@
-export default class GekkengoudMatcher {
+export default class GekkengoudHandler {
 
     matchFrom(from) {
         return from.includes('<info@gekkengoud.nl>');

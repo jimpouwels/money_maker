@@ -1,4 +1,4 @@
-export default class EnqueteClubMatcher {
+export default class EnqueteClubHandler {
 
     matchFrom(from) {
         return from.includes('<info@enqueteclub.nl>');

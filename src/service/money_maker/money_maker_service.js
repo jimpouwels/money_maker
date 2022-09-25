@@ -1,20 +1,20 @@
 import GmailClient from '../../clients/gmail_client.js';
-import EnqueteClubMatcher from './url_matchers/enqueteclub_matcher.js';
-import ZinnGeldMatcher from './url_matchers/zinngeld_matcher.js';
-import EuroClixMatcher from './url_matchers/euroclix_matcher.js';
-import CashbackKortingMatcher from './url_matchers/cashbackkorting_matcher.js';
-import LadyCashbackMatcher from './url_matchers/ladycashback_matcher.js';
-import GekkengoudMatcher from './url_matchers/gekkengoud_matcher.js';
-import IPayMatcher from './url_matchers/ipay_matcher.js';
-import GeldraceMatcher from './url_matchers/geldrace_matcher.js';
 import MailFilter from './mail_filter.js';
 import NoCashmailsFoundError from './error/no_cashmails_found_error.js';
 import UrlExtractor from './url_extractor.js';
 import NoCashUrlsFoundError from './error/no_cashurls_found_error.js';
 import MailClicker from './mail_clicker.js';
 import NoSuchClientError from './error/no_such_client_error.js';
-import NuCashMatcher from './url_matchers/nucash_matcher.js';
-import BespaarTotaalMatcher from './url_matchers/bespaartotaal_matcher.js';
+import EnqueteClubHandler from './handlers/enqueteclub_handler.js';
+import ZinnGeldHandler from './handlers/zinngeld_handler.js';
+import EuroClixHandler from './handlers/euroclix_handler.js';
+import CashbackKortingHandler from './handlers/cashbackkorting_handler.js';
+import LadyCashbackHandler from './handlers/ladycashback_handler.js';
+import GekkengoudHandler from './handlers/gekkengoud_handler.js';
+import IPayHandler from './handlers/ipay_handler.js';
+import GeldraceHandler from './handlers/geldrace_handler.js';
+import NuCashHandler from './handlers/nucash_handler.js';
+import BespaarTotaalHandler from './handlers/bespaartotaal_handler.js';
 
 export default class MoneyMakerService {
 
@@ -22,30 +22,30 @@ export default class MoneyMakerService {
     mailFilter;
     urlExtractor;
     mailClicker;
-    matchers;
+    handlers;
 
     constructor(configs) {
         this.configs = configs;
-        this.matchers = [];
-        this.urlExtractor = new UrlExtractor(this.matchers);
-        this.matchers.push(new EnqueteClubMatcher());
-        this.matchers.push(new ZinnGeldMatcher());
-        this.matchers.push(new EuroClixMatcher());
-        this.matchers.push(new CashbackKortingMatcher());
-        this.matchers.push(new LadyCashbackMatcher());
-        this.matchers.push(new GekkengoudMatcher());
-        this.matchers.push(new IPayMatcher());
-        this.matchers.push(new GeldraceMatcher());
-        this.matchers.push(new NuCashMatcher());
-        this.matchers.push(new BespaarTotaalMatcher(this.urlExtractor));
-        this.mailFilter = new MailFilter(this.matchers);
+        this.handlers = [];
+        this.urlExtractor = new UrlExtractor(this.handlers);
+        this.handlers.push(new EnqueteClubHandler());
+        this.handlers.push(new ZinnGeldHandler());
+        this.handlers.push(new EuroClixHandler());
+        this.handlers.push(new CashbackKortingHandler());
+        this.handlers.push(new LadyCashbackHandler());
+        this.handlers.push(new GekkengoudHandler());
+        this.handlers.push(new IPayHandler());
+        this.handlers.push(new GeldraceHandler());
+        this.handlers.push(new NuCashHandler());
+        this.handlers.push(new BespaarTotaalHandler(this.urlExtractor));
+        this.mailFilter = new MailFilter(this.handlers);
     }
 
     async makeMoney() {
         for (const config of this.configs) {
             try {
                 const client = this.getClient(config);
-                let mailClicker = new MailClicker(this.matchers, client);
+                let mailClicker = new MailClicker(this.handlers, client);
         
                 console.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
                 const allMails = await client.getCashMails(config.labelId)

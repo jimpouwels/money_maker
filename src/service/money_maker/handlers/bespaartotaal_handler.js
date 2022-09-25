@@ -1,6 +1,6 @@
 import path from 'path';
 
-export default class BespaarTotaalMatcher {
+export default class BespaarTotaalHandler {
 
     urlExtractor;
 

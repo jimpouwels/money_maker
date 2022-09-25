@@ -1,4 +1,4 @@
-export default class NuCashMatcher {
+export default class NuCashHandler {
 
     matchFrom(from) {
         return from.includes('<info@nucash.nl>');

@@ -1,4 +1,4 @@
-export default class ZinnGeldMatcher {
+export default class ZinnGeldHandler {
 
     matchFrom(from) {
         return from.includes('<info@zinngeld.nl>');

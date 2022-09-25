@@ -1,4 +1,4 @@
-export default class CashbackKortingMatcher {
+export default class CashbackKortingHandler {
 
     matchFrom(from) {
         return from.includes('<info@cashbackkorting.nl>');

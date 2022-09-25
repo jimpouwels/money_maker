@@ -1,4 +1,4 @@
-export default class IPayMatcher {
+export default class IPayHandler {
 
     matchFrom(from) {
         return from.includes('<info@ipay.nl>');

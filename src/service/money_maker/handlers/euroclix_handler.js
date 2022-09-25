@@ -1,4 +1,4 @@
-export default class EuroClixMatcher {
+export default class EuroClixHandler {
 
     matchFrom(from) {
         return from.includes('<noreply@euroclix.nl>');

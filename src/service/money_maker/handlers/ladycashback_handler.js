@@ -1,4 +1,4 @@
-export default class LadyCashbackMatcher {
+export default class LadyCashbackHandler {
 
     matchFrom(from) {
         return from.includes('<info@ladycashback.nl>');
