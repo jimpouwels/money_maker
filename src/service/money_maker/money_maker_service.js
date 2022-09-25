@@ -55,9 +55,11 @@ export default class MoneyMakerService {
                 this.urlExtractor.extractUrls(cashmails);
                 
                 console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
+                await mailClicker.openBrowser();
                 for (const cashmail of cashmails) {
                     await mailClicker.click(cashmail);
                 };
+                await mailClicker.closeBrowser();
         
                 console.log('\nAll cash URL\'s were clicked!');
             } catch (error) {

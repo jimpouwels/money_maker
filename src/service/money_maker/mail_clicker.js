@@ -11,10 +11,18 @@ export default class MailClicker {
         this.mailClient = mailClient;
     }
 
-    async click(cashmail) {
-        if (!this.browser) {
-            this.browser = await this.getBrowserByPlatform();
+    async openBrowser() {
+        if (this.browser) {
+            await this.closeBrowser();
         }
+        this.browser = await this.getBrowserByPlatform();
+    }
+
+    async closeBrowser() {
+        await this.browser.close();
+    }
+
+    async click(cashmail) {
         if (cashmail.cashUrls.length == 0) {
             console.log(`No cash URL's were found for cashmail from ${cashmail.from}`);
             return;
