@@ -15,6 +15,7 @@ import IPayHandler from './handlers/ipay_handler.js';
 import GeldraceHandler from './handlers/geldrace_handler.js';
 import NuCashHandler from './handlers/nucash_handler.js';
 import BespaarTotaalHandler from './handlers/bespaartotaal_handler.js';
+import ShopBuddiesHandler from './handlers/shopbuddies_handler.js';
 
 export default class MoneyMakerService {
 
@@ -27,7 +28,6 @@ export default class MoneyMakerService {
     constructor(configs) {
         this.configs = configs;
         this.handlers = [];
-        this.urlExtractor = new UrlExtractor(this.handlers);
         this.handlers.push(new EnqueteClubHandler());
         this.handlers.push(new ZinnGeldHandler());
         this.handlers.push(new EuroClixHandler());
@@ -37,8 +37,10 @@ export default class MoneyMakerService {
         this.handlers.push(new IPayHandler());
         this.handlers.push(new GeldraceHandler());
         this.handlers.push(new NuCashHandler());
-        this.handlers.push(new BespaarTotaalHandler(this.urlExtractor));
+        this.handlers.push(new BespaarTotaalHandler());
+        this.handlers.push(new ShopBuddiesHandler());
         this.mailFilter = new MailFilter(this.handlers);
+        this.urlExtractor = new UrlExtractor(this.handlers);
     }
 
     async makeMoney() {

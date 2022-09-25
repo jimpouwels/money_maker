@@ -2,12 +2,6 @@ import path from 'path';
 
 export default class BespaarTotaalHandler {
 
-    urlExtractor;
-
-    constructor(urlExtractor) {
-        this.urlExtractor = urlExtractor;
-    }
-
     matchFrom(from) {
         return from.includes('<info@bespaarportaal.nl>');
     }
