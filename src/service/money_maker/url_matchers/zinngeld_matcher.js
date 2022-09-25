@@ -11,8 +11,8 @@ export default class ZinnGeldMatcher {
     async performCustomAction(_page, _browser) {
     }
     
-    hasRedirected(page) {
-        return !page.url().includes('https://www.zinngeld.nl');
+    hasRedirected(_page) {
+        return true;
     }
 
 }
