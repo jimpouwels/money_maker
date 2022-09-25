@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 
 export default class MailClicker {
 
@@ -74,7 +74,7 @@ export default class MailClicker {
             return await puppeteer.launch({
                 headless: true,
                 executablePath: '/usr/bin/chromium-browser',
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
+                args: this.getBrowserArgs()
         });
         }
     }
