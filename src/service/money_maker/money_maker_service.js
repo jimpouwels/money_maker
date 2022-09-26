@@ -5,17 +5,12 @@ import UrlExtractor from './url_extractor.js';
 import NoCashUrlsFoundError from './error/no_cashurls_found_error.js';
 import MailClicker from './mail_clicker.js';
 import NoSuchClientError from './error/no_such_client_error.js';
-import EnqueteClubHandler from './handlers/enqueteclub_handler.js';
 import ZinnGeldHandler from './handlers/zinngeld_handler.js';
 import EuroClixHandler from './handlers/euroclix_handler.js';
-import CashbackKortingHandler from './handlers/cashbackkorting_handler.js';
-import LadyCashbackHandler from './handlers/ladycashback_handler.js';
-import GekkengoudHandler from './handlers/gekkengoud_handler.js';
-import IPayHandler from './handlers/ipay_handler.js';
 import GeldraceHandler from './handlers/geldrace_handler.js';
-import NuCashHandler from './handlers/nucash_handler.js';
 import OnlineLeadsHandler from './handlers/onlineleads_handler.js';
 import ShopBuddiesHandler from './handlers/shopbuddies_handler.js';
+import OrangeBuddiesHandler from './handlers/orangebuddies_handler.js';
 
 export default class MoneyMakerService {
 
@@ -28,15 +23,15 @@ export default class MoneyMakerService {
     constructor(configs) {
         this.configs = configs;
         this.handlers = [];
-        this.handlers.push(new EnqueteClubHandler());
         this.handlers.push(new ZinnGeldHandler());
         this.handlers.push(new EuroClixHandler());
-        this.handlers.push(new CashbackKortingHandler());
-        this.handlers.push(new LadyCashbackHandler());
-        this.handlers.push(new GekkengoudHandler());
-        this.handlers.push(new IPayHandler());
+        this.handlers.push(new OrangeBuddiesHandler('enqueteclub'));
+        this.handlers.push(new OrangeBuddiesHandler('cashbackkorting'));
+        this.handlers.push(new OrangeBuddiesHandler('ladycashback'));
+        this.handlers.push(new OrangeBuddiesHandler('gekkengoud'));
+        this.handlers.push(new OrangeBuddiesHandler('ipay'));
+        this.handlers.push(new OrangeBuddiesHandler('nucash'));
         this.handlers.push(new GeldraceHandler());
-        this.handlers.push(new NuCashHandler());
         this.handlers.push(new OnlineLeadsHandler('BespaarTotaal', 'bespaartotaal.nl'));
         this.handlers.push(new OnlineLeadsHandler('DirectVerdiend', 'directverdiend.nl'));
         this.handlers.push(new ShopBuddiesHandler());
