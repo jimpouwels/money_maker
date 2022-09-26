@@ -11,14 +11,14 @@ export default class OrangeBuddiesHandler {
     }
 
     matchUrl(url) {
-        return url.includes(identifier) && url.includes('cm-l') && !url.includes('sid=');
+        return url.includes(this.identifier) && url.includes('cm-l') && !url.includes('sid=');
     }
 
     async performCustomAction(_page, _browser) {
     }
     
     hasRedirected(page) {
-        return !page.url().includes(`${identifier}.nl`);
+        return !page.url().includes(`${this.identifier}.nl`);
     }
 
 }
