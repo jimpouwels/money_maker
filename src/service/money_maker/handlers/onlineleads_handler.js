@@ -1,9 +1,15 @@
-import path from 'path';
+export default class OnlineLeadsHandler {
 
-export default class BespaarTotaalHandler {
+    name;
+    hostname;
+
+    constructor(name, hostname) {
+        this.name = name;
+        this.hostname = hostname;
+    }
 
     matchFrom(from) {
-        return from.includes('<info@bespaarportaal.nl>');
+        return from.includes(`<info@${this.hostname}>`);
     }
 
     matchUrl(url) {
@@ -13,13 +19,13 @@ export default class BespaarTotaalHandler {
     async performCustomAction(page, browser) {
         const prePageCount = (await browser.pages()).length;
 
-        console.log(`BespaarTotaal opens the newsletter in a webversion, another click is required`);
+        console.log(`${this.name} opens the newsletter in a webversion, another click is required`);
         let button1Url = await page.evaluate(() => {
             return document.getElementsByClassName('btn-green')[0].href;
         });
         await page.goto(button1Url);
 
-        console.log(`BespaarTotaal opens another page with a button to be clicked, finding and clicking it`);
+        console.log(`${this.name} opens another page with a button to be clicked, finding and clicking it`);
         await page.waitForSelector('.btn-green')
         await page.click('.btn-green');
 
@@ -34,7 +40,7 @@ export default class BespaarTotaalHandler {
     }
     
     hasRedirected(page) {
-        return !page.url().includes('bespaarportaal.nl');
+        return !page.url().includes(this.hostname);
     }
 
     async sleep(ms) {

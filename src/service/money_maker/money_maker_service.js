@@ -14,7 +14,7 @@ import GekkengoudHandler from './handlers/gekkengoud_handler.js';
 import IPayHandler from './handlers/ipay_handler.js';
 import GeldraceHandler from './handlers/geldrace_handler.js';
 import NuCashHandler from './handlers/nucash_handler.js';
-import BespaarTotaalHandler from './handlers/bespaartotaal_handler.js';
+import OnlineLeadsHandler from './handlers/onlineleads_handler.js';
 import ShopBuddiesHandler from './handlers/shopbuddies_handler.js';
 
 export default class MoneyMakerService {
@@ -37,7 +37,8 @@ export default class MoneyMakerService {
         this.handlers.push(new IPayHandler());
         this.handlers.push(new GeldraceHandler());
         this.handlers.push(new NuCashHandler());
-        this.handlers.push(new BespaarTotaalHandler());
+        this.handlers.push(new OnlineLeadsHandler('BespaarTotaal', 'bespaartotaal.nl'));
+        this.handlers.push(new OnlineLeadsHandler('DirectVerdiend', 'directverdiend.nl'));
         this.handlers.push(new ShopBuddiesHandler());
         this.mailFilter = new MailFilter(this.handlers);
         this.urlExtractor = new UrlExtractor(this.handlers);
