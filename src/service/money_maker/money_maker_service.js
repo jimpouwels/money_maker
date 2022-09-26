@@ -32,7 +32,7 @@ export default class MoneyMakerService {
         this.handlers.push(new OrangeBuddiesHandler('ipay'));
         this.handlers.push(new OrangeBuddiesHandler('nucash'));
         this.handlers.push(new GeldraceHandler());
-        this.handlers.push(new OnlineLeadsHandler('BespaarTotaal', 'bespaartotaal.nl'));
+        this.handlers.push(new OnlineLeadsHandler('BespaarPortaal', 'bespaarportaal.nl'));
         this.handlers.push(new OnlineLeadsHandler('DirectVerdiend', 'directverdiend.nl'));
         this.handlers.push(new ShopBuddiesHandler());
         this.mailFilter = new MailFilter(this.handlers);
