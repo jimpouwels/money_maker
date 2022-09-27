@@ -9,7 +9,6 @@ export default class StatisticsService {
     }
 
     addClick(name) {
-        console.log(`JIM : ${JSON.stringify(this.statistics)}`);
         this.statistics.totalClicks++;
         this.statistics.clicks.push({
             timestamp: Date.now(),
