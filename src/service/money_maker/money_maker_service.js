@@ -86,15 +86,4 @@ export default class MoneyMakerService {
         throw new NoSuchClientError();
     }
     
-    async deleteMails(client, cashmails) {
-        for (const cashmail of cashmails) {
-            if (!cashmail.linksFound) {
-                console.log(`No links were found for ${cashmail.from}, keeping the mail for review...`)
-                continue;
-            }
-            await client.deleteMail(cashmail.id);
-            console.log(`Mail from ${cashmail.from} deleted`);
-        }
-    }
-
 }
