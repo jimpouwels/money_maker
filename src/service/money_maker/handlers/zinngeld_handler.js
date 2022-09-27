@@ -1,4 +1,8 @@
 export default class ZinnGeldHandler {
+    
+    getName() {
+        return 'zinngeld';
+    }
 
     matchFrom(from) {
         return from.includes('<info@zinngeld.nl>');

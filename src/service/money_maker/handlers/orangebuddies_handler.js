@@ -6,6 +6,10 @@ export default class OrangeBuddiesHandler {
         this.identifier = identifier;
     }
 
+    getName() {
+        return this.identifier;
+    }
+
     matchFrom(from) {
         return from.includes(`<info@${this.identifier}.nl>`);
     }

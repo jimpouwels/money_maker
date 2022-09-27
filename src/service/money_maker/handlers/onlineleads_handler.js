@@ -8,6 +8,10 @@ export default class OnlineLeadsHandler {
         this.hostname = hostname;
     }
 
+    getName() {
+        return this.name;
+    }
+
     matchFrom(from) {
         return from.includes(`<info@${this.hostname}>`);
     }

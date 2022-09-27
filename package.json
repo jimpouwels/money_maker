@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "node src/index.js"
   },
   "author": "jimp",
   "license": "ISC",
@@ -19,8 +19,5 @@
     "nodemailer": "^6.7.8",
     "puppeteer": "^18.0.5",
     "puppeteer-core": "^18.0.5"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.19"
   }
 }

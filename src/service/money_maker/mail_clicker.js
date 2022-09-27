@@ -6,10 +6,12 @@ export default class MailClicker {
     browser = null;
     handlers = null;
     mailClient = null;
+    statisticsService = null;
 
-    constructor(handlers, mailClient) {
+    constructor(handlers, mailClient, statisticsService) {
         this.handlers = handlers;
         this.mailClient = mailClient;
+        this.statisticsService = statisticsService;
     }
 
     async openBrowser() {
@@ -46,6 +48,7 @@ export default class MailClicker {
                 }
                 if (!clickFailed) {
                     console.log(`Redirected to ${page.url()}`);
+                    this.statisticsService.addClick(handler.getName());
                 } else {
                     console.log(`Timed out waiting for redirect to target`);
                 }
@@ -61,7 +64,7 @@ export default class MailClicker {
         }
         if (!clickFailed) {
             console.log(`Deleting mail from ${cashmail.from}`);
-            this.mailClient.deleteMail(cashmail.id);
+            // this.mailClient.deleteMail(cashmail.id);
         } else {
             console.log(`At least 1 click in this mail failed, preserving email for review`);
         }

@@ -19,9 +19,11 @@ export default class MoneyMakerService {
     urlExtractor;
     mailClicker;
     handlers;
+    statisticsService;
 
-    constructor(configs) {
+    constructor(configs, statisticsService) {
         this.configs = configs;
+        this.statisticsService = statisticsService;
         this.handlers = [];
         this.handlers.push(new ZinnGeldHandler());
         this.handlers.push(new EuroClixHandler());
@@ -43,7 +45,7 @@ export default class MoneyMakerService {
         for (const config of this.configs) {
             try {
                 const client = this.getClient(config);
-                let mailClicker = new MailClicker(this.handlers, client);
+                let mailClicker = new MailClicker(this.handlers, client, this.statisticsService);
         
                 console.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
                 const allMails = await client.getCashMails(config.labelId)

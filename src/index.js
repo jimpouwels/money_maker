@@ -9,6 +9,7 @@ import config from './../config.js';
 import StatisticsController from './controller/statistics_controller.js';
 import StatisticsService from './service/statistics/statistics_service.js';
 import bodyParser from 'body-parser';
+import StatisticsStorage from './storage/statistics_storage.js';
 
 if (process.env.MACBOOK === 'true') {
     console.log('Running on Macbook...');
@@ -23,8 +24,10 @@ app.listen(port, () => {
     console.log(`[server]: MoneyMakerService is running at https://localhost:${port}`);
 });
 
+const statisticsService = new StatisticsService(new StatisticsStorage());
+
 console.log('Reading configurations...')
 const configs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'config.json')));
-const moneyMakerService = new MoneyMakerService(configs);
+const moneyMakerService = new MoneyMakerService(configs, statisticsService);
 new MoneyMakerController(app, moneyMakerService);
-new StatisticsController(app, new StatisticsService());
+new StatisticsController(app, statisticsService);

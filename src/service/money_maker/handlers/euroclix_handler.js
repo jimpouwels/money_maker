@@ -1,5 +1,9 @@
 export default class EuroClixHandler {
 
+    getName() {
+        return 'euroclix';
+    }
+
     matchFrom(from) {
         return from.includes('<noreply@euroclix.nl>');
     }

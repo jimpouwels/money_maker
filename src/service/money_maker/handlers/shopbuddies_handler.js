@@ -1,5 +1,9 @@
 export default class ShopBuddiesHandler {
 
+    getName() {
+        return 'shopbuddies';
+    }
+
     matchFrom(from) {
         return from.includes('<info@shopbuddies.nl>');
     }

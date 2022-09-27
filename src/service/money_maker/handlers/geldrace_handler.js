@@ -1,5 +1,9 @@
 export default class GeldraceHandler {
 
+    getName() {
+        return 'geldrace';
+    }
+
     matchFrom(from) {
         return from.includes('<ledenservice@geldrace.nl>');
     }
