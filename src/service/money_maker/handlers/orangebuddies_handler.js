@@ -18,7 +18,7 @@ export default class OrangeBuddiesHandler {
     }
     
     hasRedirected(page) {
-        return !page.url().includes(`${this.identifier}.nl`);
+        return !page.url().includes(`${this.identifier}.nl/`);
     }
 
 }
