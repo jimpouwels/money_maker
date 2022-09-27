@@ -64,7 +64,7 @@ export default class MailClicker {
         }
         if (!clickFailed) {
             console.log(`Deleting mail from ${cashmail.from}`);
-            // this.mailClient.deleteMail(cashmail.id);
+            this.mailClient.deleteMail(cashmail.id);
         } else {
             console.log(`At least 1 click in this mail failed, preserving email for review`);
         }
