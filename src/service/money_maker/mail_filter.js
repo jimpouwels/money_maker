@@ -25,7 +25,7 @@ export default class MailFilter {
             handlersLoop: for (const handler of this.handlers) {
                 if (handler.matchFrom(mail.from)) {
                     if (handler.filter(mail)) {
-                        console.log(`The mail from ${mail.from} and subject ${mail.subject} is not a cashmail, deleting it`)
+                        console.log(`The mail from ${mail.from} and subject "${mail.subject}" is not a cashmail, deleting it`)
                         break handlersLoop;
                     }
                     matchFound = true;

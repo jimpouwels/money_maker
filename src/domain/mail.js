@@ -6,10 +6,11 @@ export default class Mail {
     subject;
     cashUrl;
 
-    constructor(id, from, body) {
+    constructor(id, from, body, subject) {
         this.id = id;
         this.from = from;
         this.body = body;
+        this.subject = subject;
     }
 
 }
