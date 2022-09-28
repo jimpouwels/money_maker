@@ -4,7 +4,7 @@ export default class Mail {
     from;
     body;
     subject;
-    cashUrls = [];
+    cashUrl;
 
     constructor(id, from, body) {
         this.id = id;

@@ -1,5 +1,6 @@
 import puppeteerCore from 'puppeteer-core';
 import puppeteer from 'puppeteer';
+import MailClickFailedError from './error/mail_click_failed_error.js';
 
 export default class MailClicker {
 
@@ -26,48 +27,41 @@ export default class MailClicker {
     }
 
     async click(cashmail) {
-        if (cashmail.cashUrls.length == 0) {
+        if (!cashmail.cashUrl) {
             console.log(`No cash URL's were found for cashmail from ${cashmail.from}`);
             return;
         }
-        let clickFailed = false;
-        for (const cashUrl of cashmail.cashUrls) {
-            let page = await this.browser.newPage();
-            console.log(`\nTrying to open the link ${cashUrl}`);
-            await page.goto(cashUrl).then(async () => {
-                let startLoop = Date.now();
-                const handler = cashmail.handler;
-                await handler.performCustomAction(page, this.browser);
-                while (!handler.hasRedirected(page)) {
-                    console.log(`Waiting for page to redirect to target from ${page.url()}`);
-                    await(this.sleep(1000));
-                    if ((Date.now() - startLoop) > 30000) {
-                        clickFailed = true;
-                        break;
-                    }
+        let page = await this.browser.newPage();
+        console.log(`\nTrying to open the link ${cashmail.cashUrl}`);
+        await page.goto(cashmail.cashUrl).then(async () => {
+            let startLoop = Date.now();
+            const handler = cashmail.handler;
+            await handler.performCustomAction(page, this.browser);
+            while (!handler.hasRedirected(page)) {
+                console.log(`Waiting for page to redirect to target from ${page.url()}`);
+                await(this.sleep(1000));
+                if ((Date.now() - startLoop) > 30000) {
+                    throw new MailClickFailedError();
                 }
-                if (!clickFailed) {
-                    console.log(`Redirected to ${page.url()}`);
-                    this.statisticsService.addClick(handler.getName());
-                } else {
-                    console.log(`Timed out waiting for redirect to target`);
-                }
-            }).catch(error => {
-                console.log(`WARNING: There was an error while navigation: ${error}`);
-                clickFailed = true;
-            }).finally(async () => {
-                console.log(`Closing all browser pages`);
-                for (let i = 0; i < this.browser.pages().length; i++) {
-                    await this.browser.pages()[i].close();
-                }
-            });
-        }
-        if (!clickFailed) {
+            }
+            console.log(`Redirected to ${page.url()}`);
+            console.log(`Saving statistic`);
+            this.statisticsService.addClick(handler.getName());
             console.log(`Deleting mail from ${cashmail.from}`);
             this.mailClient.deleteMail(cashmail.id);
-        } else {
-            console.log(`At least 1 click in this mail failed, preserving email for review`);
-        }
+        }).catch(error => {
+            if (error instanceof MailClickFailedError) {
+                console.log(`WARNING: There was an error while navigation: ${error}`);
+            } else {
+                console.log(`WARNING: There was an unknown error while navigation: ${error}`);
+            }
+            console.log(`Timed out waiting for redirect to target, preserving email for review`);
+        }).finally(async () => {
+            console.log(`Closing all browser pages`);
+            for (let i = 0; i < this.browser.pages().length; i++) {
+                await this.browser.pages()[i].close();
+            }
+        });
     }
 
     async sleep(ms) {
