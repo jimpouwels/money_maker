@@ -15,7 +15,6 @@ import OrangeBuddiesHandler from './handlers/orangebuddies_handler.js';
 export default class MoneyMakerService {
 
     configs;
-    mailFilter;
     urlExtractor;
     mailClicker;
     handlers;
@@ -37,7 +36,6 @@ export default class MoneyMakerService {
         this.handlers.push(new OnlineLeadsHandler('BespaarPortaal', 'bespaarportaal.nl'));
         this.handlers.push(new OnlineLeadsHandler('DirectVerdiend', 'directverdiend.nl'));
         this.handlers.push(new ShopBuddiesHandler());
-        this.mailFilter = new MailFilter(this.handlers);
         this.urlExtractor = new UrlExtractor(this.handlers);
     }
 
@@ -45,11 +43,12 @@ export default class MoneyMakerService {
         for (const config of this.configs) {
             try {
                 const client = this.getClient(config);
+                mailFilter = new MailFilter(this.handlers, client);
                 let mailClicker = new MailClicker(this.handlers, client, this.statisticsService);
         
                 console.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
                 const allMails = await client.getCashMails(config.labelId)
-                const cashmails = this.mailFilter.filterCashMails(allMails);
+                const cashmails = mailFilter.filterCashMails(allMails);
         
                 console.log('\n---SCANNING CASH MAILS FOR URLS---');
                 this.urlExtractor.extractUrls(cashmails);
