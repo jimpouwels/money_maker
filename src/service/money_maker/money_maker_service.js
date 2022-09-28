@@ -43,7 +43,7 @@ export default class MoneyMakerService {
         for (const config of this.configs) {
             try {
                 const client = this.getClient(config);
-                mailFilter = new MailFilter(this.handlers, client);
+                let mailFilter = new MailFilter(this.handlers, client);
                 let mailClicker = new MailClicker(this.handlers, client, this.statisticsService);
         
                 console.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
