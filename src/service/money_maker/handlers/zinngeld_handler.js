@@ -21,4 +21,8 @@ export default class ZinnGeldHandler extends Handler {
         return true;
     }
 
+    filter(_mail) {
+        return false;
+    }
+
 }

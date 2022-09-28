@@ -21,4 +21,8 @@ export default class GeldraceHandler extends Handler {
         return !page.url().includes('geldrace.nl');
     }
 
+    filter(_mail) {
+        return false;
+    }
+
 }

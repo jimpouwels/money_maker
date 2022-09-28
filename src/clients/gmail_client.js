@@ -52,12 +52,12 @@ export default class GmailClient {
 
     async getMail(id) {
         try {
-            const url = `https://gmail.googleapis.com//gmail/v1/users/${this.userId}/messages/${id}`;
+            const url = `https://gmail.googleapis.com/gmail/v1/users/${this.userId}/messages/${id}`;
             return this.oAuth2Client.getAccessToken().then(async token => {
                 const config = this.createGetConfig(url, token.token);
                 return axios(config).then(response => {
                     const message = response.data;
-                    return new Mail(message.id, this.getSenderFrom(message), this.getBodyFrom(message));
+                    return new Mail(message.id, this.getSenderFrom(message), this.getBodyFrom(message), this.getSubjectFrom(message));
                 }).catch(error => {
                     console.log(error.response.data);
                 });
@@ -125,6 +125,12 @@ export default class GmailClient {
             mailBody = Buffer.from(mail.payload.body.data, 'base64').toString();
         }
         return mailBody;
+    }
+
+    getSubjectFrom(mail) {
+        return mail.payload.headers.find(header => {
+            return header.name === 'Subject';
+        }).value;
     }
 
     getSenderFrom(mail) {

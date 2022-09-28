@@ -54,4 +54,8 @@ export default class OnlineLeadsHandler extends Handler {
         });
     }
 
+    filter(_mail) {
+        return false;
+    }
+
 }

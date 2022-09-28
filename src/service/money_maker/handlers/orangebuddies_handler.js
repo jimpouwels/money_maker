@@ -24,4 +24,11 @@ export default class OrangeBuddiesHandler extends Handler {
         return !page.url().includes(`${this.identifier}.nl/`);
     }
 
+    filter(mail) {
+        if (mail.subject.includes('Er is een nieuwe cashbackactie beschikbaar')) {
+            return true;
+        }
+        return false;
+    }
+
 }

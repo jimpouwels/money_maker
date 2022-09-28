@@ -21,4 +21,8 @@ export default class ShopBuddiesHandler extends Handler {
         return !page.url().includes('shopbuddies.nl');
     }
 
+    filter(_mail) {
+        return false;
+    }
+
 }

@@ -21,4 +21,8 @@ export default class EuroClixHandler extends Handler {
         return !page.url().includes('euroclix.nl');
     }
 
+    filter(_mail) {
+        return false;
+    }
+
 }

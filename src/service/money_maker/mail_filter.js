@@ -3,9 +3,11 @@ import NoCashmailsFoundError from "./error/no_cashmails_found_error.js";
 export default class MailFilter {
 
     handlers;
+    mailClient;
 
-    constructor(handlers) {
+    constructor(handlers, mailClient) {
         this.handlers = handlers;
+        this.mailClient = mailClient;
     }
 
     filterCashMails(mails) {
@@ -19,14 +21,24 @@ export default class MailFilter {
     getMatchingMails(mails) {
         const matchingMails = [];
         for (const mail of mails) {
-            matchersLoop: for (const handler of this.handlers) {
+            let matchFound = false;
+            handlersLoop: for (const handler of this.handlers) {
                 if (handler.matchFrom(mail.from)) {
+                    if (handler.filter(mail)) {
+                        console.log(`The mail from ${mail.from} and subject ${mail.subject} is not a cashmail, deleting it`)
+                        break handlersLoop;
+                    }
+                    matchFound = true;
                     matchingMails.push(mail);
                     mail.handler = handler;
                     console.log(`Found cashmail from ${mail.from}`);
-                    break matchersLoop;
+                    break handlersLoop;
                 }
             };
+            if (!matchFound) {
+                this.mailClient.deleteMail(mail.id);
+                console.log(`Mail deleted`);
+            }
         }
         return matchingMails;
     }
