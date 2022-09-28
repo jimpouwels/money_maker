@@ -21,6 +21,6 @@ export default class UrlExtractor {
                 }
             }
         }
-        console.log(`No URL found in mail from ${cashmail.from}`);
+        console.log(`No URL found`);
     }
 }
