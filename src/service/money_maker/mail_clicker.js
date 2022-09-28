@@ -8,6 +8,7 @@ export default class MailClicker {
     handlers = null;
     mailClient = null;
     statisticsService = null;
+    static CLICK_NAVIGATION_TIMEOUT = 30000;
 
     constructor(handlers, mailClient, statisticsService) {
         this.handlers = handlers;
@@ -40,8 +41,8 @@ export default class MailClicker {
             while (!handler.hasRedirected(page)) {
                 console.log(`Waiting for page to redirect to target from ${page.url()}`);
                 await(this.sleep(1000));
-                if ((Date.now() - startLoop) > 30000) {
-                    throw new MailClickFailedError();
+                if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
+                    throw new ClickNavigationTimedOutError();
                 }
             }
             console.log(`Redirected to ${page.url()}`);
@@ -50,8 +51,8 @@ export default class MailClicker {
             console.log(`Deleting mail from ${cashmail.from}`);
             this.mailClient.deleteMail(cashmail.id);
         }).catch(error => {
-            if (error instanceof MailClickFailedError) {
-                console.log(`WARNING: There was an error while navigation: ${error}`);
+            if (error instanceof ClickNavigationTimedOutError) {
+                console.log(`WARNING: Waited ${MailClicker.CLICK_NAVIGATION_TIMEOUT} milliseconds, but the redirect didn't occur`);
             } else {
                 console.log(`WARNING: There was an unknown error while navigation: ${error}`);
             }
