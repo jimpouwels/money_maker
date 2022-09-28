@@ -1,6 +1,6 @@
 import puppeteerCore from 'puppeteer-core';
 import puppeteer from 'puppeteer';
-import MailClickFailedError from './error/mail_click_failed_error.js';
+import ClickNavigationTimedOutError from './error/click_navigation_timed_out_error.js';
 
 export default class MailClicker {
 
