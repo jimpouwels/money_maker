@@ -1,7 +1,9 @@
-export default class ShopBuddiesHandler {
+import Handler from "./handler.js";
 
-    getName() {
-        return 'shopbuddies';
+export default class ShopBuddiesHandler extends Handler {
+
+    constructor(name) {
+        super(name);
     }
 
     matchFrom(from) {

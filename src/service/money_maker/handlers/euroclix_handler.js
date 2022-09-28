@@ -1,7 +1,9 @@
-export default class EuroClixHandler {
+import Handler from "./handler.js";
 
-    getName() {
-        return 'euroclix';
+export default class EuroClixHandler extends Handler {
+
+    constructor(name) {
+        super(name);
     }
 
     matchFrom(from) {

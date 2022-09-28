@@ -1,10 +1,11 @@
-export default class OnlineLeadsHandler {
+import Handler from "./handler.js";
 
-    name;
+export default class OnlineLeadsHandler extends Handler {
+
     hostname;
 
     constructor(name, hostname) {
-        this.name = name;
+        super(name);
         this.hostname = hostname;
     }
 
@@ -23,13 +24,13 @@ export default class OnlineLeadsHandler {
     async performCustomAction(page, browser) {
         const prePageCount = (await browser.pages()).length;
 
-        console.log(`${this.name} opens the newsletter in a webversion, another click is required`);
+        console.log(`${this.getName()} opens the newsletter in a webversion, another click is required`);
         let button1Url = await page.evaluate(() => {
             return document.getElementsByClassName('btn-green')[0].href;
         });
         await page.goto(button1Url);
 
-        console.log(`${this.name} opens another page with a button to be clicked, finding and clicking it`);
+        console.log(`${this.getName()} opens another page with a button to be clicked, finding and clicking it`);
         await page.waitForSelector('.btn-green')
         await page.click('.btn-green');
 

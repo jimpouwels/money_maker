@@ -1,7 +1,9 @@
-export default class ZinnGeldHandler {
+import Handler from "./handler.js";
+
+export default class ZinnGeldHandler extends Handler {
     
-    getName() {
-        return 'zinngeld';
+    constructor(name) {
+        super(name);
     }
 
     matchFrom(from) {

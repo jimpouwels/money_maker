@@ -1,13 +1,12 @@
-export default class OrangeBuddiesHandler {
+import Handler from "./handler.js";
+
+export default class OrangeBuddiesHandler extends Handler {
 
     identifier;
 
-    constructor(identifier) {
+    constructor(name, identifier) {
+        super(name);
         this.identifier = identifier;
-    }
-
-    getName() {
-        return this.identifier;
     }
 
     matchFrom(from) {

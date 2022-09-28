@@ -1,7 +1,9 @@
-export default class GeldraceHandler {
+import Handler from "./handler.js";
 
-    getName() {
-        return 'geldrace';
+export default class GeldraceHandler extends Handler {
+    
+    constructor(name) {
+        super(name);
     }
 
     matchFrom(from) {
