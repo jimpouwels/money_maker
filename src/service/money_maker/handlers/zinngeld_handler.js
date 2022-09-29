@@ -17,8 +17,8 @@ export default class ZinnGeldHandler extends Handler {
     async performCustomAction(_page, _browser) {
     }
     
-    hasRedirected(_page) {
-        return true;
+    hasRedirected(page) {
+        return super.hasRedirected(page) && true;
     }
 
     filter(_mail) {

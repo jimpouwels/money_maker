@@ -10,4 +10,8 @@ export default class Handler {
         return this.name;
     }
 
+    hasRedirected(page) {
+        return !page.url().includes('chrome-error');
+    }
+
 }

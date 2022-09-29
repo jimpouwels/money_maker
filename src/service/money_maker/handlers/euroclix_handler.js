@@ -18,7 +18,7 @@ export default class EuroClixHandler extends Handler {
     }
     
     hasRedirected(page) {
-        return !page.url().includes('euroclix.nl');
+        return super.hasRedirected(page) && !page.url().includes('euroclix.nl');
     }
 
     filter(_mail) {
