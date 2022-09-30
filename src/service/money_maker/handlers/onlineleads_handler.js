@@ -51,6 +51,9 @@ export default class OnlineLeadsHandler extends Handler {
     }
     
     hasRedirected(page) {
+        // after the final cash url has been clicked, a new tab is opened, and the original tab
+        // redirects to 'https://www.${hostname}/gebruiker/. When that happens, we consider the
+        // redirect to be successful.
         return super.hasRedirected(page) && page.url() === `https://www.${this.hostname}/gebruiker/`;
     }
 
