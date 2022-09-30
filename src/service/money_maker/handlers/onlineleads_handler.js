@@ -51,7 +51,7 @@ export default class OnlineLeadsHandler extends Handler {
     }
     
     hasRedirected(page) {
-        return super.hasRedirected(page) && page.url() === `https://${this.hostname}/gebruiker/`;
+        return super.hasRedirected(page) && page.url() === `https://www.${this.hostname}/gebruiker/`;
     }
 
     async sleep(ms) {
