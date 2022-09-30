@@ -10,7 +10,7 @@ export default class StatisticsService {
 
     addClick(name) {
         this.statistics.totalClicks++;
-        this.statistics.clicks.push({
+        this.statistics.clicks.unshift({
             timestamp: Date.now(),
             name: name
         });

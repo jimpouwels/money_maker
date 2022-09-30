@@ -8,7 +8,7 @@ export default class StatisticsController {
             displayString += `Total clicks: ${statistics.totalClicks}<br /><br />`;
             displayString += `Last ${statistics.clicks.length} clicks:<br />`;
             displayString += `<hr /><br />`;
-            for (const click of statistics.clicks.slice().reverse()) {
+            for (const click of statistics.clicks) {
                 displayString += `${new Date(click.timestamp).toISOString()}: ${click.name}<br />`;
             }
             res.send(displayString);
