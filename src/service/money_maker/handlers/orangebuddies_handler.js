@@ -1,8 +1,20 @@
 import Handler from "./handler.js";
 
+/**
+ * NuCash
+ * EnqueteClub
+ * CashbackKorting
+ * LadyCashback
+ * IPay
+ * GekkenGoud
+ */
 export default class OrangeBuddiesHandler extends Handler {
 
     identifier;
+    skipSubjects = [
+        'Er is een nieuwe cashbackactie beschikbaar',
+        'Top deals deze week'
+    ]
 
     constructor(name, identifier) {
         super(name);
@@ -25,8 +37,10 @@ export default class OrangeBuddiesHandler extends Handler {
     }
 
     filter(mail) {
-        if (mail.subject.includes('Er is een nieuwe cashbackactie beschikbaar')) {
-            return true;
+        for (skipSubject of this.skipSubjects) {
+            if (mail.subject.includes(skipSubject)) {
+                return true;
+            }
         }
         return false;
     }
