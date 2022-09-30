@@ -37,7 +37,7 @@ export default class OrangeBuddiesHandler extends Handler {
     }
 
     filter(mail) {
-        for (skipSubject of this.skipSubjects) {
+        for (const skipSubject of this.skipSubjects) {
             if (mail.subject.includes(skipSubject)) {
                 return true;
             }
