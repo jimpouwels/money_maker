@@ -41,6 +41,7 @@ export default class OnlineLeadsHandler extends Handler {
         const allPages = await browser.pages();
         console.log('Capturing the redirect URL from the new tab and redirecting the current page to that URL');
         const targetUrl = allPages[allPages.length - 1].url();
+        console.log(`Captured URL ${targetUrl}, navigating to it`);
         await page.goto(targetUrl);
     }
     
