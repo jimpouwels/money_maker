@@ -41,16 +41,17 @@ export default class OnlineLeadsHandler extends Handler {
         const allPages = await browser.pages();
         console.log('Capturing the redirect URL from the new tab and redirecting the current page to that URL');
         const targetUrl = allPages[allPages.length - 1].url();
-        console.log(`Found new tab with URL ${targetUrl}`);
         if (targetUrl.includes('error')) {
             throw new Error(`The new tab navigated to ${targetUrl}, which seems to be an error`);
         } else if (targetUrl.includes(this.hostname)) {
             throw new Error(`The new tab redirected to ${targetUrl} which seems to be the hostname of ${this.name}, that doesn't seem okay...`);
+        } else {
+            console.log(`Found new tab with URL ${targetUrl}`);
         }
     }
     
     hasRedirected(page) {
-        return super.hasRedirected(page) && !page.url().includes(this.hostname);
+        return super.hasRedirected(page) && page.url() === `https://${this.hostname}/gebruiker/`;
     }
 
     async sleep(ms) {
