@@ -34,7 +34,11 @@ export default class OnlineLeadsHandler extends Handler {
         await page.waitForSelector('.btn-green')
         await page.click('.btn-green');
 
+        const startLoop = Date.now();
         while ((((await browser.pages()).length) - prePageCount) == 0) {
+            if ((Date.now() - startLoop) > 30000) {
+                throw new Error(`A new tab was expected to open, but that didn't happen, failed`)
+            }
             console.log('Waiting for new tab to open');
             await this.sleep(1000);
         }
