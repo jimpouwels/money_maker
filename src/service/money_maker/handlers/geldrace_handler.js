@@ -7,7 +7,7 @@ export default class GeldraceHandler extends Handler {
     }
 
     matchFrom(from) {
-        return from.includes('<ledenservice@geldrace.nl>');
+        return from.includes('<ledenservice@geldrace.nl>') || from.includes('quirinedeloyer_1200@hotmail.com');
     }
 
     matchUrl(url) {

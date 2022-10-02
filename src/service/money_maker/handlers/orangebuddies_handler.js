@@ -22,7 +22,7 @@ export default class OrangeBuddiesHandler extends Handler {
     }
 
     matchFrom(from) {
-        return from.includes(`<info@${this.identifier}.nl>`);
+        return from.includes(`<info@${this.identifier}.nl>`) || from.includes('quirinedeloyer_1200@hotmail.com');
     }
 
     matchUrl(url) {
