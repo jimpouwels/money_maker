@@ -1,3 +1,4 @@
+import ThreadUtil from "../../../util/thread_util.js";
 import Handler from "./handler.js";
 
 export default class OnlineLeadsHandler extends Handler {
@@ -39,7 +40,7 @@ export default class OnlineLeadsHandler extends Handler {
         if (this.hasNewTabBug) {
             console.log(`The new tab will not open for ${this.name}, that's probably some bug, assume it's clicked...`);
             console.log('Waiting for 5 seconds to be sure the click gets registered');
-            this.sleep(5000);
+            ThreadUtil.sleep(5000);
             return;
         }
         const startLoop = Date.now();
@@ -48,7 +49,7 @@ export default class OnlineLeadsHandler extends Handler {
                 throw new Error(`A new tab was expected to open, but that didn't happen, failed`)
             }
             console.log(`Waiting for new tab to open, current amount of tabs ${(await browser.pages()).length}`);
-            await this.sleep(1000);
+            await ThreadUtil.sleep(1000);
         }
         const allPages = await browser.pages();
         console.log('Capturing the redirect URL from the new tab and redirecting the current page to that URL');
@@ -67,12 +68,6 @@ export default class OnlineLeadsHandler extends Handler {
         // tab redirects to 'https://www.${hostname}/gebruiker/. When that happens, we consider the
         // redirect to be successful.
         return super.hasRedirected(page) && page.url() === `https://www.${this.hostname}/gebruiker/`;
-    }
-
-    async sleep(ms) {
-        return new Promise((resolve) => {
-            setTimeout(resolve, ms);
-        });
     }
 
     filter(_mail) {

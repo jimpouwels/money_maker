@@ -1,6 +1,7 @@
 import puppeteerCore from 'puppeteer-core';
 import puppeteer from 'puppeteer';
 import ClickNavigationTimedOutError from './error/click_navigation_timed_out_error.js';
+import ThreadUtil from '../../util/thread_util.js';
 
 export default class MailClicker {
 
@@ -40,7 +41,7 @@ export default class MailClicker {
             await handler.performCustomAction(page, this.browser);
             while (!handler.hasRedirected(page)) {
                 console.log(`Waiting for page to redirect to target from ${page.url()}`);
-                await(this.sleep(1000));
+                await(ThreadUtil.sleep(1000));
                 if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
                     throw new ClickNavigationTimedOutError();
                 }
@@ -65,12 +66,6 @@ export default class MailClicker {
                 await (pageToClose.goto('about:blank'));
                 await pageToClose.close();
             }
-        });
-    }
-
-    async sleep(ms) {
-        return new Promise((resolve) => {
-            setTimeout(resolve, ms);
         });
     }
 
