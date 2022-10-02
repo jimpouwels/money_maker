@@ -59,8 +59,11 @@ export default class MailClicker {
             console.log(`Timed out waiting for redirect to target, preserving email for review`);
         }).finally(async () => {
             console.log(`Closing all browser pages`);
-            for (let i = 0; i < this.browser.pages().length; i++) {
-                await this.browser.pages()[i].close();
+            let allPages = (await this.browser.pages());
+            for (let i = 0; i < allPages.length; i++) {
+                let pageToClose = allPages[i];
+                await (pageToClose.goto('about:blank'));
+                await pageToClose.close();
             }
         });
     }

@@ -3,10 +3,12 @@ import Handler from "./handler.js";
 export default class OnlineLeadsHandler extends Handler {
 
     hostname;
+    hasNewTabBug;
 
-    constructor(name, hostname) {
+    constructor(name, hostname, hasNewTabBug = false) {
         super(name);
         this.hostname = hostname;
+        this.hasNewTabBug = hasNewTabBug;
     }
 
     getName() {
@@ -23,7 +25,6 @@ export default class OnlineLeadsHandler extends Handler {
 
     async performCustomAction(page, browser) {
         const prePageCount = (await browser.pages()).length;
-        console.log(`NUMBER OF TABS BEFORE ${prePageCount}`);
 
         console.log(`${this.getName()} opens the newsletter in a webversion, another click is required`);
         let button1Url = await page.evaluate(() => {
@@ -32,15 +33,21 @@ export default class OnlineLeadsHandler extends Handler {
         await page.goto(button1Url);
 
         console.log(`${this.getName()} opens another page with a button to be clicked, finding and clicking it`);
-        await page.waitForSelector('.btn-green')
+        await page.waitForSelector('.btn-green');
         await page.click('.btn-green');
 
+        if (this.hasNewTabBug) {
+            console.log(`The new tab will not open for ${this.name}, that's probably some bug, assume it's clicked...`);
+            console.log('Waiting for 5 seconds to be sure the click gets registered');
+            this.sleep(5000);
+            return;
+        }
         const startLoop = Date.now();
         while (((await browser.pages()).length - prePageCount) == 0) {
             if ((Date.now() - startLoop) > 30000) {
                 throw new Error(`A new tab was expected to open, but that didn't happen, failed`)
             }
-            console.log('Waiting for new tab to open');
+            console.log(`Waiting for new tab to open, current amount of tabs ${(await browser.pages()).length}`);
             await this.sleep(1000);
         }
         const allPages = await browser.pages();

@@ -36,7 +36,7 @@ export default class MoneyMakerService {
         this.handlers.push(new GeldraceHandler('GeldRace'));
         this.handlers.push(new OnlineLeadsHandler('BespaarPortaal', 'bespaarportaal.nl'));
         this.handlers.push(new OnlineLeadsHandler('DirectVerdiend', 'directverdiend.nl'));
-        this.handlers.push(new OnlineLeadsHandler('DoublePoints', 'doublepoints.nl'));
+        this.handlers.push(new OnlineLeadsHandler('DoublePoints', 'doublepoints.nl', true));
         this.handlers.push(new ShopBuddiesHandler('ShopBuddies'));
         this.handlers.push(new QassaHandler('Qassa', 'qassa.nl'));
         this.urlExtractor = new UrlExtractor(this.handlers);
