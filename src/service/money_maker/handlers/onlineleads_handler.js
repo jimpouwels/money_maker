@@ -23,6 +23,7 @@ export default class OnlineLeadsHandler extends Handler {
 
     async performCustomAction(page, browser) {
         const prePageCount = (await browser.pages()).length;
+        console.log(`NUMBER OF TABS BEFORE ${prePageCount}`);
 
         console.log(`${this.getName()} opens the newsletter in a webversion, another click is required`);
         let button1Url = await page.evaluate(() => {

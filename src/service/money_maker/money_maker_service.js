@@ -11,6 +11,7 @@ import GeldraceHandler from './handlers/geldrace_handler.js';
 import OnlineLeadsHandler from './handlers/onlineleads_handler.js';
 import ShopBuddiesHandler from './handlers/shopbuddies_handler.js';
 import OrangeBuddiesHandler from './handlers/orangebuddies_handler.js';
+import QassaHandler from './handlers/qassa_handler.js';
 
 export default class MoneyMakerService {
 
@@ -37,6 +38,7 @@ export default class MoneyMakerService {
         this.handlers.push(new OnlineLeadsHandler('DirectVerdiend', 'directverdiend.nl'));
         this.handlers.push(new OnlineLeadsHandler('DoublePoints', 'doublepoints.nl'));
         this.handlers.push(new ShopBuddiesHandler('ShopBuddies'));
+        this.handlers.push(new QassaHandler('Qassa', 'qassa.nl'));
         this.urlExtractor = new UrlExtractor(this.handlers);
     }
 
