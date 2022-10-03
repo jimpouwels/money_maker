@@ -2,13 +2,8 @@ import Handler from "./handler.js";
 
 export default class GeldraceHandler extends Handler {
     
-    constructor(name) {
-        super(name);
-    }
-
-    matchMail(mail) {
-        return (mail.from.includes('<ledenservice@geldrace.nl>') || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
-            && mail.body.toLowerCase().includes('geldrace');
+    constructor(name, forwarders) {
+        super(name, forwarders);
     }
 
     matchUrl(url) {

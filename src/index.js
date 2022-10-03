@@ -24,10 +24,12 @@ app.listen(port, () => {
     console.log(`[server]: MoneyMakerService is running at https://localhost:${port}`);
 });
 
+const forwarders = ['quirinedeloyer_1200@hotmail.com'];
+
 const statisticsService = new StatisticsService(new StatisticsStorage());
 
 console.log('Reading configurations...')
 const configs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'config.json')));
-const moneyMakerService = new MoneyMakerService(configs, statisticsService);
+const moneyMakerService = new MoneyMakerService(configs, statisticsService, forwarders);
 new MoneyMakerController(app, moneyMakerService);
 new StatisticsController(app, statisticsService);

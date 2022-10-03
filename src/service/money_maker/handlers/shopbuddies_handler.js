@@ -2,13 +2,8 @@ import Handler from "./handler.js";
 
 export default class ShopBuddiesHandler extends Handler {
 
-    constructor(name) {
-        super(name);
-    }
-
-    matchMail(mail) {
-        return (mail.from.includes('<info@shopbuddies.nl>') || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
-             && mail.body.toLowerCase().includes('shopbuddies');
+    constructor(name, forwarders) {
+        super(name, forwarders);
     }
 
     matchUrl(url) {

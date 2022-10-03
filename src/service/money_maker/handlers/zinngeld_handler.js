@@ -2,13 +2,8 @@ import Handler from "./handler.js";
 
 export default class ZinnGeldHandler extends Handler {
     
-    constructor(name) {
-        super(name);
-    }
-
-    matchMail(mail) {
-        return (mail.from.includes('<info@zinngeld.nl>') || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
-               && mail.body.toLowerCase().includes('zinngeld');
+    constructor(name, forwarders) {
+        super(name, forwarders);
     }
 
     matchUrl(url) {

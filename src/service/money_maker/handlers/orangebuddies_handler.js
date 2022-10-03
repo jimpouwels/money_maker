@@ -16,14 +16,9 @@ export default class OrangeBuddiesHandler extends Handler {
         'Top deals deze week'
     ]
 
-    constructor(name, identifier) {
-        super(name);
+    constructor(name, identifier, forwarders) {
+        super(name, forwarders);
         this.identifier = identifier;
-    }
-
-    matchMail(mail) {
-        return (mail.from.includes(`<info@${this.identifier}.nl>`) || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
-             && mail.body.toLowerCase().includes(this.identifier);
     }
 
     matchUrl(url) {

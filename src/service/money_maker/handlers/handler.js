@@ -1,9 +1,11 @@
 export default class Handler {
 
     name;
+    forwarders;
 
-    constructor(name) {
+    constructor(name, forwarders) {
         this.name = name;
+        this.forwarders = forwarders;
     }
 
     getName() {
@@ -12,6 +14,11 @@ export default class Handler {
 
     hasRedirected(page) {
         return !page.url().includes('chrome-error');
+    }
+
+    matchMail(mail) {
+        return (mail.from.toLowerCase().includes(this.name.toLowerCase()) || this.forwarders.includes(from))
+                || mail.body.toLowerCase().includes(this.name.toLowerCase());
     }
 
 }

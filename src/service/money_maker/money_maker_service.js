@@ -21,24 +21,24 @@ export default class MoneyMakerService {
     handlers;
     statisticsService;
 
-    constructor(configs, statisticsService) {
+    constructor(configs, statisticsService, forwarders) {
         this.configs = configs;
         this.statisticsService = statisticsService;
         this.handlers = [];
-        this.handlers.push(new ZinnGeldHandler('ZinnGeld'));
-        this.handlers.push(new EuroClixHandler('EuroClix'));
-        this.handlers.push(new OrangeBuddiesHandler('EnqueteClub', 'enqueteclub'));
-        this.handlers.push(new OrangeBuddiesHandler('CashbackKorting', 'cashbackkorting'));
-        this.handlers.push(new OrangeBuddiesHandler('LadyCashback', 'ladycashback'));
-        this.handlers.push(new OrangeBuddiesHandler('GekkenGoud', 'gekkengoud'));
-        this.handlers.push(new OrangeBuddiesHandler('IPay', 'ipay'));
-        this.handlers.push(new OrangeBuddiesHandler('NuCash', 'nucash'));
-        this.handlers.push(new GeldraceHandler('GeldRace'));
-        this.handlers.push(new OnlineLeadsHandler('BespaarPortaal', 'bespaarportaal.nl'));
-        this.handlers.push(new OnlineLeadsHandler('DirectVerdiend', 'directverdiend.nl'));
-        this.handlers.push(new OnlineLeadsHandler('DoublePoints', 'doublepoints.nl', true));
-        this.handlers.push(new ShopBuddiesHandler('ShopBuddies'));
-        this.handlers.push(new QassaHandler('Qassa', 'qassa.nl'));
+        this.handlers.push(new ZinnGeldHandler('ZinnGeld', forwarders));
+        this.handlers.push(new EuroClixHandler('EuroClix', forwarders));
+        this.handlers.push(new OrangeBuddiesHandler('EnqueteClub', 'enqueteclub', forwarders));
+        this.handlers.push(new OrangeBuddiesHandler('CashbackKorting', 'cashbackkorting', forwarders));
+        this.handlers.push(new OrangeBuddiesHandler('LadyCashback', 'ladycashback', forwarders));
+        this.handlers.push(new OrangeBuddiesHandler('GekkenGoud', 'gekkengoud', forwarders));
+        this.handlers.push(new OrangeBuddiesHandler('IPay', 'ipay', forwarders));
+        this.handlers.push(new OrangeBuddiesHandler('NuCash', 'nucash', forwarders));
+        this.handlers.push(new GeldraceHandler('GeldRace', forwarders));
+        this.handlers.push(new OnlineLeadsHandler('BespaarPortaal', 'bespaarportaal.nl', forwarders));
+        this.handlers.push(new OnlineLeadsHandler('DirectVerdiend', 'directverdiend.nl', forwarders));
+        this.handlers.push(new OnlineLeadsHandler('DoublePoints', 'doublepoints.nl', forwarders, true));
+        this.handlers.push(new ShopBuddiesHandler('ShopBuddies', forwarders));
+        this.handlers.push(new QassaHandler('Qassa', 'qassa.nl', forwarders));
         this.urlExtractor = new UrlExtractor(this.handlers);
     }
 

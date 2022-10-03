@@ -6,19 +6,14 @@ export default class OnlineLeadsHandler extends Handler {
     hostname;
     hasNewTabBug;
 
-    constructor(name, hostname, hasNewTabBug = false) {
-        super(name);
+    constructor(name, hostname, forwarders, hasNewTabBug = false) {
+        super(name, forwarders);
         this.hostname = hostname;
         this.hasNewTabBug = hasNewTabBug;
     }
 
     getName() {
         return this.name;
-    }
-
-    matchMail(mail) {
-        return (mail.from.includes(`<info@${this.hostname}>`) || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
-            && mail.body.toLowerCase().includes(this.hostname);
     }
 
     matchUrl(url) {

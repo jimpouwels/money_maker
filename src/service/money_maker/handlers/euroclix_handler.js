@@ -2,13 +2,8 @@ import Handler from "./handler.js";
 
 export default class EuroClixHandler extends Handler {
 
-    constructor(name) {
-        super(name);
-    }
-
-    matchMail(mail) {
-        return (mail.from.includes('<noreply@euroclix.nl>') || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
-             && mail.body.toLowerCase().includes('euroclix');
+    constructor(name, forwarders) {
+        super(name, forwarders);
     }
 
     matchUrl(url) {
