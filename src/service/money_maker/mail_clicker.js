@@ -34,7 +34,7 @@ export default class MailClicker {
             return;
         }
         let page = await this.browser.newPage();
-        console.log(`\nTrying to open the link ${cashmail.cashUrl}`);
+        console.log(`\nTrying to open the link '${cashmail.cashUrl}' from ${cashmail.from}`);
         await page.goto(cashmail.cashUrl).then(async () => {
             let startLoop = Date.now();
             const handler = cashmail.handler;
