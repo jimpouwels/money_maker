@@ -21,8 +21,9 @@ export default class OrangeBuddiesHandler extends Handler {
         this.identifier = identifier;
     }
 
-    matchFrom(from) {
-        return from.includes(`<info@${this.identifier}.nl>`) || from.includes('quirinedeloyer_1200@hotmail.com');
+    matchMail(mail) {
+        return (mail.from.includes(`<info@${this.identifier}.nl>`) || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
+             && mail.body.toLowerCase().includes(this.identifier);
     }
 
     matchUrl(url) {

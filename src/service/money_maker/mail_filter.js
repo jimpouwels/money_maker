@@ -23,7 +23,7 @@ export default class MailFilter {
         for (const mail of mails) {
             let matchFound = false;
             handlersLoop: for (const handler of this.handlers) {
-                if (handler.matchFrom(mail.from)) {
+                if (handler.matchMail(mail)) {
                     if (handler.filter(mail)) {
                         break handlersLoop;
                     }

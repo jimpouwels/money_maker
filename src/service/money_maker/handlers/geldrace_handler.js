@@ -6,9 +6,9 @@ export default class GeldraceHandler extends Handler {
         super(name);
     }
 
-    matchFrom(from) {
-        return from.includes('<ledenservice@geldrace.nl>') ||
-               (from.includes('<ledenservice@geldrace.nl>') && from.includes('quirinedeloyer_1200@hotmail.com'));
+    matchMail(mail) {
+        return (mail.from.includes('<ledenservice@geldrace.nl>') || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
+            && mail.body.toLowerCase().includes('geldrace');
     }
 
     matchUrl(url) {

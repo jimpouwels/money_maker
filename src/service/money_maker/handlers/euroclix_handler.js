@@ -6,9 +6,9 @@ export default class EuroClixHandler extends Handler {
         super(name);
     }
 
-    matchFrom(from) {
-        return from.includes('<noreply@euroclix.nl>') ||
-               (from.includes('<noreply@euroclix.nl>') && from.includes('quirinedeloyer_1200@hotmail.com'));
+    matchMail(mail) {
+        return (mail.from.includes('<noreply@euroclix.nl>') || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
+             && mail.body.toLowerCase().includes('euroclix');
     }
 
     matchUrl(url) {

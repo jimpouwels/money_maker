@@ -6,9 +6,9 @@ export default class ShopBuddiesHandler extends Handler {
         super(name);
     }
 
-    matchFrom(from) {
-        return from.includes('<info@shopbuddies.nl>') || 
-                (from.includes('<info@shopbuddies.nl>') && from.includes('quirinedeloyer_1200@hotmail.com'));
+    matchMail(mail) {
+        return (mail.from.includes('<info@shopbuddies.nl>') || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
+             && mail.body.toLowerCase().includes('shopbuddies');
     }
 
     matchUrl(url) {

@@ -6,9 +6,9 @@ export default class ZinnGeldHandler extends Handler {
         super(name);
     }
 
-    matchFrom(from) {
-        return from.includes('<info@zinngeld.nl>') || 
-              (from.includes('<info@zinngeld.nl>') && from.includes('quirinedeloyer_1200@hotmail.com'));
+    matchMail(mail) {
+        return (mail.from.includes('<info@zinngeld.nl>') || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
+               && mail.body.toLowerCase().includes('zinngeld');
     }
 
     matchUrl(url) {

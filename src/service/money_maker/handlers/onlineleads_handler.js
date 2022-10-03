@@ -16,9 +16,9 @@ export default class OnlineLeadsHandler extends Handler {
         return this.name;
     }
 
-    matchFrom(from) {
-        return from.includes(`<info@${this.hostname}>`) ||
-                (from.includes(`<info@${this.hostname}>`) && from.includes('quirinedeloyer_1200@hotmail.com'));
+    matchMail(mail) {
+        return (mail.from.includes(`<info@${this.hostname}>`) || mail.from.includes('quirinedeloyer_1200@hotmail.com'))
+            && mail.body.toLowerCase().includes(this.hostname);
     }
 
     matchUrl(url) {
