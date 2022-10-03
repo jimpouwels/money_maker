@@ -48,7 +48,11 @@ export default class MailClicker {
             }
             console.log(`Redirected to ${page.url()}`);
             console.log(`Saving statistic`);
-            this.statisticsService.addClick(handler.getName());
+            let statisticString = handler.getName();
+            if (cashmail.isForwarded) {
+                statisticString += ` (forwarded from: ${cashmail.from})`;
+            }
+            this.statisticsService.addClick(statisticString);
             console.log(`Deleting mail from ${cashmail.from}`);
             this.mailClient.deleteMail(cashmail.id);
         }).catch(error => {

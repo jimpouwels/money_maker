@@ -17,7 +17,11 @@ export default class Handler {
     }
 
     matchMail(mail) {
-        return (mail.from.toLowerCase().includes(this.name.toLowerCase()) || this.forwarders.includes(mail.from))
+        const isForwarded = this.forwarders.includes(mail.from);
+        if (isForwarded) {
+            mail.isForwarded = true;
+        }
+        return (mail.from.toLowerCase().includes(this.name.toLowerCase()) || isForwarded)
                 || mail.body.toLowerCase().includes(this.name.toLowerCase());
     }
 
