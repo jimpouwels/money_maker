@@ -17,7 +17,7 @@ export default class Handler {
     }
 
     matchMail(mail) {
-        return (mail.from.toLowerCase().includes(this.name.toLowerCase()) || this.forwarders.includes(from))
+        return (mail.from.toLowerCase().includes(this.name.toLowerCase()) || this.forwarders.includes(mail.from))
                 || mail.body.toLowerCase().includes(this.name.toLowerCase());
     }
 
