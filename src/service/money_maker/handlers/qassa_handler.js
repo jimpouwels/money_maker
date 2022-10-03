@@ -14,7 +14,8 @@ export default class QassaHandler extends Handler {
     }
 
     matchFrom(from) {
-        return from.includes(`${this.hostname}>`) || from.includes('quirinedeloyer_1200@hotmail.com');
+        return from.includes(`${this.hostname}>`) || 
+                (from.includes(`${this.hostname}>`) && from.includes('quirinedeloyer_1200@hotmail.com'));
     }
 
     matchUrl(url) {

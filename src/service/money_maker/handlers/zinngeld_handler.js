@@ -7,7 +7,8 @@ export default class ZinnGeldHandler extends Handler {
     }
 
     matchFrom(from) {
-        return from.includes('<info@zinngeld.nl>') || from.includes('quirinedeloyer_1200@hotmail.com');
+        return from.includes('<info@zinngeld.nl>') || 
+              (from.includes('<info@zinngeld.nl>') && from.includes('quirinedeloyer_1200@hotmail.com'));
     }
 
     matchUrl(url) {

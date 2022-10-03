@@ -7,7 +7,8 @@ export default class ShopBuddiesHandler extends Handler {
     }
 
     matchFrom(from) {
-        return from.includes('<info@shopbuddies.nl>') || from.includes('quirinedeloyer_1200@hotmail.com');
+        return from.includes('<info@shopbuddies.nl>') || 
+                (from.includes('<info@shopbuddies.nl>') && from.includes('quirinedeloyer_1200@hotmail.com'));
     }
 
     matchUrl(url) {

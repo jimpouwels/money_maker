@@ -7,7 +7,8 @@ export default class EuroClixHandler extends Handler {
     }
 
     matchFrom(from) {
-        return from.includes('<noreply@euroclix.nl>') || from.includes('quirinedeloyer_1200@hotmail.com');
+        return from.includes('<noreply@euroclix.nl>') ||
+               (from.includes('<noreply@euroclix.nl>') && from.includes('quirinedeloyer_1200@hotmail.com'));
     }
 
     matchUrl(url) {
