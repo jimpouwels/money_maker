@@ -2,7 +2,6 @@ export default class StatisticsController {
 
     constructor(app, statisticsService) {
         app.get('/statistics', (req, res) => {
-            console.log(`[/statistic] Post statistic`);
             let statistics = statisticsService.getStatistics();
             let displayString = "";
             displayString += `Total clicks: ${statistics.totalClicks}<br /><br />`;
@@ -12,6 +11,10 @@ export default class StatisticsController {
                 displayString += `${new Date(click.timestamp).toISOString()}: ${click.name.replace('<', '&lt;').replace('>', '&gt;')}<br />`;
             }
             res.send(displayString);
+        });
+
+        app.get('/statistics_new', (req, res) => {
+            res.send(statisticsService.getStatistics());
         });
     }
 

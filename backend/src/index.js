@@ -10,6 +10,7 @@ import StatisticsController from './controller/statistics_controller.js';
 import StatisticsService from './service/statistics/statistics_service.js';
 import bodyParser from 'body-parser';
 import StatisticsStorage from './storage/statistics_storage.js';
+import cors from 'cors';
 
 if (process.env.MACBOOK === 'true') {
     console.log('Running on Macbook...');
@@ -19,6 +20,7 @@ if (process.env.MACBOOK === 'true') {
 
 var app = express();
 app.use(bodyParser.json())
+app.use(cors());
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`[server]: MoneyMakerService is running at https://localhost:${port}`);
