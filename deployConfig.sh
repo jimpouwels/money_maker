@@ -1,1 +1,0 @@
-scp config.json pouwels@192.168.0.123:/home/pouwels/projects/cashmailer
