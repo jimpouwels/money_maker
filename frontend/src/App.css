@@ -35,12 +35,27 @@ body {
   font-size: 2em;
 }
 
+.App-container {
+    width: 1000px;
+    margin: auto;
+}
+
 .Totals-container {
+  border: 2px dotted white;
   margin-left: 15px;
+  padding: 15px;
   float: left;
-  width: 500px;
+  width: 400px;
   height: 250px;
   color: black;
   overflow: auto;
   background-color: #4aa6bd;
+}
+
+.History-container {
+  margin-left: 15px;
+  border: 2px dotted white;
+  background-color: #4aa6bd;
+  width: 400px;
+  float: left;
 }

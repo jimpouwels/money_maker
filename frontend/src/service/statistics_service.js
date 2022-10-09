@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export async function getStatistics() {
-    return axios.get('http://localhost:9999/statistics_new');
+    return axios.get(`${process.env.REACT_APP_BACKEND_HOST}/statistics_new`);
 }
