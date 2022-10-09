@@ -7,21 +7,16 @@ import { getStatistics } from './service/statistics_service';
 function App({ }) {
 
     let initialized = false;
-    const [stuff, setStuff] = useState([]);
+    const [statistics, setStatistics] = useState([]);
 
     useEffect(() => {
         if (!initialized) {
-            initStatistics();
+            getStatistics().then(response => {
+              setStatistics(response.data);
+            });
             initialized = true;
         }
     }, []);
-
-    async function initStatistics() {
-        await getStatistics().then(response => {
-          console.log(response.data);
-          setStuff(response.data);
-        })
-    }
 
     return (
       <div>
@@ -29,10 +24,12 @@ function App({ }) {
             <p className='title'>Clix Dashboard</p>
         </div>
         <div className='App-container'>
-            <div className='App-body'>
-                <Totals data={stuff} />
-                <History history={stuff} />
-            </div>
+            {statistics &&
+              <div className='App-body'>
+                  <Totals data={statistics} />
+                  <History history={statistics} />
+              </div>
+            }
         </div>
       </div>
     )
