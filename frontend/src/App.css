@@ -11,12 +11,12 @@ body {
 }
 
 .App-header {
+  width: 50%;
+  text-align: center;
   height: 90px;
-  width: 100%;
-  overflow: auto;
-  display: block;
   font-size: calc(10px + 2vmin);
   color: white;
+  margin: auto;
 }
 
 .App-body {
@@ -58,4 +58,10 @@ body {
   background-color: #4aa6bd;
   width: 400px;
   float: left;
+  padding: 10px;
+}
+
+.History-container p {
+  font-size: 0.8em;
+  margin: 5px;
 }

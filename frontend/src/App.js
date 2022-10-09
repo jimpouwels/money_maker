@@ -24,14 +24,16 @@ function App({ }) {
     }
 
     return (
-      <div className='App-container'>
-          <div className="App-header">
-              <p className='title'>Clix Dashboard</p>
-          </div>
-          <div className='App-body'>
-              <Totals data={stuff} />
-              <History history={stuff} />
-          </div>
+      <div>
+        <div className="App-header">
+            <p className='title'>Clix Dashboard</p>
+        </div>
+        <div className='App-container'>
+            <div className='App-body'>
+                <Totals data={stuff} />
+                <History history={stuff} />
+            </div>
+        </div>
       </div>
     )
 }

@@ -12,7 +12,7 @@ export default function History({ history }) {
     return (
         <div className='History-container'>
             {clicks && clicks.map((click, index) => {
-                return <p key={`item-${index}`}>{click.name}</p>
+                return <p key={`item-${index}`}>{click.timestamp}: {click.name}</p>
             })}
         </div>
     );
