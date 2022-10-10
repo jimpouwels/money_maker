@@ -30,7 +30,12 @@ export default function Remote() {
                 <span>Remote Control</span>
             </div>
             <div className='container-body'>
-                <button disabled={isButtonDisabled} onClick={() => triggerMakeMoney()}>Make Money!</button>
+                <button disabled={isButtonDisabled} onClick={() => triggerMakeMoney()}>
+                    {isButtonDisabled ? 
+                        <img src={"./spinner.gif"} height="10" width="10" />
+                        : 'Make Money!'
+                    }
+                </button>
                 <span className="state-text">{state.state}{state.text ? ` - ${state.text}` : ''}</span>
             </div>
         </div>

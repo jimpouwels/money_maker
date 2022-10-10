@@ -99,7 +99,9 @@ button {
   background-color: rgb(12, 47, 58);
   border: 0px;
   color: white;
-  padding: 8px 15px 8px 15px;
+  padding: 8px 8px 8px 8px;
+  width: 100px;
+  height: 32px;
 }
 
 button:hover {
