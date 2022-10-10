@@ -28,7 +28,7 @@ export default function History({ history }) {
                     <tbody>
                         {clicks.map((click, index) => {
                             return <tr key={`item-${index}`}>
-                                        <td>{click.timestamp ? new Date(click.timestamp).toISOString(): ''}</td>
+                                        <td>{click.timestamp ? new Date(click.timestamp).toISOString().split('.')[0]: ''}</td>
                                         <td>{click.name}</td>
                                         <td>{click.subscriber}</td>
                                     </tr> 
