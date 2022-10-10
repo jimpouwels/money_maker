@@ -22,7 +22,10 @@ export default class QassaHandler extends Handler {
     }
     
     hasRedirected(page) {
-        return super.hasRedirected(page) && (!page.url().includes(this.hostname)) || page.url() === 'https://www.qassa.nl/';
+        return super.hasRedirected(page) &&
+            (!page.url().includes(this.hostname)) 
+            || page.url() === 'https://www.qassa.nl/'
+            || page.url() === 'https://www.qassa.nl/gratis';
     }
 
     filter(_mail) {
