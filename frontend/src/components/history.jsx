@@ -11,7 +11,7 @@ export default function History({ history }) {
     return (
         <div className='History-container container'>
             <div className="container-title">
-                <span>History</span>
+                <span>History (Last 100)</span>
             </div>
             <div className="container-body">
                 {clicks &&
