@@ -85,6 +85,10 @@ export default class GmailClient {
           }
     }
 
+    getUserId() {
+        return this.userId;
+    }
+
     createGetConfig(url, accessToken) {
         return {
             method: "get",

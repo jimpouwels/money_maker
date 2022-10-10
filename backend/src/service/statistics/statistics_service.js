@@ -8,11 +8,12 @@ export default class StatisticsService {
         this.statistics = this.statisticsStorage.getStatistics();
     }
 
-    addClick(name) {
+    addClick(name, subscriber) {
         this.statistics.totalClicks++;
         this.statistics.clicks.unshift({
             timestamp: Date.now(),
-            name: name
+            name: name,
+            subscriber: subscriber
         });
         if (this.statistics.clicks.length > 100) {
             this.statistics.clicks.length = 100;
