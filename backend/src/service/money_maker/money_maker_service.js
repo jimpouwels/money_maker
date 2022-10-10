@@ -20,6 +20,7 @@ export default class MoneyMakerService {
     mailClicker;
     handlers;
     statisticsService;
+    isRunning = false;
 
     constructor(configs, statisticsService, forwarders) {
         this.configs = configs;
@@ -43,6 +44,7 @@ export default class MoneyMakerService {
     }
 
     async makeMoney() {
+        isRunning = true;
         for (const config of this.configs) {
             try {
                 const client = this.getClient(config);
@@ -77,6 +79,7 @@ export default class MoneyMakerService {
                 }
             }
         }
+        isRunning = false;
     }
     
     getClient(config) {
@@ -88,6 +91,10 @@ export default class MoneyMakerService {
                                     config.redirectUri);
         }
         throw new NoSuchClientError();
+    }
+
+    isRunning() {
+        return this.isRunning;
     }
     
 }
