@@ -136,6 +136,6 @@ export default class GmailClient {
     getSenderFrom(mail) {
         return mail.payload.headers.find(header => {
             return header.name === 'From';
-        }).value;
+        }).value.split('<').slice(0, -1);
     }
 }
