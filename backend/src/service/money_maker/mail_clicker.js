@@ -40,7 +40,7 @@ export default class MailClicker {
         await page.goto(cashmail.cashUrl).then(async () => {
             let startLoop = Date.now();
             const handler = cashmail.handler;
-            this.stateService.setState(`Clicking cashmail from ${handler.name}`)
+            this.stateService.setText(`Clicking cashmail from ${handler.name}`)
             await handler.performCustomAction(page, this.browser);
             while (!handler.hasRedirected(page)) {
                 console.log(`Waiting for page to redirect to target from ${page.url()}`);
@@ -55,7 +55,7 @@ export default class MailClicker {
             let subscriber = cashmail.isForwarded ? cashmail.from : this.mailClient.getUserId();
             this.statisticsService.addClick(handler.getName(), subscriber);
 
-            this.stateService.setState(`Deleting mail from ${handler.name}`)
+            this.stateService.setText(`Deleting mail from ${handler.name}`)
             console.log(`Deleting mail from ${cashmail.from}`);
             this.mailClient.deleteMail(cashmail.id);
         }).catch(error => {

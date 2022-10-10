@@ -1,12 +1,25 @@
 export default class StateService {
 
-    currentState = "";
+    text = '';
+    state = 'Idle';
 
     setState(state) {
-        this.currentState = state;
+        this.state = state;
     }
 
     getState() {
-        return this.currentState;
+        return this.state;
+    }
+
+    setText(text) {
+        this.text = text;
+    }
+
+    getText() {
+        return this.text;
+    }
+
+    isRunning() {
+        return this.state === 'Running';
     }
 }

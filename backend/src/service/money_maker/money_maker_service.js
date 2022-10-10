@@ -21,7 +21,6 @@ export default class MoneyMakerService {
     handlers;
     statisticsService;
     stateService;
-    running = false;
 
     constructor(configs, statisticsService, forwarders, stateService) {
         this.configs = configs;
@@ -46,13 +45,13 @@ export default class MoneyMakerService {
     }
 
     async makeMoney() {
-        this.running = true;
         this.stateService.setState('Running');
+        this.stateService.setText('Initializing');
         for (const config of this.configs) {
             try {
-                this.stateService.setState(`Creating client for ${config.userId}`);
+                this.stateService.setText(`Creating client for ${config.userId}`);
                 const client = this.getClient(config);
-                this.stateService.setState(`Finding cashmails`);
+                this.stateService.setText(`Finding cashmails`);
                 let mailFilter = new MailFilter(this.handlers, client);
                 let mailClicker = new MailClicker(this.handlers, client, this.statisticsService, this.stateService);
         
@@ -83,7 +82,8 @@ export default class MoneyMakerService {
                     console.log(`ERROR: There was an unexpected error when making money:`, error);
                 }
             }
-            this.stateService.setState('');
+            this.stateService.setState('Idle');
+            this.stateService.setText('');
         }
         this.running = false;
     }
@@ -97,10 +97,6 @@ export default class MoneyMakerService {
                                     config.redirectUri);
         }
         throw new NoSuchClientError();
-    }
-
-    isRunning() {
-        return this.running;
     }
     
 }
