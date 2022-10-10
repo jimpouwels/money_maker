@@ -41,7 +41,7 @@ body {
 }
 
 .container {
-  background-color: #05d1e8;
+  background-color: #5fd4e3;
   margin-left: 15px;
   float: left;
 }
@@ -63,7 +63,6 @@ body {
   height: 250px;
   color: black;
   overflow: auto;
-  background-color: #05d1e8;
 }
 
 .History-container {
