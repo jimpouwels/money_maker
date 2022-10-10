@@ -10,10 +10,21 @@ function App() {
     const [statistics, setStatistics] = useState([]);
 
     useEffect(() => {
-        getStatistics().then(response => {
-          setStatistics(response.data);
-        });
+        const interval = setInterval(async () => {
+            initializeStatistics();
+        }, 5000);
+        return () => clearInterval(interval)
+    });
+
+    useEffect(() => {
+      initializeStatistics();
     }, []);
+
+    function initializeStatistics() {
+        getStatistics().then(response => {
+            setStatistics(response.data);
+        });
+    }
 
     return (
       <div>
