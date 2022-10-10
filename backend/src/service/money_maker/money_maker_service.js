@@ -44,7 +44,7 @@ export default class MoneyMakerService {
     }
 
     async makeMoney() {
-        running = true;
+        this.running = true;
         for (const config of this.configs) {
             try {
                 const client = this.getClient(config);
@@ -79,7 +79,7 @@ export default class MoneyMakerService {
                 }
             }
         }
-        running = false;
+        this.running = false;
     }
     
     getClient(config) {
