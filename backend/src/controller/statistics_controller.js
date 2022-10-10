@@ -1,7 +1,7 @@
 export default class StatisticsController {
 
     constructor(app, statisticsService) {
-        app.get('/statistics', (req, res) => {
+        app.get('/statistics', (_req, res) => {
             res.send(statisticsService.getStatistics());
         });
     }
