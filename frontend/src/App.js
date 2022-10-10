@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Totals from './components/totals';
 import History from './components/history';
-import { getStatistics } from './service/statistics_service';
+import Remote from './components/remote';
+import { getStatistics } from './service/backend_service';
 
-function App({ }) {
+function App() {
 
-    let initialized = false;
+    let initialized = useRef(false);
     const [statistics, setStatistics] = useState([]);
 
     useEffect(() => {
-        if (!initialized) {
+        if (!initialized.current) {
             getStatistics().then(response => {
               setStatistics(response.data);
             });
-            initialized = true;
+            initialized.current = true;
         }
     }, []);
 
@@ -26,8 +27,13 @@ function App({ }) {
         <div className='App-container'>
             {statistics &&
               <div className='App-body'>
-                  <Totals data={statistics} />
-                  <History history={statistics} />
+                  <div className='App-body-left'>
+                      <Totals data={statistics} />
+                      <Remote />
+                  </div>
+                  <div className='App-body-right'>
+                      <History history={statistics} />
+                  </div>
               </div>
             }
         </div>

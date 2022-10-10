@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export default function Totals({ data }) {
 
-    let initialized = false;
+    let initialized = useRef(false);
     const [statistics, setStatistics] = useState(data);
 
     useEffect(() => {
-        if (!initialized) {
+        if (!initialized.current) {
             setStatistics(data);
-            initialized = true;
+            initialized.current = true;
         }
     }, [data]);
 

@@ -7,7 +7,7 @@ import MoneyMakerController from './controller/money_maker_controller.js';
 import MoneyMakerService from './service/money_maker/money_maker_service.js';
 import config from './../config.js';
 import StatisticsController from './controller/statistics_controller.js';
-import StatisticsService from './service/statistics/statistics_service.js';
+import StatisticsService from './service/statistics_service.js';
 import bodyParser from 'body-parser';
 import StatisticsStorage from './storage/statistics_storage.js';
 import cors from 'cors';

@@ -11,7 +11,7 @@ body {
 }
 
 .App-container {
-    width: 1200px;
+    width: 1100px;
     margin: auto;
 }
 
@@ -32,6 +32,14 @@ body {
   overflow-y: auto;  
 }
 
+.App-body-left {
+  float: left;
+}
+
+.App-body-right {
+  float: right;
+}
+
 .title {
   padding: 0px;
   margin: 0px;
@@ -43,7 +51,6 @@ body {
 .container {
   background-color: #6cc3e0;
   margin-left: 15px;
-  float: left;
 }
 
 .container-title {
@@ -65,6 +72,16 @@ body {
   overflow: auto;
 }
 
+.Totals-container table {
+  font-size: 0.8em;
+}
+
+.Remote-container {
+  float: left;
+  margin-top: 15px;
+  width: 400px;
+}
+
 .History-container {
   width: 600px;
 }
@@ -80,4 +97,16 @@ body {
 
 .History-container th {
   text-align: left;
+}
+
+button {
+  background-color: rgb(12, 47, 58);
+  border: 0px;
+  color: white;
+  padding: 8px 15px 8px 15px;
+}
+
+button:hover {
+  background-color: #06667e;
+  cursor: pointer;
 }
