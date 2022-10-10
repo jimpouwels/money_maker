@@ -10,9 +10,32 @@ export default function History({ history }) {
 
     return (
         <div className='History-container'>
-            {clicks && clicks.map((click, index) => {
-                return <p key={`item-${index}`}>{click.timestamp ? new Date(click.timestamp).toISOString(): ''}: {click.name}</p>
-            })}
+            {clicks &&
+                <table cellPadding={5}>
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Timestamp
+                            </th>
+                            <th scope="col">
+                                From
+                            </th>
+                            <th scope="col">
+                                Account
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {clicks.map((click, index) => {
+                            return <tr key={`item-${index}`}>
+                                        <td>{click.timestamp ? new Date(click.timestamp).toISOString(): ''}</td>
+                                        <td>{click.name}</td>
+                                        <td>{click.subscriber}</td>
+                                    </tr> 
+                        })}
+                    </tbody>
+                </table>
+            }
         </div>
     );
 }

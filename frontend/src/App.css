@@ -10,6 +10,11 @@ body {
   background-color: #282c34;
 }
 
+.App-container {
+    width: 1200px;
+    margin: auto;
+}
+
 .App-header {
   width: 50%;
   text-align: center;
@@ -35,11 +40,6 @@ body {
   font-size: 2em;
 }
 
-.App-container {
-    width: 1000px;
-    margin: auto;
-}
-
 .Totals-container {
   border: 2px dotted white;
   margin-left: 15px;
@@ -56,12 +56,19 @@ body {
   margin-left: 15px;
   border: 2px dotted white;
   background-color: #4aa6bd;
-  width: 400px;
+  width: 600px;
   float: left;
   padding: 10px;
 }
 
-.History-container p {
+.History-container table {
   font-size: 0.8em;
+}
+
+.History-container td {
   margin: 5px;
+}
+
+.History-container th {
+  text-align: left;
 }
