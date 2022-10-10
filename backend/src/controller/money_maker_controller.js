@@ -5,6 +5,8 @@ export default class MoneyMakerController {
             if (!moneyMakerService.isRunning()) {
                 console.log(`[/make_money] Starting to make money!`);
                 moneyMakerService.makeMoney();
+            } else {
+                console.log('MoneyMaker is already running...');
             }
             res.end();
         });
