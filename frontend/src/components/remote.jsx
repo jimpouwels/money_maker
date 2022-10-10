@@ -8,7 +8,7 @@ export default function Remote() {
     useEffect(() => {
         const interval = setInterval(async () => {
             await getState().then(response => {
-                setState(response.data.state);
+                setState(response.data);
             });
         }, 1000);
         return () => clearInterval(interval)
@@ -25,7 +25,7 @@ export default function Remote() {
             </div>
             <div className='container-body'>
                 <button onClick={() => triggerMakeMoney()}>Make Money!</button>
-                <span className="state-text">{state}</span>
+                <span className="state-text">{state.state}{state.text ? ` - ${state.text}` : ''}</span>
             </div>
         </div>
     );

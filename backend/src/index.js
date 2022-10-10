@@ -36,6 +36,6 @@ const stateService = new StateService();
 console.log('Reading configurations...')
 const configs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'config.json')));
 const moneyMakerService = new MoneyMakerService(configs, statisticsService, forwarders, stateService);
-new MoneyMakerController(app, moneyMakerService);
+new MoneyMakerController(app, moneyMakerService, stateService);
 new StatisticsController(app, statisticsService);
 new StateController(app, stateService);

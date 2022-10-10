@@ -1,8 +1,8 @@
 export default class MoneyMakerController {
 
-    constructor(app, moneyMakerService) {
+    constructor(app, moneyMakerService, stateService) {
         app.post('/make_money', async (_req, res) => {
-            if (!moneyMakerService.isRunning()) {
+            if (!stateService.isRunning()) {
                 console.log(`[/make_money] Starting to make money!`);
                 moneyMakerService.makeMoney();
             } else {
