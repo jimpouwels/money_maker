@@ -7,16 +7,12 @@ import { getStatistics } from './service/backend_service';
 
 function App() {
 
-    let initialized = useRef(false);
     const [statistics, setStatistics] = useState([]);
 
     useEffect(() => {
-        if (!initialized.current) {
-            getStatistics().then(response => {
-              setStatistics(response.data);
-            });
-            initialized.current = true;
-        }
+        getStatistics().then(response => {
+          setStatistics(response.data);
+        });
     }, []);
 
     return (
