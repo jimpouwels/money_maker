@@ -109,10 +109,6 @@ button:hover {
   cursor: pointer;
 }
 
-button:disabled {
-  background-color: gray;
-}
-
 button:hover:disabled {
   cursor: default;
 }
