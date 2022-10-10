@@ -107,6 +107,14 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  background-color: gray;
+}
+
+button:hover:disabled {
+  cursor: default;
+}
+
 .state-text {
   margin-left: 10px;
   font-style: italic;

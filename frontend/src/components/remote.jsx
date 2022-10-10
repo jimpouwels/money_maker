@@ -4,6 +4,7 @@ import { getState, makeMoney } from "../service/backend_service";
 export default function Remote() {
 
     const [state, setState] = useState('');
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
 
     useEffect(() => {
         const interval = setInterval(async () => {
@@ -13,8 +14,13 @@ export default function Remote() {
         }, 1000);
         return () => clearInterval(interval)
     });
+
+    useEffect(() => {
+        setButtonDisabled(state.state === 'Running');
+    }, [state])
     
     function triggerMakeMoney() {
+        setButtonDisabled(true);
         makeMoney();
     }
     
@@ -24,7 +30,7 @@ export default function Remote() {
                 <span>Remote Control</span>
             </div>
             <div className='container-body'>
-                <button onClick={() => triggerMakeMoney()}>Make Money!</button>
+                <button disabled={isButtonDisabled} onClick={() => triggerMakeMoney()}>Make Money!</button>
                 <span className="state-text">{state.state}{state.text ? ` - ${state.text}` : ''}</span>
             </div>
         </div>
