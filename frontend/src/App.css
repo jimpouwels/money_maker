@@ -40,29 +40,39 @@ body {
   font-size: 2em;
 }
 
-.Totals-container {
-  border: 2px dotted white;
+.container {
+  background-color: #05d1e8;
   margin-left: 15px;
-  padding: 15px;
   float: left;
+}
+
+.container-title {
+  background-color: #034353;
+  color: white;
+  padding: 9px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.container-body {
+  padding: 10px;
+}
+
+.Totals-container {
   width: 400px;
   height: 250px;
   color: black;
   overflow: auto;
-  background-color: #4aa6bd;
+  background-color: #05d1e8;
 }
 
 .History-container {
-  margin-left: 15px;
-  border: 2px dotted white;
-  background-color: #4aa6bd;
   width: 600px;
-  float: left;
-  padding: 10px;
 }
 
 .History-container table {
   font-size: 0.8em;
+  color: black;
 }
 
 .History-container td {
