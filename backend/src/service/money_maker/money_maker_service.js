@@ -20,11 +20,13 @@ export default class MoneyMakerService {
     mailClicker;
     handlers;
     statisticsService;
+    stateService;
     running = false;
 
-    constructor(configs, statisticsService, forwarders) {
+    constructor(configs, statisticsService, forwarders, stateService) {
         this.configs = configs;
         this.statisticsService = statisticsService;
+        this.stateService = stateService;
         this.handlers = [];
         this.handlers.push(new ZinnGeldHandler('ZinnGeld', forwarders));
         this.handlers.push(new EuroClixHandler('EuroClix', forwarders));
@@ -45,11 +47,14 @@ export default class MoneyMakerService {
 
     async makeMoney() {
         this.running = true;
+        this.stateService.setState('Running');
         for (const config of this.configs) {
             try {
+                this.stateService.setState(`Creating client for ${config.userId}`);
                 const client = this.getClient(config);
+                this.stateService.setState(`Finding cashmails`);
                 let mailFilter = new MailFilter(this.handlers, client);
-                let mailClicker = new MailClicker(this.handlers, client, this.statisticsService);
+                let mailClicker = new MailClicker(this.handlers, client, this.statisticsService, this.stateService);
         
                 console.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
                 const allMails = await client.getCashMails(config.labelId)
@@ -78,6 +83,7 @@ export default class MoneyMakerService {
                     console.log(`ERROR: There was an unexpected error when making money:`, error);
                 }
             }
+            this.stateService.setState('');
         }
         this.running = false;
     }

@@ -5,16 +5,18 @@ import ThreadUtil from '../../util/thread_util.js';
 
 export default class MailClicker {
 
-    browser = null;
-    handlers = null;
-    mailClient = null;
-    statisticsService = null;
+    browser;
+    handlers;
+    mailClient;
+    statisticsService;
+    stateService;
     static CLICK_NAVIGATION_TIMEOUT = 30000;
 
-    constructor(handlers, mailClient, statisticsService) {
+    constructor(handlers, mailClient, statisticsService, stateService) {
         this.handlers = handlers;
         this.mailClient = mailClient;
         this.statisticsService = statisticsService;
+        this.stateService = stateService;
     }
 
     async openBrowser() {
@@ -38,6 +40,7 @@ export default class MailClicker {
         await page.goto(cashmail.cashUrl).then(async () => {
             let startLoop = Date.now();
             const handler = cashmail.handler;
+            this.stateService.setState(`Clicking cashmail from ${handler.name}`)
             await handler.performCustomAction(page, this.browser);
             while (!handler.hasRedirected(page)) {
                 console.log(`Waiting for page to redirect to target from ${page.url()}`);
@@ -51,6 +54,8 @@ export default class MailClicker {
 
             let subscriber = cashmail.isForwarded ? cashmail.from : this.mailClient.getUserId();
             this.statisticsService.addClick(handler.getName(), subscriber);
+
+            this.stateService.setState(`Deleting mail from ${handler.name}`)
             console.log(`Deleting mail from ${cashmail.from}`);
             this.mailClient.deleteMail(cashmail.id);
         }).catch(error => {

@@ -63,6 +63,7 @@ body {
 
 .container-body {
   padding: 10px;
+  font-size: 0.8em;
 }
 
 .Totals-container {
@@ -70,10 +71,6 @@ body {
   height: 250px;
   color: black;
   overflow: auto;
-}
-
-.Totals-container table {
-  font-size: 0.8em;
 }
 
 .Remote-container {
@@ -87,7 +84,6 @@ body {
 }
 
 .History-container table {
-  font-size: 0.8em;
   color: black;
 }
 
@@ -109,4 +105,8 @@ button {
 button:hover {
   background-color: #06667e;
   cursor: pointer;
+}
+
+.state-text {
+  margin-left: 10px;
 }
