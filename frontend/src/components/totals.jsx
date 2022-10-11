@@ -13,7 +13,7 @@ export default function Totals({ data }) {
     }
 
     function toString(number) {
-        return String(number).replace('.', ',')
+        return String(round(number)).replace('.', ',')
     }
 
     return (
@@ -30,11 +30,11 @@ export default function Totals({ data }) {
                         </tr>
                         <tr>
                             <th scope="row">Total profit (min):</th>
-                            <td>&euro; {toString(round(statistics.totalClicks * 0.005))}</td>
+                            <td>&euro; {toString(statistics.totalClicks * 0.005)}</td>
                         </tr>
                         <tr>
                             <th scope="row">Total profit (max):</th>
-                            <td>&euro; {toString(round(statistics.totalClicks * 0.01))}</td>
+                            <td>&euro; {toString(statistics.totalClicks * 0.01)}</td>
                         </tr>
                     </tbody>
                 </table>
