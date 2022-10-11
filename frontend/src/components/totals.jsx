@@ -8,6 +8,10 @@ export default function Totals({ data }) {
         setStatistics(data);
     }, [data]);
 
+    function round(number) {
+        return Math.round((number + Number.EPSILON) * 100) / 100
+    }
+
     return (
         <div className='Totals-container container'>
             <div className='container-title'>
@@ -22,11 +26,11 @@ export default function Totals({ data }) {
                         </tr>
                         <tr>
                             <th scope="row">Total profit (min):</th>
-                            <td>&euro; {String(statistics.totalClicks * 0.005)}</td>
+                            <td>&euro; {String(round(statistics.totalClicks * 0.005))}</td>
                         </tr>
                         <tr>
                             <th scope="row">Total profit (max):</th>
-                            <td>&euro; {String(statistics.totalClicks * 0.01)}</td>
+                            <td>&euro; {String(round(statistics.totalClicks * 0.01))}</td>
                         </tr>
                     </tbody>
                 </table>
