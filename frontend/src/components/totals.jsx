@@ -18,7 +18,15 @@ export default function Totals({ data }) {
                     <tbody>
                         <tr>
                             <th scope="row">Total number of clicks:</th>
-                            <td>{statistics.totalClicks}</td>
+                            <td>{String(statistics.totalClicks)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Total profit (min):</th>
+                            <td>&euro; {String(statistics.totalClicks * 0.005)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Total profit (max):</th>
+                            <td>&euro; {String(statistics.totalClicks * 0.01)}</td>
                         </tr>
                     </tbody>
                 </table>

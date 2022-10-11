@@ -33,7 +33,7 @@ export default function Remote() {
                 <button disabled={isButtonDisabled} onClick={() => triggerMakeMoney()}>
                     {isButtonDisabled ? 
                         <img src={"./spinner.gif"} height="10" width="10" />
-                        : 'Make Money!'
+                        : 'Make Money'
                     }
                 </button>
                 <span className="state-text">{state.state}{state.text ? ` - ${state.text}` : ''}</span>
