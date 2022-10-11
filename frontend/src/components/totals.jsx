@@ -12,6 +12,10 @@ export default function Totals({ data }) {
         return Math.round((number + Number.EPSILON) * 100) / 100
     }
 
+    function toString(number) {
+        return String(number).replace('.', ',')
+    }
+
     return (
         <div className='Totals-container container'>
             <div className='container-title'>
@@ -26,11 +30,11 @@ export default function Totals({ data }) {
                         </tr>
                         <tr>
                             <th scope="row">Total profit (min):</th>
-                            <td>&euro; {String(round(statistics.totalClicks * 0.005))}</td>
+                            <td>&euro; {toString(round(statistics.totalClicks * 0.005))}</td>
                         </tr>
                         <tr>
                             <th scope="row">Total profit (max):</th>
-                            <td>&euro; {String(round(statistics.totalClicks * 0.01))}</td>
+                            <td>&euro; {toString(round(statistics.totalClicks * 0.01))}</td>
                         </tr>
                     </tbody>
                 </table>
