@@ -18,15 +18,9 @@ export default function History({ statistics }) {
                     <table cellSpacing={10}>
                         <thead>
                             <tr>
-                                <th scope="col">
-                                    Timestamp
-                                </th>
-                                <th scope="col">
-                                    From
-                                </th>
-                                <th scope="col">
-                                    Account
-                                </th>
+                                <th scope="col">Timestamp</th>
+                                <th scope="col">From</th>
+                                <th scope="col">Account</th>
                             </tr>
                         </thead>
                         <tbody>
