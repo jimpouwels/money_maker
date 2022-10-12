@@ -2,10 +2,18 @@ import { useEffect, useState } from 'react';
 
 export default function Totals({ data }) {
 
-    const [statistics, setStatistics] = useState(data);
+    const [clixToday, setClixToday] = useState(0);
 
     useEffect(() => {
-        setStatistics(data);
+        let totalToday = 0;
+        let today = new Date();
+        for (const click of data.clicks) {
+            if (new Date(click.timestamp).toDateString() !== today.toDateString()) {
+                break;
+            }
+            totalToday++;
+        }
+        setClixToday(totalToday);
     }, [data]);
 
     function round(number) {
@@ -26,15 +34,19 @@ export default function Totals({ data }) {
                     <tbody>
                         <tr>
                             <th scope="row">Total number of clicks:</th>
-                            <td>{String(statistics.totalClicks)}</td>
+                            <td>{String(data.totalClicks)}</td>
                         </tr>
                         <tr>
                             <th scope="row">Total profit (min):</th>
-                            <td>&euro; {toString(statistics.totalClicks * 0.005)}</td>
+                            <td>&euro; {toString(data.totalClicks * 0.005)}</td>
                         </tr>
                         <tr>
                             <th scope="row">Total profit (max):</th>
-                            <td>&euro; {toString(statistics.totalClicks * 0.01)}</td>
+                            <td>&euro; {toString(data.totalClicks * 0.01)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Clix today:</th>
+                            <td>{clixToday}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-export default function History({ history }) {
+export default function History({ statistics }) {
 
-    const [clicks, setClicks] = useState([history])
+    const [clicks, setClicks] = useState([statistics])
 
     useEffect(() => {
-        setClicks(history.clicks);
-    }, [history]);
+        setClicks(statistics.clicks);
+    }, [statistics]);
 
     return (
         <div className='History-container container'>

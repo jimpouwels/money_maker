@@ -7,7 +7,7 @@ import { getStatistics } from './service/backend_service';
 
 function App() {
 
-    const [statistics, setStatistics] = useState([]);
+    const [statistics, setStatistics] = useState();
 
     useEffect(() => {
         const interval = setInterval(async () => {
@@ -39,7 +39,7 @@ function App() {
                       <Remote />
                   </div>
                   <div className='App-body-right'>
-                      <History history={statistics} />
+                      <History statistics={statistics} />
                   </div>
               </div>
             }
