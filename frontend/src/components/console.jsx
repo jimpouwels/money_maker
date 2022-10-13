@@ -11,7 +11,7 @@ export default function Console({ backendService }) {
                 setLogs(response.data);
             });
         }, 1000);
-    }, [])
+    }, [backendService])
 
     return (
         <div className='Console-container container'>

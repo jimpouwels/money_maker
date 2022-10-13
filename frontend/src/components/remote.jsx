@@ -12,7 +12,7 @@ export default function Remote({ backendService }) {
                 setState(response.data);
             });
         }, 1000);
-    }, []);
+    }, [backendService]);
 
     useEffect(() => {
         setButtonDisabled(state.state === 'Running');
