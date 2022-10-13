@@ -11,12 +11,16 @@ export default class BackendService {
     async makeMoney() {
         return axios.post(`${this.host}/make_money`);
     }
-    
+
     async getStatistics() {
         return axios.get(`${this.host}/statistics`);
     }
     
     async getState() {
         return axios.get(`${this.host}/state`);
+    }
+
+    async getLogs() {
+        return axios.get(`${this.host}/log`);
     }
 }

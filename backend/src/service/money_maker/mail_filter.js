@@ -1,3 +1,4 @@
+import LoggerService from "../logger_service.js";
 import NoCashmailsFoundError from "./error/no_cashmails_found_error.js";
 
 export default class MailFilter {
@@ -30,14 +31,14 @@ export default class MailFilter {
                     matchFound = true;
                     matchingMails.push(mail);
                     mail.handler = handler;
-                    console.log(`Found cashmail from ${mail.from}`);
+                    LoggerService.log(`Found cashmail from ${mail.from}`);
                     break handlersLoop;
                 }
             };
             if (!matchFound) {
-                console.log(`The mail from ${mail.from} and subject "${mail.subject}" is not a cashmail, deleting it`)
+                LoggerService.log(`The mail from ${mail.from} and subject "${mail.subject}" is not a cashmail, deleting it`)
                 this.mailClient.deleteMail(mail.id);
-                console.log(`Mail deleted`);
+                LoggerService.log(`Mail deleted`);
             }
         }
         return matchingMails;

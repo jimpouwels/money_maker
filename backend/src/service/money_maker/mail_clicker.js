@@ -2,6 +2,7 @@ import puppeteerCore from 'puppeteer-core';
 import puppeteer from 'puppeteer';
 import ClickNavigationTimedOutError from './error/click_navigation_timed_out_error.js';
 import ThreadUtil from '../../util/thread_util.js';
+import LoggerService from '../logger_service.js';
 
 export default class MailClicker {
 
@@ -32,41 +33,41 @@ export default class MailClicker {
 
     async click(cashmail) {
         if (!cashmail.cashUrl) {
-            console.log(`No cash URL's were found for cashmail from ${cashmail.from}`);
+            LoggerService.log(`No cash URL's were found for cashmail from ${cashmail.from}`);
             return;
         }
         let page = await this.browser.newPage();
-        console.log(`\nTrying to open the link '${cashmail.cashUrl}' from ${cashmail.from}`);
+        LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl}' from ${cashmail.from}`);
         await page.goto(cashmail.cashUrl).then(async () => {
             let startLoop = Date.now();
             const handler = cashmail.handler;
             this.stateService.setText(`Clicking cashmail from ${handler.name}`)
             await handler.performCustomAction(page, this.browser);
             while (!handler.hasRedirected(page)) {
-                console.log(`Waiting for page to redirect to target from ${page.url()}`);
+                LoggerService.log(`Waiting for page to redirect to target from ${page.url()}`);
                 await(ThreadUtil.sleep(1000));
                 if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
                     throw new ClickNavigationTimedOutError();
                 }
             }
-            console.log(`Redirected to ${page.url()}`);
-            console.log(`Saving statistic`);
+            LoggerService.log(`Redirected to ${page.url()}`);
+            LoggerService.log(`Saving statistic`);
 
             let subscriber = cashmail.isForwarded ? cashmail.from : this.mailClient.getUserId();
             this.statisticsService.addClick(handler.getName(), subscriber);
 
             this.stateService.setText(`Deleting mail from ${handler.name}`)
-            console.log(`Deleting mail from ${cashmail.from}`);
+            LoggerService.log(`Deleting mail from ${cashmail.from}`);
             this.mailClient.deleteMail(cashmail.id);
         }).catch(error => {
             if (error instanceof ClickNavigationTimedOutError) {
-                console.log(`WARNING: Waited ${MailClicker.CLICK_NAVIGATION_TIMEOUT} milliseconds, but the redirect didn't occur`);
+                LoggerService.log(`WARNING: Waited ${MailClicker.CLICK_NAVIGATION_TIMEOUT} milliseconds, but the redirect didn't occur`);
             } else {
-                console.log(`WARNING: There was an unknown error while navigation: ${error}`);
+                LoggerService.log(`WARNING: There was an unknown error while navigation: ${error}`);
             }
-            console.log(`Timed out waiting for redirect to target, preserving email for review`);
+            LoggerService.log(`Timed out waiting for redirect to target, preserving email for review`);
         }).finally(async () => {
-            console.log(`Closing all browser pages`);
+            LoggerService.log(`Closing all browser pages`);
             let allPages = (await this.browser.pages());
             for (let i = 0; i < allPages.length; i++) {
                 let pageToClose = allPages[i];

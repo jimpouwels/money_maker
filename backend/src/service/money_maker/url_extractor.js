@@ -1,8 +1,10 @@
+import LoggerService from "../logger_service.js";
+
 export default class UrlExtractor {
 
     extractUrls(cashmails) {
         for (const cashmail of cashmails) {
-            console.log(`Searching for links in ${cashmail.from}`);
+            LoggerService.log(`Searching for links in ${cashmail.from}`);
             cashmail.cashUrl = this.extractUrlFromHtml(cashmail.body, cashmail.handler);
         }
     }
@@ -10,7 +12,7 @@ export default class UrlExtractor {
     extractUrlFromHtml(body, handler) {
         const matches = body.matchAll('<a[^>]+href=\"(.*?)\"[^>]*>');
         if (matches.length < 1) {
-            console.log(`No cashlink found, did they change the URL format?`);
+            LoggerService.log(`No cashlink found, did they change the URL format?`);
         } else {
             for (const match of matches) {
                 const url = match[1];
@@ -21,6 +23,6 @@ export default class UrlExtractor {
                 }
             }
         }
-        console.log(`No URL found`);
+        LoggerService.log(`No URL found`);
     }
 }

@@ -13,11 +13,13 @@ import StatisticsStorage from './storage/statistics_storage.js';
 import cors from 'cors';
 import StateService from './service/state_service.js';
 import StateController from './controller/state_controller.js';
+import LoggerService from './service/logger_service.js';
+import LogController from './controller/log_controller.js';
 
 if (process.env.MACBOOK === 'true') {
-    console.log('Running on Macbook...');
+    LoggerService.log('Running on Macbook...');
 } else {
-    console.log('Running on RaspBerry');
+    LoggerService.log('Running on RaspBerry');
 }
 
 var app = express();
@@ -25,7 +27,7 @@ app.use(bodyParser.json())
 app.use(cors());
 const port = process.env.PORT;
 app.listen(port, () => {
-    console.log(`[server]: MoneyMakerService is running at https://localhost:${port}`);
+    LoggerService.log(`[server]: MoneyMakerService is running at https://localhost:${port}`);
 });
 
 const forwarders = ['quirinedeloyer_1200@hotmail.com'];
@@ -33,9 +35,10 @@ const forwarders = ['quirinedeloyer_1200@hotmail.com'];
 const statisticsService = new StatisticsService(new StatisticsStorage());
 const stateService = new StateService();
 
-console.log('Reading configurations...')
+LoggerService.log('Reading configurations...');
 const configs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'config.json')));
 const moneyMakerService = new MoneyMakerService(configs, statisticsService, forwarders, stateService);
 new MoneyMakerController(app, moneyMakerService, stateService);
 new StatisticsController(app, statisticsService);
 new StateController(app, stateService);
+new LogController(app);

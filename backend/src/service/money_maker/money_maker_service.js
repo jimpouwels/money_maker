@@ -12,6 +12,7 @@ import OnlineLeadsHandler from './handlers/onlineleads_handler.js';
 import ShopBuddiesHandler from './handlers/shopbuddies_handler.js';
 import OrangeBuddiesHandler from './handlers/orangebuddies_handler.js';
 import QassaHandler from './handlers/qassa_handler.js';
+import LoggerService from '../logger_service.js';
 
 export default class MoneyMakerService {
 
@@ -45,6 +46,7 @@ export default class MoneyMakerService {
     }
 
     async makeMoney() {
+        LoggerService.clear();
         this.stateService.setState('Running');
         this.stateService.setText('Initializing');
         for (const config of this.configs) {
@@ -55,31 +57,31 @@ export default class MoneyMakerService {
                 let mailFilter = new MailFilter(this.handlers, client);
                 let mailClicker = new MailClicker(this.handlers, client, this.statisticsService, this.stateService);
         
-                console.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
+                LoggerService.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
                 const allMails = await client.getCashMails(config.labelId)
                 const cashmails = mailFilter.filterCashMails(allMails);
         
-                console.log('\n---SCANNING CASH MAILS FOR URLS---');
+                LoggerService.log('\n---SCANNING CASH MAILS FOR URLS---');
                 this.urlExtractor.extractUrls(cashmails);
                 
-                console.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
+                LoggerService.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
                 await mailClicker.openBrowser();
                 for (const cashmail of cashmails) {
                     await mailClicker.click(cashmail);
                 };
                 await mailClicker.closeBrowser();
         
-                console.log('\nAll cash URL\'s were clicked!');
+                LoggerService.log('\nAll cash URL\'s were clicked!');
             } catch (error) {
                 if (error instanceof NoCashUrlsFoundError) {
-                    console.log('ERROR: There were cashmails, but no cash URL\'s were found');
+                    LoggerService.log('ERROR: There were cashmails, but no cash URL\'s were found');
                 } else if (error instanceof NoCashmailsFoundError) {
-                    console.log('No cashmails found at this time, done!');
+                    LoggerService.log('No cashmails found at this time, done!');
                 } else if (error instanceof NoSuchClientError) {
-                    console.log(`ERROR: Unknown mail type ${config.type}, skipping clicks for ${config.userId}`);
+                    LoggerService.log(`ERROR: Unknown mail type ${config.type}, skipping clicks for ${config.userId}`);
                     return;
                 } else {
-                    console.log(`ERROR: There was an unexpected error when making money:`, error);
+                    LoggerService.log(`ERROR: There was an unexpected error when making money:`, error);
                 }
             }
             this.stateService.setState('Idle');

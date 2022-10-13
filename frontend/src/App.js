@@ -36,7 +36,7 @@ function App() {
                             <History history={statistics.clicks} />
                         </div>
                         <div className="App-body-bottom">
-                            <Console />
+                            <Console backendService={backendService} />
                         </div>
                     </div>
                 }

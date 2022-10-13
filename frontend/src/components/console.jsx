@@ -1,4 +1,17 @@
-export default function History() {
+import { useEffect, useState } from "react";
+import Poller from "../service/poller";
+
+export default function Console({ backendService }) {
+
+    const [logs, setLogs] = useState([]);
+
+    useEffect(() => {
+        Poller.poll(() => {
+            backendService.getLogs().then(response => {
+                setLogs(response.data);
+            });
+        }, 1000);
+    }, [])
 
     return (
         <div className='Console-container container'>
@@ -7,9 +20,9 @@ export default function History() {
             </div>
             <div className="container-body">
                 <div className="console-container">
-                    <p>log line</p>
-                    <p>log line</p>
-                    <p>log line</p>
+                    {logs.map((log, index) => {
+                        return <p key={`log-${index}`}>{log}</p>
+                    })}
                 </div>
             </div>
         </div>
