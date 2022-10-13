@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import { getState, makeMoney } from "../service/backend_service";
 import Poller from "../service/poller";
 
-export default function Remote() {
+export default function Remote({ backendService }) {
 
     const [state, setState] = useState('');
     const [isButtonDisabled, setButtonDisabled] = useState(false);
 
     useEffect(() => {
         Poller.poll(async () => {
-            await getState().then(response => {
+            await backendService.getState().then(response => {
                 setState(response.data);
             });
         }, 1000);
@@ -21,7 +20,7 @@ export default function Remote() {
     
     function triggerMakeMoney() {
         setButtonDisabled(true);
-        makeMoney();
+        backendService.makeMoney();
     }
     
     return (

@@ -1,13 +1,22 @@
 import axios from 'axios';
 
-export async function makeMoney() {
-    return axios.post(`${process.env.REACT_APP_BACKEND_HOST}/make_money`);
-}
+export default class BackendService {
 
-export async function getStatistics() {
-    return axios.get(`${process.env.REACT_APP_BACKEND_HOST}/statistics`);
-}
+    host;
 
-export async function getState() {
-    return axios.get(`${process.env.REACT_APP_BACKEND_HOST}/state`);
+    constructor(host) {
+        this.host = host;
+    }
+
+    async makeMoney() {
+        return axios.post(`${this.host}/make_money`);
+    }
+    
+    async getStatistics() {
+        return axios.get(`${this.host}/statistics`);
+    }
+    
+    async getState() {
+        return axios.get(`${this.host}/state`);
+    }
 }

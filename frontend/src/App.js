@@ -3,12 +3,12 @@ import './App.css';
 import Totals from './components/totals';
 import History from './components/history';
 import Remote from './components/remote';
-import { getStatistics } from './service/backend_service';
+import BackendService, { getStatistics } from './service/backend_service';
 import Poller from './service/poller';
 
 function App() {
 
-    // const poller = new Poller();
+    const backendService = new BackendService(process.env.REACT_APP_BACKEND_HOST);
     const [statistics, setStatistics] = useState();
 
     useEffect(() => {
@@ -18,7 +18,7 @@ function App() {
     }, []);
 
     function initializeStatistics() {
-        getStatistics().then(response => {
+        backendService.getStatistics().then(response => {
             setStatistics(response.data);
         });
     }
@@ -33,7 +33,7 @@ function App() {
                     <div className='App-body'>
                         <div className='App-body-left'>
                             <Totals data={statistics} />
-                            <Remote />
+                            <Remote backendService={backendService} />
                         </div>
                          <div className='App-body-right'>
                             <History history={statistics.clicks} />
