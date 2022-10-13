@@ -3,7 +3,7 @@ import './App.css';
 import Totals from './components/totals';
 import History from './components/history';
 import Remote from './components/remote';
-import BackendService, { getStatistics } from './service/backend_service';
+import BackendService from './service/backend_service';
 import Poller from './service/poller';
 
 function App() {
