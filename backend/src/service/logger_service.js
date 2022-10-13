@@ -10,7 +10,7 @@ export default  class LoggerService {
     }
 
     static clear() {
-        this.lines = [];
+        this.LINES = [];
     }
 
     static getLines() {
