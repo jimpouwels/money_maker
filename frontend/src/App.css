@@ -115,6 +115,8 @@ body {
   background-color: #111111;
   color: #ffffff;
   padding: 8px;
+  height: 400px;
+  overflow-y: scroll;
 }
 
 .console-container p {
