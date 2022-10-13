@@ -29,7 +29,6 @@ body {
   padding: 0px;
   height: 100%;
   width: 100%;
-  overflow-y: auto;  
 }
 
 .App-body-left {
@@ -38,6 +37,13 @@ body {
 
 .App-body-right {
   float: right;
+}
+
+.App-body-bottom {
+  margin-top: 25px;
+  float: left;
+  height: 100px;
+  width: 100%;
 }
 
 .title {
@@ -70,15 +76,11 @@ body {
   width: 400px;
   height: 250px;
   color: black;
-  overflow: auto;
 }
 
 .Totals-container th {
   font-weight: bold;
   text-align: left;
-}
-
-.Totals-container td {
 }
 
 .Remote-container {
@@ -89,6 +91,7 @@ body {
 
 .History-container {
   width: 600px;
+  height: 600px;
 }
 
 .History-container table {
@@ -101,6 +104,21 @@ body {
 
 .History-container th {
   text-align: left;
+}
+
+.history-table {
+  overflow-y: scroll;
+  height: 540px;
+}
+
+.console-container {
+  background-color: #111111;
+  color: #ffffff;
+  padding: 8px;
+}
+
+.console-container p {
+  margin: 2px;
 }
 
 button {

@@ -14,25 +14,27 @@ export default function History({ history }) {
                 <span>History (Last 100)</span>
             </div>
             <div className="container-body">
-                <table cellSpacing={10}>
-                    <thead>
-                        <tr>
-                            <th scope="col">Timestamp</th>
-                            <th scope="col">From</th>
-                            <th scope="col">Account</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {clicks.map((click, index) => {
-                            return <tr key={`item-${index}`}>
-                                        <td>{click.timestamp ? new Date(click.timestamp).toISOString().split('.')[0]: ''}</td>
-                                        <td>{click.name}</td>
-                                        <td>{click.subscriber}</td>
-                                    </tr> 
-                        })}
-                    </tbody>
-                </table>
-        </div>
+                <div className="history-table">
+                    <table cellSpacing={10}>
+                        <thead>
+                            <tr>
+                                <th scope="col">Timestamp</th>
+                                <th scope="col">From</th>
+                                <th scope="col">Account</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {clicks.map((click, index) => {
+                                return <tr key={`item-${index}`}>
+                                            <td>{click.timestamp ? new Date(click.timestamp).toISOString().split('.')[0]: ''}</td>
+                                            <td>{click.name}</td>
+                                            <td>{click.subscriber}</td>
+                                        </tr> 
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
 }
