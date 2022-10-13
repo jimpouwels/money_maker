@@ -13,15 +13,11 @@ function App() {
 
     useEffect(() => {
         Poller.poll(async () => {
-            initializeStatistics();
+            backendService.getStatistics().then(response => {
+                setStatistics(response.data);
+            });
         }, 5000);
     }, []);
-
-    function initializeStatistics() {
-        backendService.getStatistics().then(response => {
-            setStatistics(response.data);
-        });
-    }
 
     return (
         <div>
