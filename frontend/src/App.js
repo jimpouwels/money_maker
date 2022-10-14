@@ -26,8 +26,6 @@ function App() {
             if (!statistics || tmpData.timestamp !== statistics.timestamp) {
                 setError(null);
                 setStatistics(tmpData);
-            } else {
-                console.log('up to date');
             }
         }
     }, [tmpData]);
