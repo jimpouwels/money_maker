@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Poller from "../service/poller";
 
 export default function Remote({ backendService }) {
 
@@ -7,16 +6,22 @@ export default function Remote({ backendService }) {
     const [isButtonDisabled, setButtonDisabled] = useState(false);
 
     useEffect(() => {
-        Poller.poll(async () => {
-            await backendService.getState().then(response => {
-                setState(response.data);
-            });
+        initialize();
+        const interval = setInterval(async () => {
+            await initialize();
         }, 1000);
+        return () => clearInterval(interval);
     }, [backendService]);
 
     useEffect(() => {
         setButtonDisabled(state.state === 'Running');
-    }, [state])
+    }, [state]);
+
+    async function initialize() {
+        await backendService.getState().then(response => {
+            setState(response.data);
+        });
+    }
     
     function triggerMakeMoney() {
         setButtonDisabled(true);

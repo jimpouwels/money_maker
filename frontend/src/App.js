@@ -5,7 +5,6 @@ import History from './components/history';
 import Remote from './components/remote';
 import Console from './components/console';
 import BackendService from './service/backend_service';
-import Poller from './service/poller';
 
 function App() {
 
@@ -15,26 +14,32 @@ function App() {
     const [error, setError] = useState();
 
     useEffect(() => {
-        Poller.poll(async () => {
-            await backendService.getStatistics().then(response => {
-                setTmpData(response.data);
-                setError(null);
-            }).catch(_error => {
-                setStatistics(null);
-                setError("Cannot connect to backend");
-            });
+        initialize();
+        const interval = setInterval(async () => {
+            await initialize();
         }, 5000);
+        return () => clearInterval(interval);
     }, []);
 
     useEffect(() => {
-        if (!tmpData) {
-            return;
+        if (tmpData) {
+            if (!statistics || tmpData.timestamp !== statistics.timestamp) {
+                setError(null);
+                setStatistics(tmpData);
+            } else {
+                console.log('up to date');
+            }
         }
-        if (!statistics || tmpData.timestamp !== statistics.timestamp) {
-            setStatistics(tmpData);
-        }
-        setTmpData(null);
     }, [tmpData]);
+
+    async function initialize() {
+        await backendService.getStatistics().then(response => {
+            setTmpData(response.data);
+        }).catch(_error => {
+            setStatistics(null);
+            setError("Cannot connect to backend");
+        });
+    }
 
     return (
         <div>

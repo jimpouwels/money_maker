@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
-import Poller from "../service/poller";
 
 export default function Console({ backendService }) {
 
     const [logs, setLogs] = useState([]);
 
     useEffect(() => {
-        Poller.poll(() => {
-            backendService.getLogs().then(response => {
-                setLogs(response.data);
-            });
+        initialize();
+        const interval = setInterval(async () => {
+            await initialize();
         }, 1000);
+        return () => clearInterval(interval);
     }, [backendService])
+
+    async function initialize() {
+        await backendService.getLogs().then(response => {
+            setLogs(response.data);
+        });
+    }
 
     return (
         <div className='Console-container container'>
