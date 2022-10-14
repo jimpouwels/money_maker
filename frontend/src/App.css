@@ -95,6 +95,10 @@ body {
   text-align: left;
 }
 
+.totals-table {
+  margin-bottom: 35px;
+}
+
 .totals-last-week .past {
   color: rgb(112, 112, 115);
 }

@@ -53,7 +53,7 @@ export default function Totals({ data }) {
                 <span>Overview</span>
             </div>
             <div className='container-body'>
-                <table>
+                <table className='totals-table' cellSpacing={5}>
                     <tbody>
                         <tr>
                             <th scope="row">Total clix:</th>
@@ -73,7 +73,6 @@ export default function Totals({ data }) {
                         </tr>
                     </tbody>
                 </table>
-                <p>Clix last week:</p>
                 <table cellSpacing={5} className="totals-last-week">
                     <tbody>
                         <tr>
