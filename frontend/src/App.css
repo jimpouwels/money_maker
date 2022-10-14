@@ -83,6 +83,23 @@ body {
   text-align: left;
 }
 
+.totals-last-week .past {
+  color: rgb(112, 112, 115);
+}
+
+.totals-last-week th, .totals-last-week td {
+  text-align: center;
+}
+
+.totals-last-week, .totals-last-week td, .totals-last-week th {
+  border: 1px solid #000000;
+  border-collapse: collapse;
+}
+
+.totals-last-week td, .totals-last-week th {
+  width: 50px;
+}
+
 .Remote-container {
   float: left;
   margin-top: 15px;

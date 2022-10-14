@@ -24,6 +24,12 @@ export default function Totals({ data }) {
         return String(round(number)).replace('.', ',')
     }
 
+    function getDayOfDaysAgo(daysAgo) {
+        let now = new Date();
+        now.setDate(now.getDate() - daysAgo);
+        return now.toLocaleDateString('en-US', { weekday: 'short' });
+    }
+
     return (
         <div className='Totals-container container'>
             <div className='container-title'>
@@ -47,6 +53,21 @@ export default function Totals({ data }) {
                         <tr>
                             <th scope="row">Maximum profit:</th>
                             <td>&euro; {toString(data.totalClicks * 0.01)}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Clix last week:</p>
+                <table cellSpacing={5} className="totals-last-week">
+                    <tbody>
+                        <tr>
+                            {[...Array(8)].map((e, i) => {
+                                return <th key={i} scope="col" className={i === 7 ? "today": "past"}>{getDayOfDaysAgo(7 - i)}</th>
+                            })}
+                        </tr>
+                        <tr>
+                            {[...Array(8)].map((e, i) => {
+                                return <td key={i}>0</td>
+                            })}       
                         </tr>
                     </tbody>
                 </table>
