@@ -12,11 +12,16 @@ function App() {
     const backendService = new BackendService(process.env.REACT_APP_BACKEND_HOST);
     const [tmpData, setTmpData] = useState();
     const [statistics, setStatistics] = useState();
+    const [error, setError] = useState();
 
     useEffect(() => {
         Poller.poll(async () => {
             await backendService.getStatistics().then(response => {
                 setTmpData(response.data);
+                setError(null);
+            }).catch(_error => {
+                setStatistics(null);
+                setError("Cannot connect to backend");
             });
         }, 5000);
     }, []);
@@ -28,6 +33,7 @@ function App() {
         if (!statistics || tmpData.timestamp !== statistics.timestamp) {
             setStatistics(tmpData);
         }
+        setTmpData(null);
     }, [tmpData]);
 
     return (
@@ -49,6 +55,9 @@ function App() {
                             <Console backendService={backendService} />
                         </div>
                     </div>
+                }
+                {error && 
+                    <div>error</div>
                 }
              </div>
       </div>
