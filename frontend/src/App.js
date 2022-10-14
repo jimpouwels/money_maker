@@ -10,15 +10,25 @@ import Poller from './service/poller';
 function App() {
 
     const backendService = new BackendService(process.env.REACT_APP_BACKEND_HOST);
+    const [tmpData, setTmpData] = useState();
     const [statistics, setStatistics] = useState();
 
     useEffect(() => {
         Poller.poll(async () => {
-            backendService.getStatistics().then(response => {
-                setStatistics(response.data);
+            await backendService.getStatistics().then(response => {
+                setTmpData(response.data);
             });
         }, 5000);
     }, []);
+
+    useEffect(() => {
+        if (!tmpData) {
+            return;
+        }
+        if (!statistics || tmpData.timestamp !== statistics.timestamp) {
+            setStatistics(tmpData);
+        }
+    }, [tmpData]);
 
     return (
         <div>

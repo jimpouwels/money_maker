@@ -2,11 +2,9 @@ export default class Poller {
 
     static TASKS = [];
 
-    static poll(taskFunction, intervalInMs) {
-        taskFunction();
-        Poller.TASKS.push(setInterval(async () => {
-            taskFunction();
-        }, intervalInMs));
+    static async poll(taskFunction, intervalInMs) {
+        await taskFunction();
+        Poller.TASKS.push(setInterval(async () => { await taskFunction()}, intervalInMs));
     }
 
 }

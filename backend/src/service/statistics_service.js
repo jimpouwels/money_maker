@@ -15,7 +15,7 @@ export default class StatisticsService {
             name: name,
             subscriber: subscriber
         });
-
+        this.statistics.timestamp = Date.now();
         this.statisticsStorage.updateStatistics(this.statistics);
     }
 

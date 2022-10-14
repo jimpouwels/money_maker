@@ -6,6 +6,7 @@ export default function Totals({ data }) {
     const [clixPerDay, setClixPerDay] = useState([]);
 
     useEffect(() => {
+        console.log('REFRESH TOTALS');
         let totalToday = 0;
         let today = new Date();
         for (const click of data.clicks) {
