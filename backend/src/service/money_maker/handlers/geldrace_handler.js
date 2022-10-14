@@ -21,4 +21,8 @@ export default class GeldraceHandler extends Handler {
         return false;
     }
 
+    matchMail(mail) {
+        return super.matchMail(mail) && !mail.body.includes('qassa');
+    }
+
 }

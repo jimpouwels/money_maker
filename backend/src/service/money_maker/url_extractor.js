@@ -23,6 +23,6 @@ export default class UrlExtractor {
                 }
             }
         }
-        LoggerService.log(`No URL found`);
+        LoggerService.log(`No URL found for ${handler.name}`);
     }
 }
