@@ -43,6 +43,7 @@ function App() {
         <div>
             <div className="App-header">
                 <p className='title'>Clix Dashboard</p>
+                <hr/>
             </div>
             <div className="App-container">
                 {statistics &&
