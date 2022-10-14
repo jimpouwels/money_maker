@@ -40,7 +40,7 @@ export default function Remote({ backendService }) {
                         : 'Make Money'
                     }
                 </button>
-                <span className="state-text">{state.state}{state.text ? ` - ${state.text}` : ''}</span>
+                <span className="state-text">{state.text}</span>
             </div>
         </div>
     );
