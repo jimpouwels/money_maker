@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 export default function Totals({ data }) {
 
     const [clixToday, setClixToday] = useState(0);
+    const [clixPerDay, setClixPerDay] = useState([]);
 
     useEffect(() => {
         let totalToday = 0;
@@ -14,7 +15,23 @@ export default function Totals({ data }) {
             totalToday++;
         }
         setClixToday(totalToday);
+        updateClixPerDay();
     }, [data]);
+
+    function updateClixPerDay() {
+        let clixPerDay = [];
+        for (let i = 7; i >= 0; i--) {
+            clixPerDay.push(0);
+            let dateToCompareTo = new Date();
+            dateToCompareTo.setDate(dateToCompareTo.getDate() - i);
+            for (let click of data.clicks) {
+                if (new Date(click.timestamp).toDateString() === dateToCompareTo.toDateString()) {
+                    clixPerDay[i]++;
+                }
+            }
+        }
+        setClixPerDay(clixPerDay);
+    }
 
     function round(number) {
         return Math.round((number + Number.EPSILON) * 100) / 100
@@ -66,7 +83,7 @@ export default function Totals({ data }) {
                         </tr>
                         <tr>
                             {[...Array(8)].map((e, i) => {
-                                return <td key={i}>0</td>
+                                return <td key={i}>{clixPerDay[7 - i]}</td>
                             })}       
                         </tr>
                     </tbody>

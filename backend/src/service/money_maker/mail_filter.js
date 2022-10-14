@@ -1,3 +1,4 @@
+import PlatformUtil from "../../util/platform_util.js";
 import LoggerService from "../logger_service.js";
 import NoCashmailsFoundError from "./error/no_cashmails_found_error.js";
 
@@ -36,8 +37,10 @@ export default class MailFilter {
                 }
             };
             if (!matchFound) {
-                LoggerService.log(`The mail from ${mail.from} and subject "${mail.subject}" is not a cashmail, deleting it`)
-                this.mailClient.deleteMail(mail.id);
+                if (!PlatformUtil.isDevelopment()) {
+                    LoggerService.log(`The mail from ${mail.from} and subject "${mail.subject}" is not a cashmail, deleting it`);
+                    this.mailClient.deleteMail(mail.id);
+                }
                 LoggerService.log(`Mail deleted`);
             }
         }

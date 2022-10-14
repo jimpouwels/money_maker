@@ -15,8 +15,9 @@ import StateService from './service/state_service.js';
 import StateController from './controller/state_controller.js';
 import LoggerService from './service/logger_service.js';
 import LogController from './controller/log_controller.js';
+import PlatformUtil from './util/platform_util.js';
 
-if (process.env.MACBOOK === 'true') {
+if (PlatformUtil.isDevelopment()) {
     LoggerService.log('Running on Macbook...');
 } else {
     LoggerService.log('Running on RaspBerry');

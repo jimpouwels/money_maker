@@ -69,6 +69,8 @@ export default class MoneyMakerService {
                 for (const cashmail of cashmails) {
                     await mailClicker.click(cashmail);
                 };
+                this.statisticsService.removeExpiredClicks();
+
                 await mailClicker.closeBrowser();
         
                 LoggerService.log('\nAll cash URL\'s were clicked!');

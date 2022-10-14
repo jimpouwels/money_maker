@@ -15,13 +15,27 @@ export default class StatisticsService {
             name: name,
             subscriber: subscriber
         });
-        if (this.statistics.clicks.length > 100) {
-            this.statistics.clicks.length = 100;
-        }
+
         this.statisticsStorage.updateStatistics(this.statistics);
     }
 
     getStatistics() {
         return this.statistics;
+    }
+
+    removeExpiredClicks(numberOfDays) {
+        let tooOld = new Date();
+        tooOld.setDate(tooOld.getDate() - numberOfDays);
+        tooOld.setUTCHours(0,0,0,0);
+
+        let newClicks = [];
+        for (let click of this.statistics.clicks) {
+            let clickDate = new Date(click.timestamp);
+            if (clickDate < tooOld) {
+                break;
+            }
+            newClicks.push(click);
+        }
+        this.statistics.clicks = newClicks;
     }
 }

@@ -3,6 +3,7 @@ import puppeteer from 'puppeteer';
 import ClickNavigationTimedOutError from './error/click_navigation_timed_out_error.js';
 import ThreadUtil from '../../util/thread_util.js';
 import LoggerService from '../logger_service.js';
+import PlatformUtil from '../../util/platform_util.js';
 
 export default class MailClicker {
 
@@ -57,8 +58,10 @@ export default class MailClicker {
             this.statisticsService.addClick(handler.getName(), subscriber);
 
             this.stateService.setText(`Deleting mail from ${handler.name}`)
-            LoggerService.log(`Deleting mail from ${cashmail.from}`);
-            this.mailClient.deleteMail(cashmail.id);
+            if (!PlatformUtil.isDevelopment()) {
+                LoggerService.log(`Deleting mail from ${cashmail.from}`);
+                this.mailClient.deleteMail(cashmail.id);
+            }
         }).catch(error => {
             if (error instanceof ClickNavigationTimedOutError) {
                 LoggerService.log(`WARNING: Waited ${MailClicker.CLICK_NAVIGATION_TIMEOUT} milliseconds, but the redirect didn't occur`);
@@ -80,7 +83,7 @@ export default class MailClicker {
     }
 
     async getBrowserByPlatform() {
-        if (process.env.MACBOOK === 'true') {
+        if (PlatformUtil.isDevelopment()) {
             return await puppeteer.launch({
                 headless: true,
                 args: this.getBrowserArgs()
