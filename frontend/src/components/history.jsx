@@ -11,7 +11,7 @@ export default function History({ history }) {
     return (
         <div className='History-container container'>
             <div className="container-title">
-                <span>History (Last 100)</span>
+                <span>History (Last week)</span>
             </div>
             <div className="container-body">
                 <div className="history-table">
