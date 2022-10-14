@@ -62,7 +62,7 @@ function App() {
                     </div>
                 }
                 {error && 
-                    <div>error</div>
+                    <div className="Error-container">Error: Could not connect to backend</div>
                 }
              </div>
       </div>

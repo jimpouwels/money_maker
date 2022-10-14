@@ -39,6 +39,16 @@ body {
   float: right;
 }
 
+.Error-container {
+  background-color: rgb(191, 145, 145);
+  text-align: center;
+  padding: 15px;
+  width: 350px;
+  margin: auto;
+  border: 4px solid rgb(63, 17, 17);
+  font-style: italic;
+}
+
 .App-body-bottom {
   margin-top: 25px;
   float: left;
