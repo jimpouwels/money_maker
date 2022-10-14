@@ -5,7 +5,6 @@ export default function History({ history }) {
     const [clicks, setClicks] = useState([history])
 
     useEffect(() => {
-        console.log('REFRESH HISTORY');
         setClicks(history);
     }, [history]);
 
