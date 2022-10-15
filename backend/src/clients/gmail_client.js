@@ -142,7 +142,7 @@ export default class GmailClient {
 
     getFrom(mail, sender) {
         if (this.forwarders.includes(sender)) {
-            return mail.snippet.match(/(?<=&lt;).+(?=&gt;)/)[0];
+            return this.getOriginatingFrom(mail);
         }
         return sender;
     }
@@ -155,5 +155,9 @@ export default class GmailClient {
         return mail.payload.headers.find(header => {
             return header.name === 'From';
         }).value.split('<')[1].slice(0, -1);
+    }
+
+    getOriginatingFrom(mail) {
+        return mail.snippet.match(/(?<=&lt;).+(?=&gt;)/)[0];
     }
 }
