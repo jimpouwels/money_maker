@@ -13,15 +13,15 @@ export default function History({ history, selectedDate }) {
         setCurrentDate(selectedDate);
     }, [selectedDate]);
 
+    function asFullDateString(date) {
+        return `${asDayString(date)} ${date.toLocaleDateString()}`;
+    }
+    
     function asDayString(date) {
         if (date.toLocaleDateString() === new Date().toLocaleDateString()) {
             return "for today";
         }
         return `on ${date.toLocaleDateString('en-US', { weekday: 'long' })}`;
-    }
-
-    function asDateString(date) {
-        return date.toLocaleDateString();
     }
 
     function filterSelectedDate(clicks) {
@@ -31,7 +31,7 @@ export default function History({ history, selectedDate }) {
     return (
         <div className='History-container container'>
             <div className="container-title">
-                <span>Clix {currentDate && asDayString(currentDate)} ({currentDate && asDateString(currentDate)})</span>
+                <span>Clix {currentDate && asFullDateString(currentDate)}</span>
             </div>
             <div className="container-body">
                 <div className="history-table">
