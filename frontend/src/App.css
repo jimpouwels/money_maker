@@ -99,7 +99,7 @@ body {
   margin-bottom: 35px;
 }
 
-.totals-last-week .past {
+.totals-last-week .unselected {
   color: rgb(112, 112, 115);
 }
 

@@ -77,7 +77,7 @@ export default function Totals({ data }) {
                     <tbody>
                         <tr>
                             {[...Array(8)].map((e, i) => {
-                                return <th key={i} scope="col" className={i === 7 ? "today": "past"}>{getDayOfDaysAgo(7 - i)}</th>
+                                return <th key={i} scope="col" className={i === 7 ? "": "unselected"}>{getDayOfDaysAgo(7 - i)}</th>
                             })}
                         </tr>
                         <tr>
