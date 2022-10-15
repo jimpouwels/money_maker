@@ -17,7 +17,7 @@ export default class QassaHandler extends Handler {
         return url.includes('/klik/');
     }
 
-    async performCustomAction(page, browser) {
+    async performCustomAction(_page, _browser) {
         
     }
     
