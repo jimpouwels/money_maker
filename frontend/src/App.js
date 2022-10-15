@@ -12,6 +12,7 @@ function App() {
     const [tmpData, setTmpData] = useState();
     const [statistics, setStatistics] = useState();
     const [error, setError] = useState();
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     useEffect(() => {
         initialize();
@@ -39,6 +40,10 @@ function App() {
         });
     }
 
+    function onDateSelected(selectedDate) {
+        setSelectedDate(selectedDate)
+    }
+
     return (
         <div>
             <div className="App-header">
@@ -49,11 +54,11 @@ function App() {
                 {statistics &&
                     <div className="App-body">
                         <div className="App-body-left">
-                            <Totals data={statistics} />
+                            <Totals data={statistics} onDateSelected={onDateSelected} />
                             <Remote backendService={backendService} />
                         </div>
                          <div className="App-body-right">
-                            <History history={statistics.clicks} />
+                            <History history={statistics.clicks} selectedDate={selectedDate} />
                         </div>
                         <div className="App-body-bottom">
                             <Console backendService={backendService} />

@@ -101,6 +101,7 @@ body {
 
 .totals-last-week .unselected {
   color: rgb(112, 112, 115);
+  cursor: pointer;
 }
 
 .totals-last-week th, .totals-last-week td {

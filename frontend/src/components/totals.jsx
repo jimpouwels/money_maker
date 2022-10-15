@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
-export default function Totals({ data }) {
+export default function Totals({ data, onDateSelected }) {
 
     const [clixToday, setClixToday] = useState(0);
     const [clixPerDay, setClixPerDay] = useState([]);
+    const [selectedDay, setSelectedDay] = useState(7);
 
     useEffect(() => {
         let totalToday = 0;
@@ -47,6 +48,15 @@ export default function Totals({ data }) {
         return now.toLocaleDateString('en-US', { weekday: 'short' });
     }
 
+    function selectDaysAgo(dayIndex) {
+        if (dayIndex !== selectedDay) {
+            setSelectedDay(dayIndex);
+            const selectedDate = new Date();
+            selectedDate.setDate(selectedDate.getDate() - Math.abs(dayIndex - 7));
+            onDateSelected(selectedDate)
+        }
+    }
+
     return (
         <div className='Totals-container container'>
             <div className='container-title'>
@@ -77,7 +87,7 @@ export default function Totals({ data }) {
                     <tbody>
                         <tr>
                             {[...Array(8)].map((e, i) => {
-                                return <th key={i} scope="col" className={i === 7 ? "": "unselected"}>{getDayOfDaysAgo(7 - i)}</th>
+                                return <th key={i} onClick={() => selectDaysAgo(i)} scope="col" className={i === selectedDay ? "": "unselected"}>{getDayOfDaysAgo(7 - i)}</th>
                             })}
                         </tr>
                         <tr>

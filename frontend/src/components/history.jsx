@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 
-export default function History({ history }) {
+export default function History({ history, selectedDate }) {
 
     const [clicks, setClicks] = useState([history])
-    const [today, setToday] = useState(new Date());
+    const [currentDate, setCurrentDate] = useState(new Date());
 
     useEffect(() => {
         setClicks(history);
     }, [history]);
+
+    useEffect(() => {
+        setCurrentDate(selectedDate);
+    }, [selectedDate]);
 
     function asDayString(date) {
         if (date.toLocaleDateString() === new Date().toLocaleDateString()) {
@@ -20,10 +24,14 @@ export default function History({ history }) {
         return date.toLocaleDateString();
     }
 
+    function filterSelectedDate(clicks) {
+        return clicks.filter(c => new Date(c.timestamp).toLocaleDateString() === currentDate.toLocaleDateString());
+    }
+
     return (
         <div className='History-container container'>
             <div className="container-title">
-                <span>Clix {today && asDayString(today)} ({today && asDateString(today)})</span>
+                <span>Clix {currentDate && asDayString(currentDate)} ({currentDate && asDateString(currentDate)})</span>
             </div>
             <div className="container-body">
                 <div className="history-table">
@@ -36,7 +44,7 @@ export default function History({ history }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {clicks.filter(c => new Date(c.timestamp).toLocaleDateString() === today.toLocaleDateString()).map((click, index) => {
+                            {filterSelectedDate(clicks).map((click, index) => {
                                 return <tr key={`item-${index}`}>
                                             <td>{click.timestamp ? new Date(click.timestamp).toISOString().split('.')[0]: ''}</td>
                                             <td>{click.name}</td>
