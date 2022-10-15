@@ -1,11 +1,9 @@
 export default class Handler {
 
     name;
-    forwarders;
 
-    constructor(name, forwarders) {
+    constructor(name) {
         this.name = name;
-        this.forwarders = forwarders;
     }
 
     getName() {
@@ -17,12 +15,7 @@ export default class Handler {
     }
 
     matchMail(mail) {
-        for (const forwarder of this.forwarders) {
-            if (mail.from.includes(forwarder)) {
-                mail.isForwarded = true;
-            }
-        }
-        return mail.body.toLowerCase().includes(this.name.toLowerCase());
+        return mail.from.toLowerCase().includes(this.name.toLowerCase());
     }
 
 }

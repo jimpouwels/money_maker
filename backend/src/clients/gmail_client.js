@@ -11,13 +11,15 @@ export default class GmailClient {
     clientSecret;
     refreshToken;
     redirectUri;
+    forwarders;
 
-    constructor(userId, clientId, clientSecret, refreshToken, redirectUri) {
+    constructor(userId, clientId, clientSecret, refreshToken, redirectUri, forwarders) {
         this.userId = userId;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.refreshToken = refreshToken;
         this.redirectUri = redirectUri;
+        this.forwarders = forwarders;
         this.createOAuth2Client();
     }
 
@@ -57,9 +59,10 @@ export default class GmailClient {
                 const config = this.createGetConfig(url, token.token);
                 return axios(config).then(response => {
                     const message = response.data;
-                    return new Mail(message.id, this.getSenderFrom(message), this.getBodyFrom(message), this.getSubjectFrom(message));
+                    let sender = this.getSender(message);
+                    return new Mail(message.id, this.getFrom(message, sender), this.getAccountFrom(sender), this.getBodyFrom(message), this.getSubjectFrom(message));
                 }).catch(error => {
-                    console.log(error.response.data);
+                    console.log(`Error loading mail: ${JSON.stringify(error)}`);
                 });
             });
           } catch (error) {
@@ -137,7 +140,18 @@ export default class GmailClient {
         }).value;
     }
 
-    getSenderFrom(mail) {
+    getFrom(mail, sender) {
+        if (this.forwarders.includes(sender)) {
+            return mail.snippet.match(/(?<=&lt;).+(?=&gt;)/)[0];
+        }
+        return sender;
+    }
+
+    getAccountFrom(sender) {
+        return this.forwarders.includes(sender) ? sender : this.userId;
+    }
+
+    getSender(mail) {
         return mail.payload.headers.find(header => {
             return header.name === 'From';
         }).value.split('<')[1].slice(0, -1);

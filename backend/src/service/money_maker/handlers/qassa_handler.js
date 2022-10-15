@@ -4,8 +4,8 @@ export default class QassaHandler extends Handler {
 
     hostname;
 
-    constructor(name, hostname, forwarders) {
-        super(name, forwarders);
+    constructor(name, hostname) {
+        super(name);
         this.hostname = hostname;
     }
 
@@ -24,8 +24,7 @@ export default class QassaHandler extends Handler {
     hasRedirected(page) {
         return super.hasRedirected(page) &&
             (!page.url().includes(this.hostname)) 
-            || page.url() === 'https://www.qassa.nl/'
-            || page.url() === 'https://www.qassa.nl/gratis';
+            || !page.url().includes('/klik/');
     }
 
     filter(_mail) {

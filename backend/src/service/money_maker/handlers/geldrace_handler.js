@@ -2,8 +2,8 @@ import Handler from "./handler.js";
 
 export default class GeldraceHandler extends Handler {
     
-    constructor(name, forwarders) {
-        super(name, forwarders);
+    constructor(name) {
+        super(name);
     }
 
     matchUrl(url) {

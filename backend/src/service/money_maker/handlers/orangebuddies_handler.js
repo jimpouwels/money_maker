@@ -16,8 +16,8 @@ export default class OrangeBuddiesHandler extends Handler {
         'Top deals deze week'
     ]
 
-    constructor(name, identifier, forwarders) {
-        super(name, forwarders);
+    constructor(name, identifier) {
+        super(name);
         this.identifier = identifier;
     }
 

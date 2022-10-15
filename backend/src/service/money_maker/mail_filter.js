@@ -32,7 +32,7 @@ export default class MailFilter {
                     matchFound = true;
                     matchingMails.push(mail);
                     mail.handler = handler;
-                    LoggerService.log(`Found cashmail from ${mail.from}`);
+                    LoggerService.log(`Found cashmail from ${mail.from} for account ${mail.account}`);
                     break handlersLoop;
                 }
             };

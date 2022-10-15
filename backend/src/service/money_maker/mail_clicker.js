@@ -54,8 +54,7 @@ export default class MailClicker {
             LoggerService.log(`Redirected to ${page.url()}`);
             LoggerService.log(`Saving statistic`);
 
-            let subscriber = cashmail.isForwarded ? cashmail.from : this.mailClient.getUserId();
-            this.statisticsService.addClick(handler.getName(), subscriber);
+            this.statisticsService.addClick(handler.getName(), cashmail.account);
 
             this.stateService.setText(`Deleting mail from ${handler.name}`)
             if (!PlatformUtil.isDevelopment()) {

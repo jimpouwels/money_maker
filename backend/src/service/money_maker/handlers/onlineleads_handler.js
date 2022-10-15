@@ -7,8 +7,8 @@ export default class OnlineLeadsHandler extends Handler {
     hostname;
     hasNewTabBug;
 
-    constructor(name, hostname, forwarders, hasNewTabBug = false) {
-        super(name, forwarders);
+    constructor(name, hostname, hasNewTabBug = false) {
+        super(name);
         this.hostname = hostname;
         this.hasNewTabBug = hasNewTabBug;
     }
