@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export default function Totals({ data, onDateSelected }) {
 
+    const MAX_HISTORY_IN_DAYS = 7;
     const [clixToday, setClixToday] = useState(0);
     const [clixPerDay, setClixPerDay] = useState([]);
     const [selectedDay, setSelectedDay] = useState(7);
@@ -21,7 +22,7 @@ export default function Totals({ data, onDateSelected }) {
 
     function updateClixPerDay() {
         let clixPerDay = [];
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i <= MAX_HISTORY_IN_DAYS; i++) {
             clixPerDay[i] = 0;
             let dateToCompareTo = new Date();
             dateToCompareTo.setDate(dateToCompareTo.getDate() - i);
@@ -86,13 +87,13 @@ export default function Totals({ data, onDateSelected }) {
                 <table cellSpacing={5} className="totals-last-week">
                     <tbody>
                         <tr>
-                            {[...Array(8)].map((e, i) => {
-                                return <th key={i} onClick={() => selectDaysAgo(i)} scope="col" className={i === selectedDay ? "": "unselected"}>{getDayOfDaysAgo(7 - i)}</th>
+                            {[...Array(MAX_HISTORY_IN_DAYS + 1)].map((e, i) => {
+                                return <th key={i} onClick={() => selectDaysAgo(i)} scope="col" className={i === selectedDay ? "": "unselected"}>{getDayOfDaysAgo(MAX_HISTORY_IN_DAYS - i)}</th>
                             })}
                         </tr>
                         <tr>
-                            {[...Array(8)].map((e, i) => {
-                                return <td key={i}>{clixPerDay[7 - i]}</td>
+                            {[...Array(MAX_HISTORY_IN_DAYS + 1)].map((e, i) => {
+                                return <td key={i}>{clixPerDay[MAX_HISTORY_IN_DAYS - i]}</td>
                             })}       
                         </tr>
                     </tbody>
