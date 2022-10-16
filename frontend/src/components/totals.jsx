@@ -21,7 +21,7 @@ export default function Totals({ data, onDateSelected }) {
 
     function updateClixPerDay() {
         let clixPerDay = [];
-        for (let i = 7; i >= 0; i--) {
+        for (let i = 0; i < 8; i++) {
             clixPerDay[i] = 0;
             let dateToCompareTo = new Date();
             dateToCompareTo.setDate(dateToCompareTo.getDate() - i);
