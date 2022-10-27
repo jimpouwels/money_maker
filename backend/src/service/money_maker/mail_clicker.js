@@ -57,13 +57,14 @@ export default class MailClicker {
         }).catch(error => {
             if (error instanceof ClickNavigationTimedOutError) {
                 LoggerService.log(`WARNING: Waited ${MailClicker.CLICK_NAVIGATION_TIMEOUT} milliseconds, but the redirect didn't occur`);
+                LoggerService.log(`Timed out waiting for redirect to target, preserving email for review`);
             } else if (error instanceof TimeoutError && cashmail.handler instanceof ZinnGeldHandler) {
                 LoggerService.log(`ZinnGeld timeout, which tends to happen from time to time, assuming clicking is successful`);
                 this.resolveClick(page, cashmail);
             } else {
                 LoggerService.log(`WARNING: There was an unknown error while navigation: ${error}`);
+                LoggerService.log(`Timed out waiting for redirect to target, preserving email for review`);
             }
-            LoggerService.log(`Timed out waiting for redirect to target, preserving email for review`);
         }).finally(async () => {
             LoggerService.log(`Closing all browser pages`);
             let allPages = (await this.browser.pages());
