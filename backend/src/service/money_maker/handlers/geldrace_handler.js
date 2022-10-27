@@ -7,7 +7,7 @@ export default class GeldraceHandler extends Handler {
     }
 
     matchUrl(url) {
-        return url.includes('geldrace') && url.includes("/c") && !url.includes('login');
+        return url.includes('geldrace') && url.includes("/clickout") && !url.includes('login');
     }
 
     async performCustomAction(_page, _browser) {
