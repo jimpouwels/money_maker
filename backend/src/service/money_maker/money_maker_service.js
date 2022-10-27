@@ -85,7 +85,7 @@ export default class MoneyMakerService {
                     LoggerService.log(`ERROR: Unknown mail type ${config.type}, skipping clicks for ${config.userId}`);
                     return;
                 } else {
-                    LoggerService.log(`ERROR: There was an unexpected error when making money:`, error);
+                    LoggerService.log(`ERROR: There was an unexpected error when making money`, error);
                 }
             }
             this.stateService.setState('Idle');
