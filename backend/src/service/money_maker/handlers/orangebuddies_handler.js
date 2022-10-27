@@ -29,7 +29,8 @@ export default class OrangeBuddiesHandler extends Handler {
     }
     
     hasRedirected(page) {
-        return super.hasRedirected(page) && !page.url().includes(`${this.identifier}.nl/`);
+        let url = page.url();
+        return super.hasRedirected(page) && (!url.includes(`${this.identifier}.nl/`) || (url.includes(this.identifier) && url.includes('login.php')));
     }
 
     filter(mail) {
