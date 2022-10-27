@@ -78,6 +78,7 @@ export default class MailClicker {
                 try {
                     await pageToClose.goto('about:blank');
                 } catch (error) {
+                    LoggerService.logError(`WARNING: An error occurred when navigating to about:blank before closing the tab`, error);
                 }
                 await pageToClose.close();
             }
