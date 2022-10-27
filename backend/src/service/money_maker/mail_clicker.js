@@ -5,6 +5,7 @@ import ThreadUtil from '../../util/thread_util.js';
 import LoggerService from '../logger_service.js';
 import PlatformUtil from '../../util/platform_util.js';
 import ZinnGeldHandler from './handlers/zinngeld_handler.js';
+import { TimeoutError } from 'puppeteer-core';
 
 export default class MailClicker {
 
