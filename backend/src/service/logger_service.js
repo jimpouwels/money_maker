@@ -3,10 +3,15 @@ export default  class LoggerService {
     static LINES = [];
 
     static log(msg) {
-        let finalMsg = new Date().toISOString();
-        finalMsg += ` ${msg}`;
-        console.log(finalMsg)
-        LoggerService.LINES.unshift(finalMsg);
+        let timestampedMsg = LoggerService.createTimestampedLogLine(msg);
+        console.log(timestampedMsg)
+        LoggerService.LINES.unshift(timestampedMsg);
+    }
+
+    static logError(msg, error) {
+        let timestampedMsg = LoggerService.createTimestampedLogLine(`${msg}: ${error}`);
+        console.log(msg, error)
+        LoggerService.LINES.unshift(timestampedMsg);
     }
 
     static clear() {
@@ -15,6 +20,10 @@ export default  class LoggerService {
 
     static getLines() {
         return LoggerService.LINES;
+    }
+
+    static createTimestampedLogLine(msg) {
+        return `${new Date().toISOString()} ${msg}`
     }
 
 }
