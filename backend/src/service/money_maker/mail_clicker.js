@@ -75,7 +75,10 @@ export default class MailClicker {
                 let pageToClose = allPages[i];
                 // WORKAROUND: Apparently memory is freed up in a faster/better way when navigation
                 // to 'about:blank'.
-                await pageToClose.goto('about:blank');
+                try {
+                    await pageToClose.goto('about:blank');
+                } catch (error) {
+                }
                 await pageToClose.close();
             }
         });
