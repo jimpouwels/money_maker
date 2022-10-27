@@ -4,6 +4,7 @@ import ClickNavigationTimedOutError from './error/click_navigation_timed_out_err
 import ThreadUtil from '../../util/thread_util.js';
 import LoggerService from '../logger_service.js';
 import PlatformUtil from '../../util/platform_util.js';
+import ZinnGeldHandler from './handlers/zinngeld_handler.js';
 
 export default class MailClicker {
 
@@ -51,19 +52,13 @@ export default class MailClicker {
                     throw new ClickNavigationTimedOutError();
                 }
             }
-            LoggerService.log(`Redirected to ${page.url()}`);
-            LoggerService.log(`Saving statistic`);
-
-            this.statisticsService.addClick(handler.getName(), cashmail.account);
-
-            this.stateService.setText(`Deleting mail from ${handler.name}`)
-            if (!PlatformUtil.isDevelopment()) {
-                LoggerService.log(`Deleting mail from ${cashmail.from}`);
-                this.mailClient.deleteMail(cashmail.id);
-            }
+            this.resolveClick(page, cashmail);
         }).catch(error => {
             if (error instanceof ClickNavigationTimedOutError) {
                 LoggerService.log(`WARNING: Waited ${MailClicker.CLICK_NAVIGATION_TIMEOUT} milliseconds, but the redirect didn't occur`);
+            } else if (error instanceof TimeoutError && cashmail.handler instanceof ZinnGeldHandler) {
+                LoggerService.log(`ZinnGeld timeout, which tends to happen from time to time, assuming clicking is successful`);
+                this.resolveClick(page, cashmail);
             } else {
                 LoggerService.log(`WARNING: There was an unknown error while navigation: ${error}`);
             }
@@ -83,6 +78,19 @@ export default class MailClicker {
                 await pageToClose.close();
             }
         });
+    }
+
+    resolveClick(page, cashmail) {
+        LoggerService.log(`Redirected to ${page.url()}`);
+        LoggerService.log(`Saving statistic`);
+
+        this.statisticsService.addClick(cashmail.handler.getName(), cashmail.account);
+
+        this.stateService.setText(`Deleting mail from ${cashmail.handler.name}`)
+        if (!PlatformUtil.isDevelopment()) {
+            LoggerService.log(`Deleting mail from ${cashmail.from}`);
+            this.mailClient.deleteMail(cashmail.id);
+        }
     }
 
     async getBrowserByPlatform() {
