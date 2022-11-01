@@ -14,7 +14,7 @@ export default class GeldraceHandler extends Handler {
     }
     
     hasRedirected(page, url) {
-        return super.hasRedirected(page, url) && !url.full.includes('https://www.geldrace.nl');
+        return super.hasRedirected(page, url) && url.host.includes('geldrace.nl');
     }
 
     filter(_mail) {

@@ -14,7 +14,7 @@ export default class ShopBuddiesHandler extends Handler {
     }
     
     hasRedirected(page, url) {
-        return super.hasRedirected(page, url) && !page.url().includes('shopbuddies.nl');
+        return super.hasRedirected(page, url) && !url.host.includes('shopbuddies.nl');
     }
 
     filter(_mail) {

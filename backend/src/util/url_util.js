@@ -6,7 +6,7 @@ export default class UrlUtil {
         let domainAndPath = parts[1].split('/');
         const domain = domainAndPath[0];
         const pathAndQueryString = domainAndPath.length > 1 ? domainAndPath[1].split('?') : [];
-        let path = pathAndQueryString.length > 0 ? pathAndQueryString[0] : '';
+        let path = pathAndQueryString.length > 0 ? `/${pathAndQueryString[0]}` : '/';
         let queryString = pathAndQueryString.length > 1 ? pathAndQueryString[1] : '';
         const queryParams = [];
         for (let queryParam of queryString.split('&')) {
