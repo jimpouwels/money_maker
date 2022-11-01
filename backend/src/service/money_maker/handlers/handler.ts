@@ -8,15 +8,15 @@ export default class Handler {
         this.name = name;
     }
 
-    getName() {
+    getName(): string {
         return this.name;
     }
 
-    hasRedirected(url: any) {
+    hasRedirected(url: any): boolean {
         return !url.full.includes('chrome-error');
     }
 
-    matchMail(mail: Mail) {
+    matchMail(mail: Mail): void {
         return mail.from.toLowerCase().includes(this.name.toLowerCase());
     }
 
