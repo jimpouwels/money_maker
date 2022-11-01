@@ -17,6 +17,8 @@ import LoggerService from './service/logger_service.js';
 import LogController from './controller/log_controller.js';
 import PlatformUtil from './util/platform_util.js';
 
+config();
+
 if (PlatformUtil.isDevelopment()) {
     LoggerService.log('Running on Macbook...');
 } else {
