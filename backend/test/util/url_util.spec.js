@@ -17,4 +17,9 @@ describe("url util", () => {
         expect(parsedURL.hasParam('param2')).toBeTruthy();
         expect(parsedURL.hasParam('param3')).toBeFalsy();
     });
+
+    it("should handle urls with double slashes correctly", () => {
+        let parsedURL = UrlUtil.parse('http://www.google.com0//thePath//test1/test2?param1=value1&amp;param2=value2');
+        expect(parsedURL.path).toEqual('/thePath/test1/test2');
+    })
 });

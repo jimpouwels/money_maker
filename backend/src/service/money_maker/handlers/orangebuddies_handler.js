@@ -14,7 +14,7 @@ export default class OrangeBuddiesHandler extends Handler {
     skipSubjects = [
         'Er is een nieuwe cashbackactie beschikbaar',
         'Top deals deze week'
-    ]
+    ];
 
     constructor(name, identifier) {
         super(name);

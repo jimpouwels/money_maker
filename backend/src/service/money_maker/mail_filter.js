@@ -37,8 +37,8 @@ export default class MailFilter {
                 }
             };
             if (!matchFound) {
+                LoggerService.log(`The mail from ${mail.from} and subject "${mail.subject}" is not a cashmail, deleting it`);
                 if (!PlatformUtil.isDevelopment()) {
-                    LoggerService.log(`The mail from ${mail.from} and subject "${mail.subject}" is not a cashmail, deleting it`);
                     this.mailClient.deleteMail(mail.id);
                 }
                 LoggerService.log(`Mail deleted`);

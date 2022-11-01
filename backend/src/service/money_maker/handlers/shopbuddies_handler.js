@@ -1,6 +1,10 @@
 import Handler from "./handler.js";
 
 export default class ShopBuddiesHandler extends Handler {
+    
+    skipSubjects = [
+        'ledenactie'
+    ];
 
     constructor(name) {
         super(name);
@@ -17,8 +21,8 @@ export default class ShopBuddiesHandler extends Handler {
         return super.hasRedirected(page, url) && !url.host.includes('shopbuddies.nl');
     }
 
-    filter(_mail) {
-        return false;
+    filter(mail) {
+        return this.skipSubjects.find(subject => mail.subject.toLowerCase().includes(subject)) != null;
     }
 
 }

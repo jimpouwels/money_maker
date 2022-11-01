@@ -1,5 +1,6 @@
 import UrlUtil from "../../util/url_util.js";
 import LoggerService from "../logger_service.js";
+import InvalidUrlError from "./error/invalid_url_error.js";
 
 export default class UrlExtractor {
 
@@ -16,10 +17,19 @@ export default class UrlExtractor {
             LoggerService.log(`No cashlink found, did they change the URL format?`);
         } else {
             for (const match of matches) {
-                const url = UrlUtil.parse(match[1]);
-                if (handler.matchUrl(url)) {
-                    console.log(`Found URL ${url}`);
-                    return url;
+                const foundMatch = match[1];
+                try {
+                    const url = UrlUtil.parse(foundMatch);
+                    if (handler.matchUrl(url)) {
+                        console.log(`Found URL ${url.full}`);
+                        return url;
+                    }
+                } catch (error) {
+                    if (error instanceof InvalidUrlError) {
+                        LoggerService.log(`URL ${foundMatch} is not a valid URL, skipping`);
+                    } else {
+                        LoggerService.logError(`Unable to find URL`, error);
+                    }
                 }
             }
         }
