@@ -13,48 +13,48 @@ export default class Url {
         return this._full;
     }
 
-    public set full(value: string) {
-        this._full = value;
+    public set full(full: string) {
+        this._full = full;
     }
 
     public get host(): string {
         return this._host;
     }
 
-    public set host(value: string) {
-        this._host = value;
+    public set host(host: string) {
+        this._host = host;
     }
 
     public get path(): string {
         return this._path;
     }
 
-    public set path(value: string) {
-        this._path = value;
+    public set path(path: string) {
+        this._path = path;
     }
 
     public get protocol(): string {
         return this._protocol;
     }
 
-    public set protocol(value: string) {
-        this._protocol = value;
+    public set protocol(protocol: string) {
+        this._protocol = protocol;
     }
 
     public get queryString(): string {
         return this._queryString;
     }
 
-    public set queryString(value: string) {
-        this._queryString = value;
+    public set queryString(queryString: string) {
+        this._queryString = queryString;
     }
 
     public get queryParams(): QueryParam[] {
         return this._queryParams;
     }
 
-    public set queryParams(value: QueryParam[]) {
-        this._queryParams = value;
+    public set queryParams(queryParams: QueryParam[]) {
+        this._queryParams = queryParams;
     }
 
     public hasParam(name: string): boolean {
