@@ -6,10 +6,6 @@ export default class QassaHandler extends Handler {
         super(name);
     }
 
-    getName() {
-        return this.name;
-    }
-
     matchUrl(url) {
         return url.path.includes('/klik/');
     }

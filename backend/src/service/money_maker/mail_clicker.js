@@ -6,7 +6,7 @@ import LoggerService from '../logger_service.js';
 import PlatformUtil from '../../util/platform_util.js';
 import ZinnGeldHandler from './handlers/zinngeld_handler.js';
 import { TimeoutError } from 'puppeteer-core';
-import UrlUtil from '../../util/url_util.js';
+import Url from '../../domain/url.js';
 
 export default class MailClicker {
 
@@ -47,7 +47,7 @@ export default class MailClicker {
             const handler = cashmail.handler;
             this.stateService.setText(`Clicking cashmail from ${handler.name}`)
             await handler.performCustomAction(page, cashmail.cashUrl, this.browser);
-            while (!handler.hasRedirected(UrlUtil.parse(page.url()))) {
+            while (!handler.hasRedirected(Url.parse(page.url()))) {
                 LoggerService.log(`Waiting for page to redirect to target from ${page.url()}`);
                 await(ThreadUtil.sleep(1000));
                 if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
@@ -91,7 +91,7 @@ export default class MailClicker {
         LoggerService.log(`Redirected to ${page.url()}`);
         LoggerService.log(`Saving statistic`);
 
-        this.statisticsService.addClick(cashmail.handler.getName(), cashmail.account);
+        this.statisticsService.addClick(cashmail.handler.name, cashmail.account);
 
         this.stateService.setText(`Deleting mail from ${cashmail.handler.name}`)
         if (!PlatformUtil.isDevelopment()) {

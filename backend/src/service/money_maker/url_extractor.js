@@ -1,4 +1,4 @@
-import UrlUtil from "../../util/url_util.js";
+import Url from "../../domain/url.js";
 import LoggerService from "../logger_service.js";
 import InvalidUrlError from "./error/invalid_url_error.js";
 
@@ -19,7 +19,7 @@ export default class UrlExtractor {
             for (const match of matches) {
                 const foundMatch = match[1];
                 try {
-                    const url = UrlUtil.parse(foundMatch);
+                    const url = Url.parse(foundMatch);
                     if (handler.matchUrl(url)) {
                         console.log(`Found URL ${url.full}`);
                         return url;

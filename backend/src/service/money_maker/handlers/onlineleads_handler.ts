@@ -1,36 +1,35 @@
+import { Browser, Page } from "../../../../node_modules/puppeteer/lib/types.js";
+import Mail from "../../../domain/mail.js";
+import Url from "../../../domain/url.js";
 import ThreadUtil from "../../../util/thread_util.js";
 import LoggerService from "../../logger_service.js";
 import Handler from "./handler.js";
 
 export default class OnlineLeadsHandler extends Handler {
 
-    hostname;
-    hasNewTabBug;
+    private hostname: string;
+    private hasNewTabBug: boolean;
 
-    constructor(name, hostname, hasNewTabBug = false) {
+    constructor(name: string, hostname: string, hasNewTabBug: boolean = false) {
         super(name);
         this.hostname = hostname;
         this.hasNewTabBug = hasNewTabBug;
     }
 
-    getName() {
-        return this.name;
-    }
-
-    matchUrl(url) {
+    public matchUrl(url: Url): boolean {
         return url.path.includes('/click/');
     }
 
-    async performCustomAction(page, _url, browser) {
+    public async performCustomAction(page: Page, _url: Url, browser: Browser): Promise<void> {
         const prePageCount = (await browser.pages()).length;
 
-        LoggerService.log(`${this.getName()} opens the newsletter in a webversion, another click is required`);
-        let button1Url = await page.evaluate(() => {
-            return document.getElementsByClassName('btn-green')[0].href;
+        LoggerService.log(`${this.name} opens the newsletter in a webversion, another click is required`);
+        let button1Url = await page.evaluate((): string => {
+            return document.getElementsByClassName('btn-green')[0].getAttribute('href');
         });
         await page.goto(button1Url);
 
-        LoggerService.log(`${this.getName()} opens another page with a button to be clicked, finding and clicking it`);
+        LoggerService.log(`${this.name} opens another page with a button to be clicked, finding and clicking it`);
         try {
             await page.waitForSelector('.btn-green', {timeout: 15000});
         } catch (error) {
@@ -65,14 +64,14 @@ export default class OnlineLeadsHandler extends Handler {
         }
     }
     
-    hasRedirected(url) {
+    public hasRedirected(url: Url): boolean {
         // after the final cash url has been clicked, its link opens in a new tab. As a result, the original 
         // tab redirects to 'https://www.${hostname}/gebruiker/. When that happens, we consider the
         // redirect to be successful.
         return super.hasRedirected(url) && url.path.startsWith('/gebruiker');
     }
 
-    filter(_mail) {
+    public filter(_mail: Mail): boolean {
         return false;
     }
 

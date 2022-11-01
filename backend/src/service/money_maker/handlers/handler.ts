@@ -2,21 +2,21 @@ import Mail from "../../../domain/mail";
 
 export default class Handler {
 
-    name: string;
+    private _name: string;
 
     constructor(name: string) {
-        this.name = name;
+        this._name = name;
     }
 
-    getName(): string {
-        return this.name;
+    public get name(): string {
+        return this._name;
     }
 
-    hasRedirected(url: any): boolean {
+    public hasRedirected(url: any): boolean {
         return !url.full.includes('chrome-error');
     }
 
-    matchMail(mail: Mail): void {
+    public matchMail(mail: Mail): boolean {
         return mail.from.toLowerCase().includes(this.name.toLowerCase());
     }
 
