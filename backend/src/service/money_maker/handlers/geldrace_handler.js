@@ -7,14 +7,14 @@ export default class GeldraceHandler extends Handler {
     }
 
     matchUrl(url) {
-        return url.includes('geldrace') && url.includes("/clickout") && !url.includes('login');
+        return url.host.includes('geldrace') && url.path.includes("/clickout") && !url.path.includes('login');
     }
 
-    async performCustomAction(_page, _browser) {
+    async performCustomAction(_page, _url, _browser) {
     }
     
-    hasRedirected(page) {
-        return super.hasRedirected(page) && !page.url().includes('https://www.geldrace.nl');
+    hasRedirected(page, url) {
+        return super.hasRedirected(page, url) && !url.full.includes('https://www.geldrace.nl');
     }
 
     filter(_mail) {

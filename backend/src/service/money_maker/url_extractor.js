@@ -1,3 +1,4 @@
+import UrlUtil from "../../util/url_util.js";
 import LoggerService from "../logger_service.js";
 
 export default class UrlExtractor {
@@ -15,11 +16,10 @@ export default class UrlExtractor {
             LoggerService.log(`No cashlink found, did they change the URL format?`);
         } else {
             for (const match of matches) {
-                const url = match[1];
+                const url = UrlUtil.parse(match[1]);
                 if (handler.matchUrl(url)) {
-                    let cashUrl = url.replaceAll('&amp;', '&');
-                    console.log(`Found URL ${cashUrl}`);
-                    return cashUrl;
+                    console.log(`Found URL ${url}`);
+                    return url;
                 }
             }
         }

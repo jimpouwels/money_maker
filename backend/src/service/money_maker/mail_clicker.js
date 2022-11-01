@@ -40,13 +40,13 @@ export default class MailClicker {
             return;
         }
         let page = await this.browser.newPage();
-        LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl}' from ${cashmail.from}`);
-        await page.goto(cashmail.cashUrl).then(async () => {
+        LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl.full}' from ${cashmail.from}`);
+        await page.goto(cashmail.cashUrl.full).then(async () => {
             let startLoop = Date.now();
             const handler = cashmail.handler;
             this.stateService.setText(`Clicking cashmail from ${handler.name}`)
-            await handler.performCustomAction(page, this.browser);
-            while (!handler.hasRedirected(page)) {
+            await handler.performCustomAction(page, cashmail.cashUrl, this.browser);
+            while (!handler.hasRedirected(page, cashmail.cashUrl)) {
                 LoggerService.log(`Waiting for page to redirect to target from ${page.url()}`);
                 await(ThreadUtil.sleep(1000));
                 if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {

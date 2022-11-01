@@ -1,7 +1,8 @@
 export default class UrlUtil {
 
     static parse(url) {
-        let parts = url.split('://');
+        let decodedUrl = url.replaceAll('&amp;', '&');
+        let parts = decodedUrl.split('://');
         let domainAndPath = parts[1].split('/');
         const domain = domainAndPath[0];
         const pathAndQueryString = domainAndPath.length > 1 ? domainAndPath[1].split('?') : [];
@@ -17,7 +18,11 @@ export default class UrlUtil {
             host: domain,
             path: path,
             queryString: queryString,
-            queryParams: queryParams
+            queryParams: queryParams,
+            full: decodedUrl,
+            hasParam: (name) => {
+                return queryParams.find(qp => qp.name === name) != null
+            }
         }
     }
 

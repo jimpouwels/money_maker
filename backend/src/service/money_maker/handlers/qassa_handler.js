@@ -2,11 +2,8 @@ import Handler from "./handler.js";
 
 export default class QassaHandler extends Handler {
 
-    hostname;
-
-    constructor(name, hostname) {
+    constructor(name) {
         super(name);
-        this.hostname = hostname;
     }
 
     getName() {
@@ -14,17 +11,15 @@ export default class QassaHandler extends Handler {
     }
 
     matchUrl(url) {
-        return url.includes('/klik/');
+        return url.path.includes('/klik/');
     }
 
-    async performCustomAction(_page, _browser) {
+    async performCustomAction(_page, _url, _browser) {
         
     }
     
-    hasRedirected(page) {
-        return super.hasRedirected(page) &&
-            (!page.url().includes(this.hostname)) 
-            || !page.url().includes('/klik/');
+    hasRedirected(page, url) {
+        return super.hasRedirected(page, url) && !url.host.includes('qassa');
     }
 
     filter(_mail) {

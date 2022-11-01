@@ -7,14 +7,14 @@ export default class ZinnGeldHandler extends Handler {
     }
 
     matchUrl(url) {
-        return url.includes('zinngeld') && url.includes('maillink');
+        return url.host.includes('zinngeld') && url.path.includes('maillink');
     }
 
-    async performCustomAction(_page, _browser) {
+    async performCustomAction(_page, _url, _browser) {
     }
     
-    hasRedirected(page) {
-        return super.hasRedirected(page) && true;
+    hasRedirected(page, url) {
+        return super.hasRedirected(page, url) && true;
     }
 
     filter(_mail) {

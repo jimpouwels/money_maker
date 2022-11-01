@@ -22,15 +22,14 @@ export default class OrangeBuddiesHandler extends Handler {
     }
 
     matchUrl(url) {
-        return url.includes(this.identifier) && url.includes('cm-l') && !url.includes('sid=');
+        return url.host.includes(this.identifier) && url.path.includes('cm-l') && !url.hasParam('sid');
     }
 
-    async performCustomAction(_page, _browser) {
+    async performCustomAction(_page, _url, _browser) {
     }
     
-    hasRedirected(page) {
-        let url = page.url();
-        return super.hasRedirected(page) && (!url.includes(`${this.identifier}.nl/`) || (url.includes(this.identifier) && url.includes('login.php')));
+    hasRedirected(page, url) {
+        return super.hasRedirected(page, url) && (!url.path.includes(this.identifier) || (url.path.includes(this.identifier) && url.path.includes('login.php')));
     }
 
     filter(mail) {

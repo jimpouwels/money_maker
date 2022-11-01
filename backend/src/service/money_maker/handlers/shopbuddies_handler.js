@@ -7,14 +7,14 @@ export default class ShopBuddiesHandler extends Handler {
     }
 
     matchUrl(url) {
-        return url.includes('shopbuddies') && url.includes('newsletter_exit');
+        return url.host.includes('shopbuddies') && url.path.includes('newsletter_exit');
     }
 
-    async performCustomAction(_page, _browser) {
+    async performCustomAction(_page, _url, _browser) {
     }
     
-    hasRedirected(page) {
-        return super.hasRedirected(page) && !page.url().includes('shopbuddies.nl');
+    hasRedirected(page, url) {
+        return super.hasRedirected(page, url) && !page.url().includes('shopbuddies.nl');
     }
 
     filter(_mail) {

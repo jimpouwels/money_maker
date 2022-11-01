@@ -18,10 +18,10 @@ export default class OnlineLeadsHandler extends Handler {
     }
 
     matchUrl(url) {
-        return url.includes('/click/');
+        return url.path.includes('/click/');
     }
 
-    async performCustomAction(page, browser) {
+    async performCustomAction(page, url, browser) {
         const prePageCount = (await browser.pages()).length;
 
         LoggerService.log(`${this.getName()} opens the newsletter in a webversion, another click is required`);
@@ -65,11 +65,11 @@ export default class OnlineLeadsHandler extends Handler {
         }
     }
     
-    hasRedirected(page) {
+    hasRedirected(page, url) {
         // after the final cash url has been clicked, its link opens in a new tab. As a result, the original 
         // tab redirects to 'https://www.${hostname}/gebruiker/. When that happens, we consider the
         // redirect to be successful.
-        return super.hasRedirected(page) && page.url() === `https://www.${this.hostname}/gebruiker/`;
+        return super.hasRedirected(page, url) && page.url() === `https://www.${this.hostname}/gebruiker/`;
     }
 
     filter(_mail) {

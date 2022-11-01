@@ -7,14 +7,14 @@ export default class EuroClixHandler extends Handler {
     }
 
     matchUrl(url) {
-        return url.includes('euroclix') && url.includes('reference');
+        return url.host.includes('euroclix.nl') && url.path.includes('reference');
     }
 
-    async performCustomAction(_page, _browser) {
+    async performCustomAction(_page, _url, _browser) {
     }
     
-    hasRedirected(page) {
-        return super.hasRedirected(page) && (!page.url().includes('euroclix.nl') || page.url().includes('utm_campaign'));
+    hasRedirected(page, url) {
+        return super.hasRedirected(page, url) && (!url.host.includes('euroclix.nl') || url.path.includes('utm_campaign'));
     }
 
     filter(_mail) {

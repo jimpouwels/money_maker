@@ -1,6 +1,6 @@
 export default class PlatformUtil {
 
     static isDevelopment() {
-        return process.env.MACBOOK === 'true';
+        return process.platform === 'darwin';
     }
 }
