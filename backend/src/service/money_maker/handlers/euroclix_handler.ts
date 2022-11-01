@@ -24,4 +24,8 @@ export default class EuroClixHandler extends Handler {
         return false;
     }
 
+    protected getSkipSubjects(): string[] {
+        return [];
+    }
+
 }

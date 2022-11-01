@@ -28,4 +28,8 @@ export default class GeldraceHandler extends Handler {
         return super.matchMail(mail) && !mail.body.includes('qassa');
     }
 
+    protected getSkipSubjects(): string[] {
+        return [];
+    }
+
 }

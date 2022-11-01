@@ -1,6 +1,6 @@
 import Mail from "../../../domain/mail";
 
-export default class Handler {
+export default abstract class Handler {
 
     private _name: string;
 
@@ -19,5 +19,7 @@ export default class Handler {
     public matchMail(mail: Mail): boolean {
         return mail.from.toLowerCase().includes(this.name.toLowerCase());
     }
+
+    protected abstract getSkipSubjects(): string[];
 
 }

@@ -75,4 +75,8 @@ export default class OnlineLeadsHandler extends Handler {
         return false;
     }
 
+    protected getSkipSubjects(): string[] {
+        return [];
+    }
+
 }
