@@ -18,8 +18,8 @@ export default class QassaHandler extends Handler {
         
     }
     
-    hasRedirected(page, url) {
-        return super.hasRedirected(page, url) && !url.host.includes('qassa');
+    hasRedirected(url) {
+        return super.hasRedirected(url) && !url.host.includes('qassa');
     }
 
     filter(_mail) {

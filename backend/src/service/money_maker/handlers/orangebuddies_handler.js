@@ -28,8 +28,8 @@ export default class OrangeBuddiesHandler extends Handler {
     async performCustomAction(_page, _url, _browser) {
     }
     
-    hasRedirected(page, url) {
-        return super.hasRedirected(page, url) && (!url.path.includes(this.identifier) || (url.path.includes(this.identifier) && url.path.includes('login.php')));
+    hasRedirected(url) {
+        return super.hasRedirected(url) && (!url.host.includes(this.identifier) || (url.host.includes(this.identifier) && url.path.includes('login.php')));
     }
 
     filter(mail) {

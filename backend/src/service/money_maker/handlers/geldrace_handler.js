@@ -13,8 +13,8 @@ export default class GeldraceHandler extends Handler {
     async performCustomAction(_page, _url, _browser) {
     }
     
-    hasRedirected(page, url) {
-        return super.hasRedirected(page, url) && url.host.includes('geldrace.nl');
+    hasRedirected(url) {
+        return super.hasRedirected(url) && url.host.includes('geldrace.nl');
     }
 
     filter(_mail) {

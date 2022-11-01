@@ -10,8 +10,8 @@ export default class Handler {
         return this.name;
     }
 
-    hasRedirected(page, url) {
-        return !page.url().includes('chrome-error');
+    hasRedirected(url) {
+        return !url.full.includes('chrome-error');
     }
 
     matchMail(mail) {

@@ -41,7 +41,6 @@ export default class MailFilter {
                 if (!PlatformUtil.isDevelopment()) {
                     this.mailClient.deleteMail(mail.id);
                 }
-                LoggerService.log(`Mail deleted`);
             }
         }
         return matchingMails;

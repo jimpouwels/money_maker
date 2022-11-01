@@ -13,8 +13,8 @@ export default class EuroClixHandler extends Handler {
     async performCustomAction(_page, _url, _browser) {
     }
     
-    hasRedirected(page, url) {
-        return super.hasRedirected(page, url) && (!url.host.includes('euroclix.nl') || url.path.includes('utm_campaign'));
+    hasRedirected(url) {
+        return super.hasRedirected(url) && (!url.host.includes('euroclix.nl') || url.path.includes('utm_campaign'));
     }
 
     filter(_mail) {

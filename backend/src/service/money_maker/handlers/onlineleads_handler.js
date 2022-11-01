@@ -65,11 +65,11 @@ export default class OnlineLeadsHandler extends Handler {
         }
     }
     
-    hasRedirected(page, url) {
+    hasRedirected(url) {
         // after the final cash url has been clicked, its link opens in a new tab. As a result, the original 
         // tab redirects to 'https://www.${hostname}/gebruiker/. When that happens, we consider the
         // redirect to be successful.
-        return super.hasRedirected(page, url) && url.path.startsWidth('/gebruiker');
+        return super.hasRedirected(url) && url.path.startsWidth('/gebruiker');
     }
 
     filter(_mail) {

@@ -47,7 +47,7 @@ export default class MailClicker {
             const handler = cashmail.handler;
             this.stateService.setText(`Clicking cashmail from ${handler.name}`)
             await handler.performCustomAction(page, cashmail.cashUrl, this.browser);
-            while (!handler.hasRedirected(page, UrlUtil.parse(page.url()))) {
+            while (!handler.hasRedirected(UrlUtil.parse(page.url()))) {
                 LoggerService.log(`Waiting for page to redirect to target from ${page.url()}`);
                 await(ThreadUtil.sleep(1000));
                 if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
@@ -63,7 +63,7 @@ export default class MailClicker {
                 this.resolveClick(page, cashmail);
                 return;
             } else {
-                LoggerService.log(`WARNING: There was an unknown error while navigation: ${error}`);
+                LoggerService.logError(`WARNING: There was an unknown error while navigation: ${error}`, error);
             }
             LoggerService.log(`Timed out waiting for redirect to target, preserving email for review`);
         }).finally(async () => {

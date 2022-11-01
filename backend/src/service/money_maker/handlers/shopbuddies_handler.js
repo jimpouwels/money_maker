@@ -17,8 +17,8 @@ export default class ShopBuddiesHandler extends Handler {
     async performCustomAction(_page, _url, _browser) {
     }
     
-    hasRedirected(page, url) {
-        return super.hasRedirected(page, url) && !url.host.includes('shopbuddies.nl');
+    hasRedirected(url) {
+        return super.hasRedirected(url) && !url.host.includes('shopbuddies.nl');
     }
 
     filter(mail) {

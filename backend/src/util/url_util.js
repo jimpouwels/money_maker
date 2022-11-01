@@ -4,7 +4,9 @@ export default class UrlUtil {
 
     static parse(url) {
         if (!url.includes('://')) {
-            throw new InvalidUrlError();
+            return {
+                full: url
+            };
         }
         let decodedUrl = url.replaceAll('&amp;', '&');
         let parts = decodedUrl.split('://');
