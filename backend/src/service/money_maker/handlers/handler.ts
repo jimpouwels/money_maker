@@ -1,8 +1,10 @@
+import Mail from "../../../domain/mail";
+
 export default class Handler {
 
-    name;
+    name: string;
 
-    constructor(name) {
+    constructor(name: string) {
         this.name = name;
     }
 
@@ -10,11 +12,11 @@ export default class Handler {
         return this.name;
     }
 
-    hasRedirected(url) {
+    hasRedirected(url: any) {
         return !url.full.includes('chrome-error');
     }
 
-    matchMail(mail) {
+    matchMail(mail: Mail) {
         return mail.from.toLowerCase().includes(this.name.toLowerCase());
     }
 
