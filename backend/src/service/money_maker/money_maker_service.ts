@@ -1,21 +1,21 @@
 import Handler from './handlers/handler';
 import StatisticsService from '../statistics_service';
 import StateService from '../state_service';
-import NoCashmailsFoundError from './error/no_cashmails_found_error.js';
-import UrlExtractor from './url_extractor.js';
-import MailClicker from './mail_clicker.js';
-import NoSuchClientError from './error/no_such_client_error.js';
-import ZinnGeldHandler from './handlers/zinngeld_handler.js';
-import EuroClixHandler from './handlers/euroclix_handler.js';
-import GeldraceHandler from './handlers/geldrace_handler.js';
-import OnlineLeadsHandler from './handlers/onlineleads_handler.js';
-import ShopBuddiesHandler from './handlers/shopbuddies_handler.js';
-import OrangeBuddiesHandler from './handlers/orangebuddies_handler.js';
-import QassaHandler from './handlers/qassa_handler.js';
-import LoggerService from '../logger_service.js';
-import GmailClient from '../../clients/gmail_client.js';
-import MailFilter from './mail_filter.js';
-import NoCashUrlsFoundError from './error/no_cashurls_found_error.js';
+import NoCashmailsFoundError from './error/no_cashmails_found_error';
+import UrlExtractor from './url_extractor';
+import MailClicker from './mail_clicker';
+import NoSuchClientError from './error/no_such_client_error';
+import ZinnGeldHandler from './handlers/zinngeld_handler';
+import EuroClixHandler from './handlers/euroclix_handler';
+import GeldraceHandler from './handlers/geldrace_handler';
+import OnlineLeadsHandler from './handlers/onlineleads_handler';
+import ShopBuddiesHandler from './handlers/shopbuddies_handler';
+import OrangeBuddiesHandler from './handlers/orangebuddies_handler';
+import QassaHandler from './handlers/qassa_handler';
+import LoggerService from '../logger_service';
+import GmailClient from '../../clients/gmail_client';
+import MailFilter from './mail_filter';
+import NoCashUrlsFoundError from './error/no_cashurls_found_error';
 
 export default class MoneyMakerService {
 

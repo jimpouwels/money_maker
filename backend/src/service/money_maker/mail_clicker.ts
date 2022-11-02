@@ -1,16 +1,16 @@
 import * as puppeteerCore from 'puppeteer-core';
 import puppeteer from 'puppeteer';
-import ClickNavigationTimedOutError from './error/click_navigation_timed_out_error.js';
-import ThreadUtil from '../../util/thread_util.js';
-import LoggerService from '../logger_service.js';
-import PlatformUtil from '../../util/platform_util.js';
-import ZinnGeldHandler from './handlers/zinngeld_handler.js';
-import Url from '../../domain/url.js';
-import Handler from './handlers/handler.js';
-import GmailClient from '../../clients/gmail_client.js';
-import StatisticsService from '../statistics_service.js';
-import StateService from '../state_service.js';
-import Mail from '../../domain/mail.js';
+import ClickNavigationTimedOutError from './error/click_navigation_timed_out_error';
+import ThreadUtil from '../../util/thread_util';
+import LoggerService from '../logger_service';
+import PlatformUtil from '../../util/platform_util';
+import ZinnGeldHandler from './handlers/zinngeld_handler';
+import Url from '../../domain/url';
+import Handler from './handlers/handler';
+import GmailClient from '../../clients/gmail_client';
+import StatisticsService from '../statistics_service';
+import StateService from '../state_service';
+import Mail from '../../domain/mail';
 
 export default class MailClicker {
 

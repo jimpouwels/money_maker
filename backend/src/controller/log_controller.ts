@@ -1,5 +1,5 @@
 import { Express, Request, Response } from 'express';
-import LoggerService from "../service/logger_service.js";
+import LoggerService from "../service/logger_service";
 
 export default class LogController {
 

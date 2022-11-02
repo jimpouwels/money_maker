@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import Statistics from '../domain/statistics.js';
-import Click from '../domain/click.js';
+import Statistics from '../domain/statistics';
+import Click from '../domain/click';
 
 type StatisticsEntity = { timestamp: number, clicks: any, totalClicks: number};
 type ClickEntity = { timestamp: number, name: string, account: string };

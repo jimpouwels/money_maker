@@ -1,4 +1,4 @@
-import Click from "../domain/click.js";
+import Click from "../domain/click";
 import Statistics from "../domain/statistics";
 import StatisticsStorage from "../storage/statistics_storage";
 

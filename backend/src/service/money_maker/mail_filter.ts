@@ -1,9 +1,9 @@
 import GmailClient from "../../clients/gmail_client.js";
-import Mail from "../../domain/mail.js";
-import PlatformUtil from "../../util/platform_util.js";
-import LoggerService from "../logger_service.js";
-import NoCashmailsFoundError from "./error/no_cashmails_found_error.js";
-import Handler from "./handlers/handler.js";
+import Mail from "../../domain/mail";
+import PlatformUtil from "../../util/platform_util";
+import LoggerService from "../logger_service";
+import NoCashmailsFoundError from "./error/no_cashmails_found_error";
+import Handler from "./handlers/handler";
 
 export default class MailFilter {
 

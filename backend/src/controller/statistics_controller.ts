@@ -1,7 +1,7 @@
 import { Express, Request, Response } from 'express';
-import Click from '../domain/click.js';
-import Statistics from '../domain/statistics.js';
-import StatisticsService from '../service/statistics_service.js';
+import Click from '../domain/click';
+import Statistics from '../domain/statistics';
+import StatisticsService from '../service/statistics_service';
 
 type StatisticsDto = { timestamp: number, clicks: any, totalClicks: number};
 type ClickDto = { timestamp: number, name: string, account: string };

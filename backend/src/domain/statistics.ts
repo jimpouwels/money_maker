@@ -1,4 +1,4 @@
-import Click from "./click.js";
+import Click from "./click";
 
 export default class Statistics {
 

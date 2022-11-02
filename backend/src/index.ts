@@ -4,17 +4,17 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
-import MoneyMakerController from './controller/money_maker_controller.js';
-import MoneyMakerService from './service/money_maker/money_maker_service.js';
-import config from '../config.js';
-import StatisticsController from './controller/statistics_controller.js';
-import StatisticsService from './service/statistics_service.js';
-import StatisticsStorage from './storage/statistics_storage.js';
-import StateService from './service/state_service.js';
-import StateController from './controller/state_controller.js';
-import LoggerService from './service/logger_service.js';
-import LogController from './controller/log_controller.js';
-import PlatformUtil from './util/platform_util.js';
+import MoneyMakerController from './controller/money_maker_controller';
+import MoneyMakerService from './service/money_maker/money_maker_service';
+import config from '../config';
+import StatisticsController from './controller/statistics_controller';
+import StatisticsService from './service/statistics_service';
+import StatisticsStorage from './storage/statistics_storage';
+import StateService from './service/state_service';
+import StateController from './controller/state_controller';
+import LoggerService from './service/logger_service';
+import LogController from './controller/log_controller';
+import PlatformUtil from './util/platform_util';
 
 config();
 

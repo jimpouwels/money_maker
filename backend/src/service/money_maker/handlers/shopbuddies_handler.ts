@@ -1,5 +1,5 @@
-import Url from "../../../domain/url.js";
-import Handler from "./handler.js";
+import Url from "../../../domain/url";
+import Handler from "./handler";
 
 export default class ShopBuddiesHandler extends Handler {
     

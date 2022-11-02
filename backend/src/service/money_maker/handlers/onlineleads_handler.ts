@@ -1,7 +1,7 @@
-import Url from "../../../domain/url.js";
-import ThreadUtil from "../../../util/thread_util.js";
-import LoggerService from "../../logger_service.js";
-import Handler from "./handler.js";
+import Url from "../../../domain/url";
+import ThreadUtil from "../../../util/thread_util";
+import LoggerService from "../../logger_service";
+import Handler from "./handler";
 
 export default class OnlineLeadsHandler extends Handler {
 

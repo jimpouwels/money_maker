@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Loads mails and clicks cashmails",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "copy-files": "cp .env ./dist && cp config.json ./dist",
     "start": "tsc && npm run copy-files && node ./dist/src/index.js",

@@ -1,8 +1,8 @@
-import Mail from "../../domain/mail.js";
-import Url from "../../domain/url.js";
-import LoggerService from "../logger_service.js";
-import InvalidUrlError from "./error/invalid_url_error.js";
-import Handler from "./handlers/handler.js";
+import Mail from "../../domain/mail";
+import Url from "../../domain/url";
+import LoggerService from "../logger_service";
+import InvalidUrlError from "./error/invalid_url_error";
+import Handler from "./handlers/handler";
 
 export default class UrlExtractor {
 
