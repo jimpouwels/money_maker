@@ -3,6 +3,9 @@ import Click from '../domain/click.js';
 import Statistics from '../domain/statistics.js';
 import StatisticsService from '../service/statistics_service.js';
 
+type StatisticsDto = { timestamp: number, clicks: any, totalClicks: number};
+type ClickDto = { timestamp: number, name: string, account: string };
+
 export default class StatisticsController {
 
     constructor(app: Express, statisticsService: StatisticsService) {
@@ -11,7 +14,7 @@ export default class StatisticsController {
         });
     }
 
-    private toStatisticsDto(statistics: Statistics): any {
+    private toStatisticsDto(statistics: Statistics): StatisticsDto {
         return {
             totalClicks: statistics.totalClicks,
             timestamp: statistics.timestamp,
@@ -19,7 +22,7 @@ export default class StatisticsController {
         }
     }
 
-    private toClicksDto(clicks: Click[]): any {
+    private toClicksDto(clicks: Click[]): ClickDto[] {
         const flattenedClicks = [];
         for (const click of clicks) {
             flattenedClicks.push({

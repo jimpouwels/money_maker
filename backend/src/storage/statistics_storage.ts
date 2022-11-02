@@ -2,7 +2,9 @@ import path from 'path';
 import fs from 'fs';
 import Statistics from '../domain/statistics.js';
 import Click from '../domain/click.js';
-import Flattener from '../util/flattener.js';
+
+type StatisticsEntity = { timestamp: number, clicks: any, totalClicks: number};
+type ClickEntity = { timestamp: number, name: string, account: string };
 
 export default class StatisticsStorage {
 
@@ -21,7 +23,7 @@ export default class StatisticsStorage {
         fs.writeFileSync(path.join(process.cwd(), 'statistics.json'), JSON.stringify(this.toStatisticsDbEntity(statistics)));
     }
 
-    private toStatisticsDbEntity(statistics: Statistics): any {
+    private toStatisticsDbEntity(statistics: Statistics): StatisticsEntity {
         return {
             totalClicks: statistics.totalClicks,
             timestamp: statistics.timestamp,
@@ -29,7 +31,7 @@ export default class StatisticsStorage {
         }
     }
 
-    private toClicksDbEntity(clicks: Click[]): any {
+    private toClicksDbEntity(clicks: Click[]): ClickEntity[] {
         const flattenedClicks = [];
         for (const click of clicks) {
             flattenedClicks.push({
