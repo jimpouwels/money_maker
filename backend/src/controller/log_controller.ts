@@ -1,9 +1,10 @@
+import { Express, Request, Response } from 'express';
 import LoggerService from "../service/logger_service.js";
 
 export default class LogController {
 
-    constructor(app) {
-        app.get('/log', async (_req, res) => {
+    public constructor(app: Express) {
+        app.get('/log', async (_req: Request, res: Response) => {
             res.send(LoggerService.getLines());
         });
     }

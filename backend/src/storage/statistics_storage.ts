@@ -18,8 +18,26 @@ export default class StatisticsStorage {
     }
 
     public updateStatistics(statistics: Statistics): void {
-        fs.writeFileSync(path.join(process.cwd(), 'statistics.json'), JSON.stringify(Flattener.flattenStatistics(statistics)));
+        fs.writeFileSync(path.join(process.cwd(), 'statistics.json'), JSON.stringify(this.toStatisticsDbEntity(statistics)));
     }
 
-    
+    private toStatisticsDbEntity(statistics: Statistics): any {
+        return {
+            totalClicks: statistics.totalClicks,
+            timestamp: statistics.timestamp,
+            clicks: this.toClicksDbEntity(statistics.clicks)
+        }
+    }
+
+    private toClicksDbEntity(clicks: Click[]): any {
+        const flattenedClicks = [];
+        for (const click of clicks) {
+            flattenedClicks.push({
+                timestamp: click.timestamp,
+                name: click.name,
+                account: click.account
+            })
+        }
+        return flattenedClicks;
+    }
 }
