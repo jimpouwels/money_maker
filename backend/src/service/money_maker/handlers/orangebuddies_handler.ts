@@ -7,7 +7,7 @@ export default class OrangeBuddiesHandler extends Handler {
 
     private _identifier: string;
 
-    constructor(name: string, identifier: string) {
+    public constructor(name: string, identifier: string) {
         super(name);
         this.identifier = identifier;
     }

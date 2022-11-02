@@ -4,7 +4,7 @@ export default abstract class Handler {
 
     private _name: string;
 
-    constructor(name: string) {
+    public constructor(name: string) {
         this.name = name;
     }
 

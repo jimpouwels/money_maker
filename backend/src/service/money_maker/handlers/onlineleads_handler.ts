@@ -10,7 +10,7 @@ export default class OnlineLeadsHandler extends Handler {
     private hostname: string;
     private hasNewTabBug: boolean;
 
-    constructor(name: string, hostname: string, hasNewTabBug: boolean = false) {
+    public constructor(name: string, hostname: string, hasNewTabBug: boolean = false) {
         super(name);
         this.hostname = hostname;
         this.hasNewTabBug = hasNewTabBug;

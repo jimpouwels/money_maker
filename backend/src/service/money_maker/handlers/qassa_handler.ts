@@ -5,7 +5,7 @@ import Handler from "./handler.js";
 
 export default class QassaHandler extends Handler {
 
-    constructor(name: string) {
+    public constructor(name: string) {
         super(name);
     }
 
