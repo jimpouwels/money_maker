@@ -1,0 +1,1 @@
+scp ./dist raspberry:~/projects/money_maker/backend
