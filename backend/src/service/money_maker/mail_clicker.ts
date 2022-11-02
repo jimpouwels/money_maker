@@ -46,7 +46,7 @@ export default class MailClicker {
         }
         let page = await this.browser.newPage();
         LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl.full}' from ${cashmail.from}`);
-        await page.goto(cashmail.cashUrl.full).then(async () => {
+        await page.goto(cashmail.cashUrl.full, { waitUntil: 'load', timeout: 0 }).then(async () => {
             let startLoop = Date.now();
             const handler = cashmail.handler;
             this.stateService.text = `Clicking cashmail from ${handler.name}`;
