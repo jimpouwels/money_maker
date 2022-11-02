@@ -67,7 +67,7 @@ export default class MailClicker {
                 this.resolveClick(page, cashmail);
                 return;
             } else {
-                LoggerService.logError(`WARNING: There was an unknown error while navigation: ${error}`, error);
+                LoggerService.logError(`WARNING: There was an unknown error while navigating: ${error}`, error);
             }
             LoggerService.log(`Timed out waiting for redirect to target, preserving email for review`);
         }).finally(async () => {
