@@ -1,3 +1,6 @@
+import Handler from "../service/money_maker/handlers/handler";
+import Url from "./url";
+
 export default class Mail {
 
     private _id: string;
@@ -5,7 +8,8 @@ export default class Mail {
     private _account: string;
     private _body: string;
     private _subject: string;
-    private _cashUrl: string;
+    private _cashUrl: Url;
+    private _handler: Handler;
 
     constructor(id: string, from: string, account: string, body: string, subject: string) {
         this.id = id;
@@ -55,12 +59,20 @@ export default class Mail {
         this._subject = subject;
     }
 
-    public get cashUrl(): string {
+    public get cashUrl(): Url {
         return this._cashUrl;
     }
 
-    public set cashUrl(cashUrl: string) {
+    public set cashUrl(cashUrl: Url) {
         this._cashUrl = cashUrl;
+    }
+
+    public get handler(): Handler {
+        return this._handler;
+    }
+
+    public set handler(handler: Handler) {
+        this._handler = handler;
     }
 
 }

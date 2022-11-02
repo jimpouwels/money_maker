@@ -1,13 +1,23 @@
-import Click from "./click";
+import Click from "./click.js";
 
 export default class Statistics {
 
-    private _totalClicks: number = 0;
+    private _totalClicks: number;
     private _clicks: Click[] = [];
-    private _timestamp: number = 0;
+    private _timestamp: number;
+
+    public static fromJSON(statisticsJSON: any): Statistics {
+        const statistics = new Statistics();
+        statistics.totalClicks = statisticsJSON.totalClicks;
+        statistics.timestamp = statisticsJSON.timestamp;
+        for (const click of statisticsJSON.clicks) {
+            statistics.clicks.push(new Click(click.timestamp, click.name, click.account));
+        }
+        return statistics;
+    }
 
     public addClick(click: Click): void {
-        this._clicks.unshift(click);
+        this.clicks.unshift(click);
         this.totalClicks = this.totalClicks + 1;
         this.timestamp = Date.now();
     }

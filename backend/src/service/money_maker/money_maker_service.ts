@@ -1,8 +1,8 @@
-import GmailClient from '../../clients/gmail_client.js';
-import MailFilter from './mail_filter.js';
+import Handler from './handlers/handler';
+import StatisticsService from '../statistics_service';
+import StateService from '../state_service';
 import NoCashmailsFoundError from './error/no_cashmails_found_error.js';
 import UrlExtractor from './url_extractor.js';
-import NoCashUrlsFoundError from './error/no_cashurls_found_error.js';
 import MailClicker from './mail_clicker.js';
 import NoSuchClientError from './error/no_such_client_error.js';
 import ZinnGeldHandler from './handlers/zinngeld_handler.js';
@@ -13,18 +13,21 @@ import ShopBuddiesHandler from './handlers/shopbuddies_handler.js';
 import OrangeBuddiesHandler from './handlers/orangebuddies_handler.js';
 import QassaHandler from './handlers/qassa_handler.js';
 import LoggerService from '../logger_service.js';
+import GmailClient from '../../clients/gmail_client.js';
+import MailFilter from './mail_filter.js';
+import NoCashUrlsFoundError from './error/no_cashurls_found_error.js';
 
 export default class MoneyMakerService {
 
-    configs;
-    urlExtractor;
-    mailClicker;
-    handlers;
-    statisticsService;
-    stateService;
-    forwarders;
+    private _configs: any;
+    private _urlExtractor: UrlExtractor;
+    private _handlers: Handler[];
+    private _statisticsService: StatisticsService;
+    private _stateService: StateService;
+    private _forwarders: string[];
+    private _isRunning: boolean;
 
-    constructor(configs, statisticsService, forwarders, stateService) {
+    constructor(configs: any, statisticsService: StatisticsService, forwarders: string[], stateService: StateService) {
         this.configs = configs;
         this.statisticsService = statisticsService;
         this.forwarders = forwarders;
@@ -44,18 +47,18 @@ export default class MoneyMakerService {
         this.handlers.push(new OnlineLeadsHandler('DoublePoints', 'doublepoints.nl', true));
         this.handlers.push(new ShopBuddiesHandler('ShopBuddies'));
         this.handlers.push(new QassaHandler('Qassa'));
-        this.urlExtractor = new UrlExtractor(this.handlers);
+        this.urlExtractor = new UrlExtractor();
     }
 
     async makeMoney() {
         LoggerService.clear();
-        this.stateService.setState('Running');
-        this.stateService.setText('Initializing');
+        this.stateService.state = 'Running';
+        this.stateService.text = 'Initializing';
         for (const config of this.configs) {
             try {
-                this.stateService.setText(`Creating client for ${config.userId}`);
+                this.stateService.text = `Creating client for ${config.userId}`;
                 const client = this.getClient(config, this.forwarders);
-                this.stateService.setText(`Finding cashmails`);
+                this.stateService.text = `Finding cashmails`;
                 let mailFilter = new MailFilter(this.handlers, client);
                 let mailClicker = new MailClicker(this.handlers, client, this.statisticsService, this.stateService);
         
@@ -76,7 +79,7 @@ export default class MoneyMakerService {
                 await mailClicker.closeBrowser();
         
                 LoggerService.log('\nAll cash URL\'s were clicked!');
-            } catch (error) {
+            } catch (error: any) {
                 if (error instanceof NoCashUrlsFoundError) {
                     LoggerService.log('ERROR: There were cashmails, but no cash URL\'s were found');
                 } else if (error instanceof NoCashmailsFoundError) {
@@ -88,13 +91,14 @@ export default class MoneyMakerService {
                     LoggerService.logError(`ERROR: There was an unexpected error when making money`, error);
                 }
             }
-            this.stateService.setState('Idle');
-            this.stateService.setText('');
+            this.stateService.state = 'Idle';
+            this.stateService.text = '';
         }
         this.running = false;
     }
     
-    getClient(config, forwarders) {
+    // FIXME: introduce generic type 'Client'
+    private getClient(config: any, forwarders: string[]): GmailClient {
         if (config.type === 'gmail') {
             return new GmailClient(config.userId, 
                                     config.clientId, 
@@ -104,6 +108,62 @@ export default class MoneyMakerService {
                                     forwarders);
         }
         throw new NoSuchClientError();
+    }
+
+    private get handlers(): Handler[] {
+        return this._handlers;
+    }
+
+    private set handlers(handlers: Handler[]) {
+        this._handlers = handlers;
+    }
+
+    private get configs(): any {
+        return this._configs;
+    }
+
+    private set configs(configs: any) {
+        this._configs = configs;
+    }
+
+    private get statisticsService(): StatisticsService {
+        return this._statisticsService;
+    }
+
+    private set statisticsService(statisticsService: StatisticsService) {
+        this._statisticsService = statisticsService;
+    }
+
+    private get forwarders(): string[] {
+        return this._forwarders;
+    }
+
+    private set forwarders(forwarders: string[]) {
+        this._forwarders = forwarders;
+    }
+
+    private get stateService(): StateService {
+        return this._stateService;
+    }
+
+    private set stateService(stateService: StateService) {
+        this._stateService = stateService;
+    }
+
+    private get urlExtractor(): UrlExtractor {
+        return this._urlExtractor;
+    }
+
+    private set urlExtractor(urlExtractor: UrlExtractor) {
+        this._urlExtractor = urlExtractor;
+    }
+
+    private get running(): boolean {
+        return this._isRunning;
+    }
+
+    private set running(isRunning: boolean) {
+        this._isRunning = isRunning;
     }
     
 }

@@ -1,18 +1,21 @@
+import GmailClient from "../../clients/gmail_client.js";
+import Mail from "../../domain/mail.js";
 import PlatformUtil from "../../util/platform_util.js";
 import LoggerService from "../logger_service.js";
 import NoCashmailsFoundError from "./error/no_cashmails_found_error.js";
+import Handler from "./handlers/handler.js";
 
 export default class MailFilter {
 
-    handlers;
-    mailClient;
+    private _handlers: Handler[];
+    private _mailClient: GmailClient;
 
-    constructor(handlers, mailClient) {
+    public constructor(handlers: Handler[], mailClient: GmailClient) {
         this.handlers = handlers;
         this.mailClient = mailClient;
     }
 
-    filterCashMails(mails) {
+    public filterCashMails(mails: Mail[]): Mail[] {
         const cashmails = this.getMatchingMails(mails);
         if (cashmails.length === 0) {
             throw new NoCashmailsFoundError('No matching mails found');
@@ -20,8 +23,8 @@ export default class MailFilter {
         return cashmails;
     }
 
-    getMatchingMails(mails) {
-        const matchingMails = [];
+    private getMatchingMails(mails: Mail[]): Mail[] {
+        const matchingMails: Mail[] = [];
         for (const mail of mails) {
             let matchFound = false;
             handlersLoop: for (const handler of this.handlers) {
@@ -44,6 +47,22 @@ export default class MailFilter {
             }
         }
         return matchingMails;
+    }
+
+    private get handlers(): Handler[] {
+        return this._handlers;
+    }
+
+    private set handlers(handlers: Handler[]) {
+        this._handlers = handlers;
+    }
+
+    private get mailClient(): GmailClient {
+        return this._mailClient;
+    }
+
+    private set mailClient(handlers: GmailClient) {
+        this._mailClient = handlers;
     }
 
 }

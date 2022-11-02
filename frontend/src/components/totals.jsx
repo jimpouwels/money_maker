@@ -88,12 +88,12 @@ export default function Totals({ data, onDateSelected }) {
                     <tbody>
                         <tr>
                             {[...Array(MAX_HISTORY_IN_DAYS + 1)].map((e, i) => {
-                                return <th key={e} onClick={() => selectDaysAgo(i)} scope="col" className={i === selectedDay ? "": "unselected"}>{getDayOfDaysAgo(MAX_HISTORY_IN_DAYS - i)}</th>
+                                return <th key={i} onClick={() => selectDaysAgo(i)} scope="col" className={i === selectedDay ? "": "unselected"}>{getDayOfDaysAgo(MAX_HISTORY_IN_DAYS - i)}</th>
                             })}
                         </tr>
                         <tr>
                             {[...Array(MAX_HISTORY_IN_DAYS + 1)].map((e, i) => {
-                                return <td key={e}>{clixPerDay[MAX_HISTORY_IN_DAYS - i]}</td>
+                                return <td key={i}>{clixPerDay[MAX_HISTORY_IN_DAYS - i]}</td>
                             })}       
                         </tr>
                     </tbody>

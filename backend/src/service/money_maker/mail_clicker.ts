@@ -1,41 +1,45 @@
-import puppeteerCore from 'puppeteer-core';
+import * as puppeteerCore from 'puppeteer-core';
 import puppeteer from 'puppeteer';
 import ClickNavigationTimedOutError from './error/click_navigation_timed_out_error.js';
 import ThreadUtil from '../../util/thread_util.js';
 import LoggerService from '../logger_service.js';
 import PlatformUtil from '../../util/platform_util.js';
 import ZinnGeldHandler from './handlers/zinngeld_handler.js';
-import { TimeoutError } from 'puppeteer-core';
 import Url from '../../domain/url.js';
+import Handler from './handlers/handler.js';
+import GmailClient from '../../clients/gmail_client.js';
+import StatisticsService from '../statistics_service.js';
+import StateService from '../state_service.js';
+import Mail from '../../domain/mail.js';
 
 export default class MailClicker {
 
-    browser;
-    handlers;
-    mailClient;
-    statisticsService;
-    stateService;
-    static CLICK_NAVIGATION_TIMEOUT = 30000;
+    private _browser: any;
+    private _handlers: Handler[];
+    private _mailClient: GmailClient;
+    private _statisticsService: StatisticsService;
+    private _stateService: StateService;
+    private static CLICK_NAVIGATION_TIMEOUT: number = 30000;
 
-    constructor(handlers, mailClient, statisticsService, stateService) {
+    public constructor(handlers: Handler[], mailClient: GmailClient, statisticsService: StatisticsService, stateService: StateService) {
         this.handlers = handlers;
         this.mailClient = mailClient;
         this.statisticsService = statisticsService;
         this.stateService = stateService;
     }
 
-    async openBrowser() {
+    public async openBrowser(): Promise<void> {
         if (this.browser) {
             await this.closeBrowser();
         }
         this.browser = await this.getBrowserByPlatform();
     }
 
-    async closeBrowser() {
-        await this.browser.close();
+    public async closeBrowser(): Promise<void> {
+        return this.browser.close();
     }
 
-    async click(cashmail) {
+    public async click(cashmail: Mail): Promise<void> {
         if (!cashmail.cashUrl) {
             LoggerService.log(`No cash URL's were found for cashmail from ${cashmail.from}`);
             return;
@@ -45,7 +49,7 @@ export default class MailClicker {
         await page.goto(cashmail.cashUrl.full).then(async () => {
             let startLoop = Date.now();
             const handler = cashmail.handler;
-            this.stateService.setText(`Clicking cashmail from ${handler.name}`)
+            this.stateService.text = `Clicking cashmail from ${handler.name}`;
             await handler.performCustomAction(page, cashmail.cashUrl, this.browser);
             while (!handler.hasRedirected(Url.parse(page.url()))) {
                 LoggerService.log(`Waiting for page to redirect to target from ${page.url()}`);
@@ -55,10 +59,10 @@ export default class MailClicker {
                 }
             }
             this.resolveClick(page, cashmail);
-        }).catch(error => {
+        }).catch((error: any) => {
             if (error instanceof ClickNavigationTimedOutError) {
                 LoggerService.log(`WARNING: Waited ${MailClicker.CLICK_NAVIGATION_TIMEOUT} milliseconds, but the redirect didn't occur`);
-            } else if (error instanceof TimeoutError && cashmail.handler instanceof ZinnGeldHandler) {
+            } else if (/* error instanceof TimeoutError && */cashmail.handler instanceof ZinnGeldHandler) {
                 LoggerService.log(`ZinnGeld timeout, which tends to happen from time to time, assuming clicking is successful`);
                 this.resolveClick(page, cashmail);
                 return;
@@ -75,32 +79,31 @@ export default class MailClicker {
                 // to 'about:blank'.
                 try {
                     await pageToClose.goto('about:blank');
-                } catch (error) {
+                } catch (error: any) {
                     LoggerService.logError(`WARNING: An error occurred when navigating to about:blank and closing the tab`, error);
                 }
                 try {
                     await pageToClose.close();
-                } catch (error) {
+                } catch (error: any) {
                     LoggerService.logError(`WARNING: An error occurred when closing the tab`, error);
                 }
             }
         });
     }
 
-    resolveClick(page, cashmail) {
+    resolveClick(page: any, cashmail: Mail) {
         LoggerService.log(`Redirected to ${page.url()}`);
         LoggerService.log(`Saving statistic`);
 
         this.statisticsService.addClick(cashmail.handler.name, cashmail.account);
-
-        this.stateService.setText(`Deleting mail from ${cashmail.handler.name}`)
+        this.stateService.text = `Deleting mail from ${cashmail.handler.name}`;
         if (!PlatformUtil.isDevelopment()) {
             LoggerService.log(`Deleting mail from ${cashmail.from}`);
             this.mailClient.deleteMail(cashmail.id);
         }
     }
 
-    async getBrowserByPlatform() {
+    private async getBrowserByPlatform(): Promise<any> {
         if (PlatformUtil.isDevelopment()) {
             return await puppeteer.launch({
                 headless: true,
@@ -115,13 +118,53 @@ export default class MailClicker {
         }
     }
 
-    getBrowserArgs() {
+    private getBrowserArgs(): any {
         return [
             "--disable-gpu",
             "--disable-dev-shm-usage",
             "--disable-setuid-sandbox",
             "--no-sandbox",
         ];
+    }
+
+    private get browser(): any {
+        return this._browser;
+    }
+
+    private set browser(browser: any) {
+        this._browser = browser;
+    }
+
+    private get handlers(): Handler[] {
+        return this._handlers;
+    }
+
+    private set handlers(handlers: Handler[]) {
+        this._handlers = handlers;
+    }
+
+    private get mailClient(): GmailClient {
+        return this._mailClient;
+    }
+
+    private set mailClient(mailClient: GmailClient) {
+        this._mailClient = mailClient;
+    }
+
+    private get statisticsService(): StatisticsService {
+        return this._statisticsService;
+    }
+
+    private set statisticsService(statisticsService: StatisticsService) {
+        this._statisticsService = statisticsService;
+    }
+
+    private get stateService(): StateService {
+        return this._stateService;
+    }
+
+    private set stateService(stateService: StateService) {
+        this._stateService = stateService;
     }
 
 }

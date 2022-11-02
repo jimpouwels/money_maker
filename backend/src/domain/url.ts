@@ -3,11 +3,11 @@ type QueryParam = { name: string, value: string };
 export default class Url {
 
     private _protocol: string;
-    private _host: string;
-    private _path: string;
-    private _queryString: string;
-    private _full: string;
-    private _queryParams: QueryParam[];
+    private _host: string = '';
+    private _path: string = '';
+    private _queryString: string = '';
+    private _full: string = '';
+    private _queryParams: QueryParam[] = [];
 
     public get full(): string {
         return this._full;
@@ -66,7 +66,7 @@ export default class Url {
         let decodedUrl = url.replace(/&amp;/g, '&');
         parsedUrl.full = decodedUrl;
         if (!url.includes('://')) {
-            return;
+            return parsedUrl;
         }
         let parts = decodedUrl.split('://');
         let hostAndPath = parts[1].replace(/\/\//g, '/').split(/\/(.*)/s);

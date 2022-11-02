@@ -21,9 +21,9 @@ export default class StatisticsService {
         return this._statistics;
     }
 
-    public removeExpiredClicks(numberOfDays: number): void {
+    public removeExpiredClicks(): void {
         let tooOld = new Date();
-        tooOld.setDate(tooOld.getDate() - numberOfDays);
+        tooOld.setDate(tooOld.getDate() - 7);
         tooOld.setUTCHours(0,0,0,0);
 
         let newClicks = [];

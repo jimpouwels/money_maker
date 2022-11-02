@@ -1,5 +1,3 @@
-import { Browser, Page } from "../../../../node_modules/puppeteer/lib/types.js";
-import Mail from "../../../domain/mail.js";
 import Url from "../../../domain/url.js";
 import ThreadUtil from "../../../util/thread_util.js";
 import LoggerService from "../../logger_service.js";
@@ -20,7 +18,7 @@ export default class OnlineLeadsHandler extends Handler {
         return url.path.includes('/click/');
     }
 
-    public async performCustomAction(page: Page, _url: Url, browser: Browser): Promise<void> {
+    public async performCustomAction(page: any, _url: Url, browser: any): Promise<void> {
         const prePageCount = (await browser.pages()).length;
 
         LoggerService.log(`${this.name} opens the newsletter in a webversion, another click is required`);
@@ -32,7 +30,7 @@ export default class OnlineLeadsHandler extends Handler {
         LoggerService.log(`${this.name} opens another page with a button to be clicked, finding and clicking it`);
         try {
             await page.waitForSelector('.btn-green', {timeout: 15000});
-        } catch (error) {
+        } catch (error: any) {
             LoggerService.logError(`Unable to find .btn-green button to click it`, error);
             throw error;
         }
@@ -69,10 +67,6 @@ export default class OnlineLeadsHandler extends Handler {
         // tab redirects to 'https://www.${hostname}/gebruiker/. When that happens, we consider the
         // redirect to be successful.
         return super.hasRedirected(url) && url.path.startsWith('/gebruiker');
-    }
-
-    public filter(_mail: Mail): boolean {
-        return false;
     }
 
     protected getSkipSubjects(): string[] {

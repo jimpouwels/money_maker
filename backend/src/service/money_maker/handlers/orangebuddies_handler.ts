@@ -1,5 +1,3 @@
-import { Browser, Page } from "../../../../node_modules/puppeteer/lib/types.js";
-import Mail from "../../../domain/mail.js";
 import Url from "../../../domain/url.js";
 import Handler from "./handler.js";
 
@@ -24,17 +22,13 @@ export default class OrangeBuddiesHandler extends Handler {
         return url.host.includes(this.identifier) && url.path.includes('cm-l') && !url.hasParam('sid');
     }
 
-    public async performCustomAction(_page: Page, _url: Url, _browser: Browser): Promise<void> {
+    public async performCustomAction(_page: any, _url: Url, _browser: any): Promise<void> {
     }
     
     public hasRedirected(url: Url): boolean {
         return super.hasRedirected(url) && 
             (!url.host.includes(this.identifier) || 
             (url.host.includes(this.identifier) && url.path.includes('login.php')));
-    }
-
-    public filter(mail: Mail): boolean {
-        return this.getSkipSubjects().find(subject => mail.subject.toLowerCase().includes(subject)) != null;
     }
 
     protected getSkipSubjects(): string[] {

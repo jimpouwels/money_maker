@@ -1,4 +1,3 @@
-import { Browser, Page } from "../../../../node_modules/puppeteer/lib/types.js";
 import Mail from "../../../domain/mail.js";
 import Url from "../../../domain/url.js";
 import Handler from "./handler.js";
@@ -13,19 +12,15 @@ export default class EuroClixHandler extends Handler {
         return url.host.includes('euroclix.nl') && url.path.includes('reference');
     }
 
-    public async performCustomAction(_page: Page, _url: Url, _browser: Browser): Promise<void> {
+    public async performCustomAction(_page: any, _url: Url, _browser: any): Promise<void> {
     }
     
     public hasRedirected(url: Url): boolean {
         return super.hasRedirected(url) && (!url.host.includes('euroclix.nl') || url.path.includes('utm_campaign'));
     }
 
-    public filter(_mail: Mail): boolean {
-        return false;
-    }
-
     protected getSkipSubjects(): string[] {
-        return [];
+        return ['Jouw Clix zijn beschikbaar'];
     }
 
 }

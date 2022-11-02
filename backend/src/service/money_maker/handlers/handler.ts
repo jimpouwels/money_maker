@@ -1,4 +1,5 @@
 import Mail from "../../../domain/mail";
+import Url from "../../../domain/url";
 
 export default abstract class Handler {
 
@@ -16,13 +17,21 @@ export default abstract class Handler {
         this._name = name;
     }
 
-    public hasRedirected(url: any): boolean {
+    public hasRedirected(url: Url): boolean {
         return !url.full.includes('chrome-error');
     }
 
     public matchMail(mail: Mail): boolean {
         return mail.from.toLowerCase().includes(this.name.toLowerCase());
     }
+
+    public filter(mail: Mail): boolean {
+        return this.getSkipSubjects().find(subject => mail.subject.toLowerCase().includes(subject.toLowerCase())) != null;
+    }
+
+    public abstract matchUrl(url: Url): boolean;
+
+    public abstract performCustomAction(page: any, _url: Url, browser: any): Promise<void>;
 
     protected abstract getSkipSubjects(): string[];
 

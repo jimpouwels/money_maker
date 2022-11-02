@@ -1,28 +1,28 @@
 export default  class LoggerService {
 
-    static LINES = [];
+    public static LINES: string[] = [];
 
-    static log(msg) {
+    public static log(msg: string): void {
         let timestampedMsg = LoggerService.createTimestampedLogLine(msg);
         console.log(timestampedMsg)
         LoggerService.LINES.unshift(timestampedMsg);
     }
 
-    static logError(msg, error) {
+    public static logError(msg: string, error: Error): void {
         let timestampedMsg = LoggerService.createTimestampedLogLine(`${msg}: ${error}`);
         console.log(msg, error)
         LoggerService.LINES.unshift(timestampedMsg);
     }
 
-    static clear() {
+    public static clear(): void {
         this.LINES = [];
     }
 
-    static getLines() {
+    public static getLines(): string[] {
         return LoggerService.LINES;
     }
 
-    static createTimestampedLogLine(msg) {
+    public static createTimestampedLogLine(msg: string): string {
         return `${new Date().toISOString()} ${msg}`
     }
 

@@ -1,6 +1,6 @@
 export default class ThreadUtil {
 
-    static sleep(ms) {
+    public static sleep(ms: number): Promise<void> {
         return new Promise((resolve) => {
             setTimeout(resolve, ms);
         });
