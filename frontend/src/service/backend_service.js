@@ -13,6 +13,7 @@ export default class BackendService {
     }
 
     async getStatistics() {
+        console.log(`${window.location.host}:${this.backendPort}/statistics`);
         return axios.get(`${window.location.host}:${this.backendPort}/statistics`);
     }
     
