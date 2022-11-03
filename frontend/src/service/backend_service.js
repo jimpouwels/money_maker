@@ -9,19 +9,19 @@ export default class BackendService {
     }
 
     async makeMoney() {
-        return axios.post(`http://${window.location.host}:${this.backendPort}/make_money`);
+        return axios.post(`http://${window.location.host.split(':')[0]}:${this.backendPort}/make_money`);
     }
 
     async getStatistics() {
-        console.log(`${window.location.host}:${this.backendPort}/statistics`);
-        return axios.get(`http://${window.location.host}:${this.backendPort}/statistics`);
+        console.log(`http://${window.location.host.split(':')[0]}:${this.backendPort}/statistics`);
+        return axios.get(`http://${window.location.host.split(':')[0]}:${this.backendPort}/statistics`);
     }
     
     async getState() {
-        return axios.get(`http://${window.location.host}:${this.backendPort}/state`);
+        return axios.get(`http://${window.location.host.split(':')[0]}:${this.backendPort}/state`);
     }
 
     async getLogs() {
-        return axios.get(`http://${window.location.host}:${this.backendPort}/log`);
+        return axios.get(`http://${window.location.hos.split(':')[0]}:${this.backendPort}/log`);
     }
 }
