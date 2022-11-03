@@ -13,7 +13,6 @@ export default class BackendService {
     }
 
     async getStatistics() {
-        console.log(`http://${window.location.host.split(':')[0]}:${this.backendPort}/statistics`);
         return axios.get(`http://${window.location.host.split(':')[0]}:${this.backendPort}/statistics`);
     }
     
@@ -22,6 +21,6 @@ export default class BackendService {
     }
 
     async getLogs() {
-        return axios.get(`http://${window.location.hos.split(':')[0]}:${this.backendPort}/log`);
+        return axios.get(`http://${window.location.host.split(':')[0]}:${this.backendPort}/log`);
     }
 }
