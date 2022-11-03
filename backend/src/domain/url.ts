@@ -72,13 +72,21 @@ export default class Url {
         let hostAndPath = parts[1].replace(/\/\//g, '/').split(/\/(.*)/s);
         const host = hostAndPath[0];
         const pathAndQueryString = hostAndPath.length > 1 ? hostAndPath[1].split('?') : [];
-        let path = (pathAndQueryString.length > 0 ? `/${pathAndQueryString[0]}` : '/');
-        let queryString = pathAndQueryString.length > 1 ? pathAndQueryString[1] : '';
+
+        // Handle the case in which an URL mistakenly has multiple question marks
+        let queryStringParts: string[] = [];
+        if (pathAndQueryString.length > 1) {
+            [, ...queryStringParts] = pathAndQueryString;
+        }
+        let queryString = queryStringParts.join('&');
+
         const queryParams: QueryParam[] = [];
         for (let queryParam of queryString.split('&')) {
             let queryParamParts = queryParam.split('=');
             queryParams.push({ name: queryParamParts[0], value: queryParamParts[1] });
         }
+        
+        let path = (pathAndQueryString.length > 0 ? `/${pathAndQueryString[0]}` : '/');
         parsedUrl.protocol = parts[0];
         parsedUrl.path = path;
         parsedUrl.host = host;

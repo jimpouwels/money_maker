@@ -23,4 +23,11 @@ describe("url util", () => {
         let parsedURL = Url.parse('http://www.google.com0//thePath//test1/test2?param1=value1&amp;param2=value2');
         expect(parsedURL.path).toEqual('/thePath/test1/test2');
     })
+
+    it("should handle urls with double question marks correctly", () => {
+        let parsedURL = Url.parse('http://www.google.com0/JIM/test1/test2?param1=value1?param2=value2&param3=value3');
+        expect(parsedURL.hasParam('param1')).toBeTruthy();
+        expect(parsedURL.hasParam('param2')).toBeTruthy();
+        expect(parsedURL.hasParam('param3')).toBeTruthy();
+    });
 });
