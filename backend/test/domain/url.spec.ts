@@ -3,7 +3,7 @@ import Url from "../../src/domain/url";
 describe("url util", () => {
 
     it("should parse the passed URL", () => {
-        let parsedURL = Url.parse('http://www.google.com/thePath?param1=value1&amp;param2=value2&amp;param3=value3');
+        let parsedURL = Url.parse('http://www.google.com/thePath?param1=value1&amp;param2%3Dvalue2&amp;param3=value3');
         expect(parsedURL.host).toEqual('www.google.com');
         expect(parsedURL.protocol).toEqual('http');
         expect(parsedURL.path).toEqual('/thePath');

@@ -63,7 +63,7 @@ export default class Url {
 
     public static parse(url: string): Url {
         let parsedUrl = new Url();
-        let decodedUrl = url.replace(/&amp;/g, '&');
+        let decodedUrl = decodeURIComponent(url).replace(/&amp;/g, '&');
         parsedUrl.full = decodedUrl;
         if (!url.includes('://')) {
             return parsedUrl;
