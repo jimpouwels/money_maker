@@ -8,7 +8,7 @@ import BackendService from './service/backend_service';
 
 function App() {
 
-    const backendService = new BackendService(process.env.REACT_APP_BACKEND_HOST);
+    const backendService = new BackendService(process.env.REACT_APP_BACKEND_PORT);
     const [tmpData, setTmpData] = useState();
     const [statistics, setStatistics] = useState();
     const [error, setError] = useState();

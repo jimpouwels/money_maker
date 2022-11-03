@@ -2,25 +2,25 @@ import axios from 'axios';
 
 export default class BackendService {
 
-    host;
+    backendPort;
 
-    constructor(host) {
-        this.host = host;
+    constructor(backendPort) {
+        this.backendPort = backendPort;
     }
 
     async makeMoney() {
-        return axios.post(`${this.host}/make_money`);
+        return axios.post(`${window.location.host}:${this.backendPort}/make_money`);
     }
 
     async getStatistics() {
-        return axios.get(`${this.host}/statistics`);
+        return axios.get(`${window.location.host}:${this.backendPort}/statistics`);
     }
     
     async getState() {
-        return axios.get(`${this.host}/state`);
+        return axios.get(`${window.location.host}:${this.backendPort}/state`);
     }
 
     async getLogs() {
-        return axios.get(`${this.host}/log`);
+        return axios.get(`${window.location.host}:${this.backendPort}/log`);
     }
 }
