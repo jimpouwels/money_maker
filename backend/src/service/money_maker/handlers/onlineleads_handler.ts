@@ -23,7 +23,8 @@ export default class OnlineLeadsHandler extends Handler {
 
         LoggerService.log(`${this.name} opens the newsletter in a webversion, another click is required`);
         let button1Url = await page.evaluate((): string => {
-            return document.getElementsByClassName('btn-green')[0].getAttribute('href');
+            let href = document.getElementsByClassName('btn-green')[0].getAttribute('href');
+            return href != null ? href : '';
         });
         await page.goto(button1Url);
 
@@ -34,7 +35,7 @@ export default class OnlineLeadsHandler extends Handler {
             LoggerService.logError(`Unable to find .btn-green button to click it`, error);
             throw error;
         }
-        await page.click('.btn-green');
+        await page.click('.btn-green', { waitUntil: 'load', timeout: 300000 });
 
         if (this.hasNewTabBug) {
             LoggerService.log(`The new tab will not open for ${this.name}, that's probably some bug, assume it's clicked...`);
