@@ -1,3 +1,3 @@
 #!/bin/bash
 cd backend
-npm run start
+npm run start-dev
