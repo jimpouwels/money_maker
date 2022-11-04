@@ -1,0 +1,17 @@
+{
+  "name": "money_maker",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jimpouwels/money_maker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jimpouwels/money_maker/issues"
+  },
+  "homepage": "https://github.com/jimpouwels/money_maker#readme",
+  "workspaces": ["packages/**"]
+}

@@ -1,3 +1,3 @@
 #!/bin/bash
-cd backend
+cd packages/backend
 npm run start

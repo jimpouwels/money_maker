@@ -1,4 +1,4 @@
 #!/bin/bash
 export REACT_APP_BACKEND_PORT=9999
-cd frontend
+cd packages/frontend
 npm run start
