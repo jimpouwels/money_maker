@@ -52,6 +52,7 @@ export default class OnlineLeadsHandler extends Handler {
             LoggerService.log(`Waiting for new tab to open, current amount of tabs ${(await browser.pages()).length}`);
             await ThreadUtil.sleep(1000);
         }
+        LoggerService.log(`Grabbing all pages`);
         const allPages = await browser.pages();
         LoggerService.log('Capturing the redirect URL from the new tab and redirecting the current page to that URL');
         const targetUrl = allPages[allPages.length - 1].url();
