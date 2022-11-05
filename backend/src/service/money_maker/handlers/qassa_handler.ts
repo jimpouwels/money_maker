@@ -15,7 +15,7 @@ export default class QassaHandler extends Handler {
     }
     
     public hasRedirected(url: Url): boolean {
-        return super.hasRedirected(url) && !url.host.includes('qassa');
+        return super.hasRedirected(url) && !url.path.includes('/klik/');
     }
 
     protected getSkipSubjects(): string[] {
