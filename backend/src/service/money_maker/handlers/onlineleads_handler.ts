@@ -30,13 +30,14 @@ export default class OnlineLeadsHandler extends Handler {
 
         LoggerService.log(`${this.name} opens another page with a button to be clicked, finding and clicking it`);
         try {
-            await page.waitForSelector('.btn-green', {timeout: 15000});
+            await page.waitForSelector('.btn-green', { timeout: 15000 });
         } catch (error: any) {
             LoggerService.logError(`Unable to find .btn-green button to click it`, error);
             throw error;
         }
-        await page.click('.btn-green', { waitUntil: 'load', timeout: 300000 });
+        await page.click('.btn-green', { timeout: 300000 });
 
+        LoggerService.log(`Green button clicked`);
         if (this.hasNewTabBug) {
             LoggerService.log(`The new tab will not open for ${this.name}, that's probably some bug, assume it's clicked...`);
             LoggerService.log('Waiting for 5 seconds to be sure the click gets registered');
