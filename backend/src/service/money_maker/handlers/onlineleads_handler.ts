@@ -36,7 +36,11 @@ export default class OnlineLeadsHandler extends Handler {
             LoggerService.logError(`Unable to find .btn-green button to click it`, error);
             throw error;
         }
-        await page.click('.btn-green', { timeout: 300000 });
+
+        await Promise.all([
+            page.waitForNavigation({ timeout: 15000 }),
+            page.click('.btn-green'),
+        ]);
 
         LoggerService.log(`Green button clicked`);
         if (this.hasNewTabBug) {
