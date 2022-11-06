@@ -46,7 +46,7 @@ export default class MailClicker {
         }
         let page = await this.browser.newPage();
         LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl.full}' from ${cashmail.from}`);
-        await page.goto(cashmail.cashUrl.full, { waitUntil: 'load', timeout: 30000 }).then(async () => {
+        await page.goto(cashmail.cashUrl.full, { waitUntil: 'networkidle2', timeout: 0 }).then(async () => {
             let startLoop = Date.now();
             const handler = cashmail.handler;
             this.stateService.text = `Clicking cashmail from ${handler.name}`;
@@ -112,6 +112,7 @@ export default class MailClicker {
         } else {
             return await puppeteerCore.launch({
                 headless: true,
+                defaultViewport: null,
                 executablePath: '/usr/bin/chromium-browser',
                 args: this.getBrowserArgs()
         });
