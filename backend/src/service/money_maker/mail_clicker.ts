@@ -46,7 +46,7 @@ export default class MailClicker {
         }
         let page = await this.browser.newPage();
         LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl.full}' from ${cashmail.from}`);
-        await page.goto(cashmail.cashUrl.full, { waitUntil: 'networkidle2', timeout: 0 }).then(async () => {
+        await page.goto(cashmail.cashUrl.full, { waitUntil: 'networkidle2', timeout: 15000 }).then(async () => {
             let startLoop = Date.now();
             const handler = cashmail.handler;
             this.stateService.text = `Clicking cashmail from ${handler.name}`;
@@ -78,7 +78,7 @@ export default class MailClicker {
                 // WORKAROUND: Apparently memory is freed up in a faster/better way when navigation
                 // to 'about:blank'.
                 try {
-                    await pageToClose.goto('about:blank', { waitUntil: 'networkidle2', timeout: 0 });
+                    await pageToClose.goto('about:blank', { waitUntil: 'networkidle2', timeout: 15000 });
                 } catch (error: any) {
                     LoggerService.logError(`WARNING: An error occurred when navigating to about:blank and closing the tab`, error);
                 }
