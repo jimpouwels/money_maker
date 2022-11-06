@@ -86,7 +86,7 @@ export default class MailClicker {
         });
     }
 
-    async checkRedirection(page, cashmail) {
+    async checkRedirection(page: any, cashmail: Mail) {
         let startLoop = Date.now();
         const handler = cashmail.handler;
         this.stateService.text = `Clicking cashmail from ${handler.name}`;
