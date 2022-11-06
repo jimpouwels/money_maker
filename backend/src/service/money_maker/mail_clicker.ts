@@ -47,18 +47,7 @@ export default class MailClicker {
         let page = await this.browser.newPage();
         LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl.full}' from ${cashmail.from}`);
         await page.goto(cashmail.cashUrl.full, { timeout: 15000 }).then(async () => {
-            let startLoop = Date.now();
-            const handler = cashmail.handler;
-            this.stateService.text = `Clicking cashmail from ${handler.name}`;
-            await handler.performCustomAction(page, cashmail.cashUrl, this.browser);
-            while (!handler.hasRedirected(Url.parse(page.url()))) {
-                LoggerService.log(`Waiting for page to redirect to target from ${page.url()}`);
-                await(ThreadUtil.sleep(1000));
-                if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
-                    throw new ClickNavigationTimedOutError();
-                }
-            }
-            this.resolveClick(page, cashmail);
+            await this.checkRedirection(page, cashmail);
         }).catch((error: any) => {
             if (error instanceof ClickNavigationTimedOutError) {
                 LoggerService.log(`WARNING: Waited ${MailClicker.CLICK_NAVIGATION_TIMEOUT} milliseconds, but the redirect didn't occur`);
@@ -68,6 +57,8 @@ export default class MailClicker {
                 return;
             } else {
                 LoggerService.logError(`WARNING: There was an unknown error while navigating: ${error}`, error);
+                LoggerService.log(`Check if redirection still happened...`);
+                this.checkRedirection(page, cashmail);
             }
             LoggerService.log(`Timed out waiting for redirect to target, preserving email for review`);
         }).finally(async () => {
@@ -93,6 +84,21 @@ export default class MailClicker {
                 }
             }
         });
+    }
+
+    async checkRedirection(page, cashmail) {
+        let startLoop = Date.now();
+        const handler = cashmail.handler;
+        this.stateService.text = `Clicking cashmail from ${handler.name}`;
+        await handler.performCustomAction(page, cashmail.cashUrl, this.browser);
+        while (!handler.hasRedirected(Url.parse(page.url()))) {
+            LoggerService.log(`Waiting for page to redirect to target from ${page.url()}`);
+            await(ThreadUtil.sleep(1000));
+            if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
+                throw new ClickNavigationTimedOutError();
+            }
+        }
+        this.resolveClick(page, cashmail);
     }
 
     resolveClick(page: any, cashmail: Mail) {
