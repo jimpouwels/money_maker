@@ -48,19 +48,17 @@ export default class MailClicker {
         LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl.full}' from ${cashmail.from}`);
         await page.goto(cashmail.cashUrl.full, { timeout: 15000 }).then(async () => {
             await this.checkRedirection(page, cashmail);
-        }).catch((error: any) => {
+        }).catch(async (error: any) => {
             if (error instanceof ClickNavigationTimedOutError) {
                 LoggerService.log(`WARNING: Waited ${MailClicker.CLICK_NAVIGATION_TIMEOUT} milliseconds, but the redirect didn't occur`);
-            } else if (/* error instanceof TimeoutError && */cashmail.handler instanceof ZinnGeldHandler) {
-                LoggerService.log(`ZinnGeld timeout, which tends to happen from time to time, assuming clicking is successful`);
-                this.resolveClick(page, cashmail);
-                return;
+                LoggerService.log(`Timed out waiting for redirect to target, preserving email for review`);
             } else {
                 LoggerService.logError(`WARNING: There was an unknown error while navigating: ${error}`, error);
                 LoggerService.log(`Check if redirection still happened...`);
-                this.checkRedirection(page, cashmail);
+                await this.checkRedirection(page, cashmail).catch((error: any) => {
+                    LoggerService.logError(`Failed after second attempt`, error);
+                });
             }
-            LoggerService.log(`Timed out waiting for redirect to target, preserving email for review`);
         }).finally(async () => {
             LoggerService.log(`Closing all browser pages`);
             let allPages = (await this.browser.pages());
