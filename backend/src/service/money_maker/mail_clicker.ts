@@ -115,7 +115,7 @@ export default class MailClicker {
             });
         } else {
             return await puppeteerCore.launch({
-                headless: false,
+                headless: true,
                 defaultViewport: null,
                 executablePath: '/usr/bin/chromium-browser',
                 args: this.getBrowserArgs()
