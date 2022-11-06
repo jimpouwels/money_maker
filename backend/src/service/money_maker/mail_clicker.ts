@@ -75,6 +75,7 @@ export default class MailClicker {
             let allPages = (await this.browser.pages());
             for (let i = 0; i < allPages.length; i++) {
                 let pageToClose = allPages[i];
+                LoggerService.log(`Closing page ${page.url()}`);
                 // WORKAROUND: Apparently memory is freed up in a faster/better way when navigation
                 // to 'about:blank'.
                 try {
