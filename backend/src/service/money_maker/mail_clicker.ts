@@ -55,9 +55,7 @@ export default class MailClicker {
             } else {
                 LoggerService.logError(`WARNING: There was an unknown error while navigating: ${error}`, error);
                 LoggerService.log(`Check if redirection still happened...`);
-                await this.checkRedirection(page, cashmail).catch((error: any) => {
-                    LoggerService.logError(`Failed after second attempt`, error);
-                });
+                await this.checkRedirection(page, cashmail);
             }
         }).finally(async () => {
             LoggerService.log(`Closing all browser pages`);
