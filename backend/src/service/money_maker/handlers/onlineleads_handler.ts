@@ -31,6 +31,7 @@ export default class OnlineLeadsHandler extends Handler {
         LoggerService.log(`${this.name} opens another page with a button to be clicked, finding and clicking it`);
         try {
             await page.waitForSelector('.btn-green', { timeout: 15000 });
+            LoggerService.log(`Found green button to click`);
         } catch (error: any) {
             LoggerService.logError(`Unable to find .btn-green button to click it`, error);
             throw error;
