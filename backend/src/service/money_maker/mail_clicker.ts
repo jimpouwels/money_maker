@@ -82,7 +82,8 @@ export default class MailClicker {
         });
     }
 
-    async checkRedirection(page: any, cashmail: Mail) {
+    private async checkRedirection(page: any, cashmail: Mail) {
+        LoggerService.log(`Checking for redirection`);
         let startLoop = Date.now();
         const handler = cashmail.handler;
         this.stateService.text = `Clicking cashmail from ${handler.name}`;
@@ -97,7 +98,7 @@ export default class MailClicker {
         this.resolveClick(page, cashmail);
     }
 
-    resolveClick(page: any, cashmail: Mail) {
+    private resolveClick(page: any, cashmail: Mail) {
         LoggerService.log(`Redirected to ${page.url()}`);
         LoggerService.log(`Saving statistic`);
 
