@@ -113,11 +113,13 @@ export default class MailClicker {
 
     private async getBrowserByPlatform(): Promise<any> {
         if (PlatformUtil.isDevelopment()) {
+            LoggerService.log(`Development mode, using puppeteer`);
             return await puppeteer.launch({
                 headless: true,
                 args: this.getBrowserArgs()
             });
         } else {
+            LoggerService.log(`Production mode, using puppeteerCore`);
             return await puppeteerCore.launch({
                 headless: true,
                 defaultViewport: null,
