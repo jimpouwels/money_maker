@@ -47,6 +47,9 @@ export default class MailClicker {
         let page = await this.browser.newPage();
         LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl.full}' from ${cashmail.from}`);
         await page.goto(cashmail.cashUrl.full, { timeout: 15000 }).then(async () => {
+            const handler = cashmail.handler;
+            this.stateService.text = `Clicking cashmail from ${handler.name}`;
+            await handler.performCustomAction(page, cashmail.cashUrl, this.browser);
             await this.checkRedirection(page, cashmail);
         }).catch(async (error: any) => {
             if (error instanceof ClickNavigationTimedOutError) {
@@ -85,10 +88,7 @@ export default class MailClicker {
     private async checkRedirection(page: any, cashmail: Mail) {
         LoggerService.log(`Checking for redirection`);
         let startLoop = Date.now();
-        const handler = cashmail.handler;
-        this.stateService.text = `Clicking cashmail from ${handler.name}`;
-        await handler.performCustomAction(page, cashmail.cashUrl, this.browser);
-        while (!handler.hasRedirected(Url.parse(page.url()))) {
+        while (!cashmail.handler.hasRedirected(Url.parse(page.url()))) {
             LoggerService.log(`Waiting for page to redirect to target from ${page.url()}`);
             await(ThreadUtil.sleep(1000));
             if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
