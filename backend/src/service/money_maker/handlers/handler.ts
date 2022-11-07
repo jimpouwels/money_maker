@@ -18,7 +18,7 @@ export default abstract class Handler {
     }
 
     public hasRedirected(url: Url): boolean {
-        return !url.full.includes('chrome-error');
+        return !url.full.includes('chrome-error') && !url.full.includes('about:blank');
     }
 
     public matchMail(mail: Mail): boolean {
