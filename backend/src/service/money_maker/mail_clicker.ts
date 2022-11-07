@@ -63,6 +63,7 @@ export default class MailClicker {
         }).finally(async () => {
             LoggerService.log(`Closing all browser pages`);
             let allPages = (await this.browser.pages());
+            LoggerService.log(`${allPages.length} pages to close`);
             for (let i = 0; i < allPages.length; i++) {
                 let pageToClose = allPages[i];
                 LoggerService.log(`Closing page ${page.url()}`);
