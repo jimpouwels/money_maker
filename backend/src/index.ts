@@ -45,5 +45,6 @@ new StatisticsController(app, statisticsService);
 new StateController(app, stateService);
 new LogController(app);
 
-await moneyMakerService.makeMoney();
-process.exit();
+Promise.resolve(moneyMakerService.makeMoney()).then(() => {
+    process.exit();
+});
