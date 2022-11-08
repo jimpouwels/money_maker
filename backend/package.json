@@ -7,6 +7,7 @@
     "copy-files": "cp .env ./dist && cp config.json ./dist",
     "start-dev": "rm -rf ./dist/** && tsc && npm run copy-files && node ./dist/src/index.js",
     "start": "node ./dist/src/index.js",
+    "stop": "killall SIGINT money_maker",
     "test": "jest"
   },
   "author": "jimp",

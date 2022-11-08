@@ -44,3 +44,6 @@ new MoneyMakerController(app, moneyMakerService, stateService);
 new StatisticsController(app, statisticsService);
 new StateController(app, stateService);
 new LogController(app);
+
+moneyMakerService.makeMoney();
+process.exit();
