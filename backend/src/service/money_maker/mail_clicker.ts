@@ -45,7 +45,6 @@ export default class MailClicker {
             return;
         }
         let page = await this.browser.newPage();
-        await page.setCacheEnabled(false);
         LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl.full}' from ${cashmail.from}`);
         await page.goto(cashmail.cashUrl.full, { timeout: 15000 }).then(async () => {
             const handler = cashmail.handler;
@@ -106,10 +105,8 @@ export default class MailClicker {
 
         this.statisticsService.addClick(cashmail.handler.name, cashmail.account);
         this.stateService.text = `Deleting mail from ${cashmail.handler.name}`;
-        if (!PlatformUtil.isDevelopment()) {
-            LoggerService.log(`Deleting mail from ${cashmail.from}`);
-            this.mailClient.deleteMail(cashmail.id);
-        }
+        LoggerService.log(`Deleting mail from ${cashmail.from}`);
+        this.mailClient.deleteMail(cashmail.id);
     }
 
     private async getBrowserByPlatform(): Promise<any> {
@@ -117,6 +114,7 @@ export default class MailClicker {
             LoggerService.log(`Development mode, using puppeteer`);
             return await puppeteer.launch({
                 headless: true,
+                product: 'firefox',
                 args: this.getBrowserArgs()
             });
         } else {
