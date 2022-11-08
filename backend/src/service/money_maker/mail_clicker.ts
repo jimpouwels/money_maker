@@ -93,17 +93,17 @@ export default class MailClicker {
                 throw new ClickNavigationTimedOutError();
             }
         }
-        this.resolveClick(page, cashmail);
+        await this.resolveClick(page, cashmail);
     }
 
-    private resolveClick(page: any, cashmail: Mail) {
+    private async resolveClick(page: any, cashmail: Mail): Promise<void> {
         LoggerService.log(`Redirected to ${page.url()}`);
         LoggerService.log(`Saving statistic`);
 
         this.statisticsService.addClick(cashmail.handler.name, cashmail.account);
         this.stateService.text = `Deleting mail from ${cashmail.handler.name}`;
         LoggerService.log(`Deleting mail from ${cashmail.from}`);
-        this.mailClient.deleteMail(cashmail.id);
+        await this.mailClient.deleteMail(cashmail.id);
     }
 
     private async getBrowserByPlatform(): Promise<any> {

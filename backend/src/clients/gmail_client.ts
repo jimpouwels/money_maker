@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import axios from "axios";
 import Mail from "../domain/mail";
+import LoggerService from "../service/logger_service";
 
 export default class GmailClient {
 
@@ -72,7 +73,7 @@ export default class GmailClient {
             return axios(config).then((_response: any) => {
                 return;
             }).catch((error: any) => {
-                console.log(error.response.data);
+                LoggerService.logError(error.response.data, error);
             });
         });
     }
