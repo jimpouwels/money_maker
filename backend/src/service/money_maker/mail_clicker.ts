@@ -114,7 +114,6 @@ export default class MailClicker {
             LoggerService.log(`Development mode, using puppeteer`);
             return await puppeteer.launch({
                 headless: true,
-                product: 'firefox',
                 args: this.getBrowserArgs()
             });
         } else {
