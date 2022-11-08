@@ -49,7 +49,7 @@ export default class MoneyMakerService {
         this.urlExtractor = new UrlExtractor();
     }
 
-    async makeMoney() {
+    async makeMoney(): Promise<void> {
         LoggerService.clear();
         this.stateService.state = 'Running';
         this.stateService.text = 'Initializing';

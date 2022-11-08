@@ -45,5 +45,5 @@ new StatisticsController(app, statisticsService);
 new StateController(app, stateService);
 new LogController(app);
 
-moneyMakerService.makeMoney();
+await moneyMakerService.makeMoney();
 process.exit();
