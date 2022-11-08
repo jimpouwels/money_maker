@@ -70,7 +70,7 @@ export default class MailClicker {
                 // WORKAROUND: Apparently memory is freed up in a faster/better way when navigation
                 // to 'about:blank'.
                 try {
-                    pageToClose.goto('about:blank')
+                    await pageToClose.goto('about:blank')
                 } catch (error: any) {
                     LoggerService.logError(`WARNING: An error occurred when navigating to about:blank and closing the tab`, error);
                 }
