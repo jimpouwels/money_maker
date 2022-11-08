@@ -37,10 +37,7 @@ export default class OnlineLeadsHandler extends Handler {
             throw error;
         }
 
-        await Promise.all([
-            page.waitForNavigation({ timeout: 15000 }),
-            page.click('.btn-green')
-        ]);
+        await page.click('.btn-green')
 
         LoggerService.log(`Green button clicked`);
         if (this.hasNewTabBug) {
