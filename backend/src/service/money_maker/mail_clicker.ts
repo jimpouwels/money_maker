@@ -4,7 +4,6 @@ import ClickNavigationTimedOutError from './error/click_navigation_timed_out_err
 import ThreadUtil from '../../util/thread_util';
 import LoggerService from '../logger_service';
 import PlatformUtil from '../../util/platform_util';
-import ZinnGeldHandler from './handlers/zinngeld_handler';
 import Url from '../../domain/url';
 import Handler from './handlers/handler';
 import GmailClient from '../../clients/gmail_client';
