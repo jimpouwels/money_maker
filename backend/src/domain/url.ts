@@ -1,3 +1,5 @@
+import LoggerService from "../service/logger_service";
+
 type QueryParam = { name: string, value: string };
 
 export default class Url {
@@ -61,37 +63,43 @@ export default class Url {
         return this.queryParams.find(qp => qp.name === name) != null;
     }
 
-    public static parse(url: string): Url {
-        let parsedUrl = new Url();
-        let decodedUrl = decodeURIComponent(url).replace(/&amp;/g, '&');
-        parsedUrl.full = decodedUrl;
-        if (!url.includes('://')) {
+    public static parse(url: string): Url | null {
+        try {
+            let parsedUrl = new Url();
+            let correctedUrl = url.replace(/20%\+/g, '');
+            let decodedUrl = decodeURIComponent(correctedUrl).replace(/&amp;/g, '&');
+            parsedUrl.full = decodedUrl;
+            if (!url.includes('://')) {
+                return parsedUrl;
+            }
+            let parts = decodedUrl.split('://');
+            let hostAndPath = parts[1].replace(/\/\//g, '/').split(/\/(.*)/s);
+            const host = hostAndPath[0];
+            const pathAndQueryString = hostAndPath.length > 1 ? hostAndPath[1].split('?') : [];
+
+            // Handle the case in which an URL mistakenly has multiple question marks
+            let queryStringParts: string[] = [];
+            if (pathAndQueryString.length > 1) {
+                [, ...queryStringParts] = pathAndQueryString;
+            }
+            let queryString = queryStringParts.join('&');
+
+            const queryParams: QueryParam[] = [];
+            for (let queryParam of queryString.split('&')) {
+                let queryParamParts = queryParam.split('=');
+                queryParams.push({ name: queryParamParts[0], value: queryParamParts[1] });
+            }
+            
+            let path = (pathAndQueryString.length > 0 ? `/${pathAndQueryString[0]}` : '/');
+            parsedUrl.protocol = parts[0];
+            parsedUrl.path = path;
+            parsedUrl.host = host;
+            parsedUrl.queryString = queryString;
+            parsedUrl.queryParams = queryParams;
             return parsedUrl;
+        } catch (err: any) {
+            LoggerService.logError(`Error parsing url ${url}`, err);
         }
-        let parts = decodedUrl.split('://');
-        let hostAndPath = parts[1].replace(/\/\//g, '/').split(/\/(.*)/s);
-        const host = hostAndPath[0];
-        const pathAndQueryString = hostAndPath.length > 1 ? hostAndPath[1].split('?') : [];
-
-        // Handle the case in which an URL mistakenly has multiple question marks
-        let queryStringParts: string[] = [];
-        if (pathAndQueryString.length > 1) {
-            [, ...queryStringParts] = pathAndQueryString;
-        }
-        let queryString = queryStringParts.join('&');
-
-        const queryParams: QueryParam[] = [];
-        for (let queryParam of queryString.split('&')) {
-            let queryParamParts = queryParam.split('=');
-            queryParams.push({ name: queryParamParts[0], value: queryParamParts[1] });
-        }
-        
-        let path = (pathAndQueryString.length > 0 ? `/${pathAndQueryString[0]}` : '/');
-        parsedUrl.protocol = parts[0];
-        parsedUrl.path = path;
-        parsedUrl.host = host;
-        parsedUrl.queryString = queryString;
-        parsedUrl.queryParams = queryParams;
-        return parsedUrl;
+        return null;
     }
 }
