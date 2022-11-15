@@ -102,7 +102,6 @@ export default class MoneyMakerService {
         });
     }
 
-    // FIXME: introduce generic type 'Client'
     private getClient(config: any, forwarders: string[]): MailClient {
         if (config.type === 'gmail') {
             return new GmailClient(config.userId, 
