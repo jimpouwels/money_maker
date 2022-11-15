@@ -9,7 +9,11 @@ export default class UrlExtractor {
     public extractUrls(cashmails: Mail[]): void {
         for (const cashmail of cashmails) {
             LoggerService.log(`Searching for links in ${cashmail.from}`);
-            cashmail.cashUrl = this.extractUrlFromHtml(cashmail.body, cashmail.handler);
+            try {
+                cashmail.cashUrl = this.extractUrlFromHtml(cashmail.body, cashmail.handler);
+            } catch (error: any) {
+                LoggerService.log(`No URL found for ${cashmail.handler.name}`);
+            }
         }
     }
 
@@ -21,10 +25,10 @@ export default class UrlExtractor {
             for (const match of matches) {
                 const foundMatch = match[1];
                 try {
-                    const url = Url.parse(foundMatch);
-                    if (handler.matchUrl(url)) {
-                        console.log(`Found URL ${url.full}`);
-                        return url;
+                    const foundUrl = Url.parse(foundMatch);
+                    if (handler.matchUrl(foundUrl)) {
+                        console.log(`Found URL ${foundUrl.full}`);
+                        return foundUrl;
                     }
                 } catch (error: any) {
                     if (error instanceof InvalidUrlError) {
@@ -35,6 +39,6 @@ export default class UrlExtractor {
                 }
             }
         }
-        LoggerService.log(`No URL found for ${handler.name}`);
+        throw new Error(`No matching URL found for ${handler.name}`);
     }
 }

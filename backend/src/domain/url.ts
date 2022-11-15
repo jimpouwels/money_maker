@@ -63,7 +63,7 @@ export default class Url {
         return this.queryParams.find(qp => qp.name === name) != null;
     }
 
-    public static parse(url: string): Url | null {
+    public static parse(url: string): Url {
         try {
             let parsedUrl = new Url();
             let correctedUrl = url.replace(/20%\+/g, '');
@@ -100,6 +100,6 @@ export default class Url {
         } catch (err: any) {
             LoggerService.logError(`Error parsing url ${url}`, err);
         }
-        return null;
+        throw new Error(`Invalid URL ${url}`);
     }
 }

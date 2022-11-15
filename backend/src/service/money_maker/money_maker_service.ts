@@ -16,6 +16,7 @@ import LoggerService from '../logger_service';
 import GmailClient from '../../clients/gmail_client';
 import MailFilter from './mail_filter';
 import NoCashUrlsFoundError from './error/no_cashurls_found_error';
+import Mail from '../../domain/mail';
 
 export default class MoneyMakerService {
 
@@ -59,23 +60,17 @@ export default class MoneyMakerService {
                 const client = this.getClient(config, this.forwarders);
                 this.stateService.text = `Finding cashmails`;
                 let mailFilter = new MailFilter(this.handlers, client);
-                let mailClicker = new MailClicker(this.handlers, client, this.statisticsService, this.stateService);
         
                 LoggerService.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
-                const allMails = await client.getCashMails(config.labelId)
-                const cashmails = mailFilter.filterCashMails(allMails);
-        
+                const cashmails = await this.getAllCashMails(client, config, mailFilter);
+
                 LoggerService.log('\n---SCANNING CASH MAILS FOR URLS---');
                 this.urlExtractor.extractUrls(cashmails);
                 
                 LoggerService.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
-                await mailClicker.openBrowser();
-                for (const cashmail of cashmails) {
-                    await mailClicker.click(cashmail);
-                };
+                await this.clickMails(client, cashmails);
+                
                 this.statisticsService.removeExpiredClicks();
-
-                await mailClicker.closeBrowser();
         
                 LoggerService.log('\nAll cash URL\'s were clicked!');
             } catch (error: any) {
@@ -95,7 +90,17 @@ export default class MoneyMakerService {
         }
         this.running = false;
     }
-    
+
+    private async clickMails(client: GmailClient, cashmails: Mail[]): Promise<void> {
+        let mailClicker = new MailClicker(this.handlers, client, this.statisticsService, this.stateService);
+        return mailClicker.openBrowser().then(async() => {
+            for (const cashmail of cashmails) {
+                await mailClicker.click(cashmail);
+            };
+            await mailClicker.closeBrowser();
+        });
+    }
+
     // FIXME: introduce generic type 'Client'
     private getClient(config: any, forwarders: string[]): GmailClient {
         if (config.type === 'gmail') {
@@ -107,6 +112,12 @@ export default class MoneyMakerService {
                                     forwarders);
         }
         throw new NoSuchClientError();
+    }
+    
+    private async getAllCashMails(client: GmailClient, config: any, mailFilter: MailFilter): Promise<Mail[]> {
+        return client.getCashMails(config.labelId).then(allMails => {
+            return mailFilter.filterCashMails(allMails);
+        });
     }
 
     private get handlers(): Handler[] {

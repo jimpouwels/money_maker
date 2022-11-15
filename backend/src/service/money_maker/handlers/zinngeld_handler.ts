@@ -3,6 +3,8 @@ import Handler from "./handler";
 
 export default class ZinnGeldHandler extends Handler {
     
+    private skipSubjects = ['nieuwe deelname'];
+
     public constructor(name: string) {
         super(name);
     }
@@ -19,7 +21,7 @@ export default class ZinnGeldHandler extends Handler {
     }
 
     protected getSkipSubjects(): string[] {
-        return [];
+        return this.skipSubjects;
     }
 
 }

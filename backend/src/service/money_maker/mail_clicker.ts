@@ -40,7 +40,7 @@ export default class MailClicker {
 
     public async click(cashmail: Mail): Promise<void> {
         if (!cashmail.cashUrl) {
-            LoggerService.log(`No cash URL's were found for cashmail from ${cashmail.from}`);
+            LoggerService.log(`No cash URL's were found for cashmail from ${cashmail.from}, skipping...`);
             return;
         }
         let page = await this.browser.newPage();
