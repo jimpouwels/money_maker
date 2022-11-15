@@ -27,16 +27,16 @@ export default class MailFilter {
         const matchingMails: Mail[] = [];
         for (const mail of mails) {
             let matchFound = false;
-            handlersLoop: for (const handler of this.handlers) {
+            for (const handler of this.handlers) {
                 if (handler.matchMail(mail)) {
                     if (handler.filter(mail)) {
-                        break handlersLoop;
+                        break;
                     }
                     matchFound = true;
                     matchingMails.push(mail);
                     mail.handler = handler;
                     LoggerService.log(`Found cashmail from ${mail.from} for account ${mail.account}`);
-                    break handlersLoop;
+                    break;
                 }
             };
             if (!matchFound) {
