@@ -14,6 +14,7 @@ import OrangeBuddiesHandler from './handlers/orangebuddies_handler';
 import QassaHandler from './handlers/qassa_handler';
 import LoggerService from '../logger_service';
 import GmailClient from '../../clients/gmail_client';
+import MailClient from '../../clients/mail_client';
 import MailFilter from './mail_filter';
 import NoCashUrlsFoundError from './error/no_cashurls_found_error';
 import Mail from '../../domain/mail';
@@ -91,7 +92,7 @@ export default class MoneyMakerService {
         this.running = false;
     }
 
-    private async clickMails(client: GmailClient, cashmails: Mail[]): Promise<void> {
+    private async clickMails(client: MailClient, cashmails: Mail[]): Promise<void> {
         let mailClicker = new MailClicker(this.handlers, client, this.statisticsService, this.stateService);
         return mailClicker.openBrowser().then(async() => {
             for (const cashmail of cashmails) {
@@ -102,7 +103,7 @@ export default class MoneyMakerService {
     }
 
     // FIXME: introduce generic type 'Client'
-    private getClient(config: any, forwarders: string[]): GmailClient {
+    private getClient(config: any, forwarders: string[]): MailClient {
         if (config.type === 'gmail') {
             return new GmailClient(config.userId, 
                                     config.clientId, 
@@ -114,7 +115,7 @@ export default class MoneyMakerService {
         throw new NoSuchClientError();
     }
     
-    private async getAllCashMails(client: GmailClient, config: any, mailFilter: MailFilter): Promise<Mail[]> {
+    private async getAllCashMails(client: MailClient, config: any, mailFilter: MailFilter): Promise<Mail[]> {
         return client.getCashMails(config.labelId).then(allMails => {
             return mailFilter.filterCashMails(allMails);
         });

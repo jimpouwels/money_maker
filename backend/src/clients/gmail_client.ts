@@ -2,8 +2,9 @@ import { google } from "googleapis";
 import axios from "axios";
 import Mail from "../domain/mail";
 import LoggerService from "../service/logger_service";
+import MailClient from "./mail_client";
 
-export default class GmailClient {
+export default class GmailClient implements MailClient {
 
     private _oAuth2Client: any;
     private _userId: string;

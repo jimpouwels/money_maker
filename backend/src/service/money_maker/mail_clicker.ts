@@ -6,21 +6,21 @@ import LoggerService from '../logger_service';
 import PlatformUtil from '../../util/platform_util';
 import Url from '../../domain/url';
 import Handler from './handlers/handler';
-import GmailClient from '../../clients/gmail_client';
 import StatisticsService from '../statistics_service';
 import StateService from '../state_service';
 import Mail from '../../domain/mail';
+import MailClient from '../../clients/mail_client';
 
 export default class MailClicker {
 
     private _browser: any;
     private _handlers: Handler[];
-    private _mailClient: GmailClient;
+    private _mailClient: MailClient;
     private _statisticsService: StatisticsService;
     private _stateService: StateService;
     private static CLICK_NAVIGATION_TIMEOUT: number = 30000;
 
-    public constructor(handlers: Handler[], mailClient: GmailClient, statisticsService: StatisticsService, stateService: StateService) {
+    public constructor(handlers: Handler[], mailClient: MailClient, statisticsService: StatisticsService, stateService: StateService) {
         this.handlers = handlers;
         this.mailClient = mailClient;
         this.statisticsService = statisticsService;
@@ -146,11 +146,11 @@ export default class MailClicker {
         this._handlers = handlers;
     }
 
-    private get mailClient(): GmailClient {
+    private get mailClient(): MailClient {
         return this._mailClient;
     }
 
-    private set mailClient(mailClient: GmailClient) {
+    private set mailClient(mailClient: MailClient) {
         this._mailClient = mailClient;
     }
 

@@ -1,6 +1,5 @@
-import GmailClient from "../../clients/gmail_client.js";
+import MailClient from "../../clients/mail_client.js";
 import Mail from "../../domain/mail";
-import PlatformUtil from "../../util/platform_util";
 import LoggerService from "../logger_service";
 import NoCashmailsFoundError from "./error/no_cashmails_found_error";
 import Handler from "./handlers/handler";
@@ -8,9 +7,9 @@ import Handler from "./handlers/handler";
 export default class MailFilter {
 
     private _handlers: Handler[];
-    private _mailClient: GmailClient;
+    private _mailClient: MailClient;
 
-    public constructor(handlers: Handler[], mailClient: GmailClient) {
+    public constructor(handlers: Handler[], mailClient: MailClient) {
         this.handlers = handlers;
         this.mailClient = mailClient;
     }
@@ -55,11 +54,11 @@ export default class MailFilter {
         this._handlers = handlers;
     }
 
-    private get mailClient(): GmailClient {
+    private get mailClient(): MailClient {
         return this._mailClient;
     }
 
-    private set mailClient(handlers: GmailClient) {
+    private set mailClient(handlers: MailClient) {
         this._mailClient = handlers;
     }
 

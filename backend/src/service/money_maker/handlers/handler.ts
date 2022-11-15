@@ -22,7 +22,7 @@ export default abstract class Handler {
             return false;
         }
         return !url.full.includes('chrome-error') && !url.full.includes('about:blank');
-    }
+    }   
 
     public matchMail(mail: Mail): boolean {
         return mail.from.toLowerCase().includes(this.name.toLowerCase());

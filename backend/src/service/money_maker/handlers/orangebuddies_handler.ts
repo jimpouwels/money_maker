@@ -28,7 +28,8 @@ export default class OrangeBuddiesHandler extends Handler {
     public hasRedirected(url: Url): boolean {
         return super.hasRedirected(url) && 
             (!url.host.includes(this.identifier) || 
-            (url.host.includes(this.identifier) && url.path.includes('login.php')));
+            (url.host.includes(this.identifier) && url.path.includes('login.php'))) ||
+            url.path.includes('404.php');
     }
 
     protected getSkipSubjects(): string[] {

@@ -16,7 +16,7 @@ export default class GeldraceHandler extends Handler {
     }
     
     public hasRedirected(url: Url): boolean {
-        return super.hasRedirected(url) && !url.host.includes('geldrace.nl');
+        return super.hasRedirected(url) && !url.path.includes('clickout');
     }
 
     public override matchMail(mail: Mail): boolean {
