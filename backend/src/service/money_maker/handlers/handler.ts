@@ -17,7 +17,10 @@ export default abstract class Handler {
         this._name = name;
     }
 
-    public hasRedirected(url: Url): boolean {
+    public hasRedirected(url: Url | null): boolean {
+        if (!url) {
+            return false;
+        }
         return !url.full.includes('chrome-error') && !url.full.includes('about:blank');
     }
 
