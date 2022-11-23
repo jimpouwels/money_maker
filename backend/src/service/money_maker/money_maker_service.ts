@@ -96,7 +96,9 @@ export default class MoneyMakerService {
         let mailClicker = new MailClicker(this.handlers, client, this.statisticsService, this.stateService);
         return mailClicker.openBrowser().then(async() => {
             for (const cashmail of cashmails) {
-                await mailClicker.click(cashmail);
+                await mailClicker.click(cashmail).catch(error => {
+                    LoggerService.logError(`ERROR: This mail could not be clicked due to an error`, error);
+                });
             };
             await mailClicker.closeBrowser();
         });
