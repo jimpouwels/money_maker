@@ -62,17 +62,30 @@ export default class MoneyMakerService {
                 this.stateService.text = `Finding cashmails`;
                 let mailFilter = new MailFilter(this.handlers, client);
         
-                LoggerService.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
-                const cashmails = await this.getAllCashMails(client, config, mailFilter);
+                const processedMails: string[] = [];
+                
+                while (true) {
+                    LoggerService.log(`\n---SEARCHING CASH MAILS FOR ${config.userId}---`);
+                    const cashmails = await this.getAllCashMails(client, config, mailFilter);
 
-                LoggerService.log('\n---SCANNING CASH MAILS FOR URLS---');
-                this.urlExtractor.extractUrls(cashmails);
-                
-                LoggerService.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
-                await this.clickMails(client, cashmails);
-                
-                this.statisticsService.removeExpiredClicks();
-        
+                    const unprocessedMails = cashmails.filter(m => !processedMails.includes(m.id));
+                    if (unprocessedMails.length == 0) {
+                        break;
+                    }
+
+                    LoggerService.log('\n---SCANNING CASH MAILS FOR URLS---');
+                    this.urlExtractor.extractUrls(unprocessedMails);
+                    
+                    LoggerService.log('\n---CLICKING CASH LINKS, MAKING MONEY!---');
+                    await this.clickMails(client, unprocessedMails);
+                    
+                    this.statisticsService.removeExpiredClicks();
+            
+                    for (const cashmail of unprocessedMails) {
+                        processedMails.push(cashmail.id);
+                    }
+                }
+
                 LoggerService.log('\nAll cash URL\'s were clicked!');
             } catch (error: any) {
                 if (error instanceof NoCashUrlsFoundError) {
