@@ -81,9 +81,7 @@ export default class MoneyMakerService {
                     
                     this.statisticsService.removeExpiredClicks();
             
-                    for (const cashmail of unprocessedMails) {
-                        processedMails.push(cashmail.id);
-                    }
+                    processedMails.push(...unprocessedMails.map(m => m.id));
                 }
 
                 LoggerService.log('\nAll cash URL\'s were clicked!');
