@@ -15,7 +15,8 @@ export default class EuroClixHandler extends Handler {
     }
     
     public hasRedirected(url: Url): boolean {
-        return super.hasRedirected(url) && (!url.host.includes('euroclix.nl') || url.hasParam('utm_campaign'));
+        return super.hasRedirected(url) && (!url.host.includes('euroclix.nl') || url.hasParam('utm_campaign')) || 
+               url.path.includes('email%2Ferror');
     }
 
     protected getSkipSubjects(): string[] {
