@@ -63,6 +63,13 @@ export default class Url {
         return this.queryParams.find(qp => qp.name === name) != null;
     }
 
+    public getParam(name: string): string {
+        if (!this.hasParam(name)) {
+            return '';
+        }
+        return this.queryParams.find(qp => qp.name === name).value;
+    }
+
     public static parse(url: string): Url {
         try {
             let parsedUrl = new Url();
