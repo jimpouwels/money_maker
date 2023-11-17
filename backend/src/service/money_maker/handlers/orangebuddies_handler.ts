@@ -1,4 +1,6 @@
+import Mail from "../../../domain/mail";
 import Url from "../../../domain/url";
+import LoggerService from "../../logger_service";
 import Handler from "./handler";
 
 export default class OrangeBuddiesHandler extends Handler {
@@ -26,10 +28,18 @@ export default class OrangeBuddiesHandler extends Handler {
     }
     
     public hasRedirected(url: Url, attempts: number): boolean {
+        if (attempts >= 10 && url.host.includes(this.identifier)) {
+            LoggerService.log("After 10 attempts the page is still at the domain of the sender of the mail, marking as clicked...")
+            return true;
+        }
         return super.hasRedirected(url, attempts) && 
             (!url.host.includes(this.identifier) || 
             (url.host.includes(this.identifier) && url.path.includes('login'))) ||
             url.path.includes('404.php');
+    }
+    
+    public isNoCashmail(mail: Mail): boolean {
+        return mail.body.toLocaleLowerCase().includes('de beste deals van vandaag');
     }
 
     protected getSkipSubjects(): string[] {

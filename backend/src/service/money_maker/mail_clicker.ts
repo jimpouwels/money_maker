@@ -41,12 +41,16 @@ export default class MailClicker {
     public async click(cashmail: Mail): Promise<void> {
         if (!cashmail.cashUrl) {
             LoggerService.log(`No cash URL's were found for cashmail from ${cashmail.from}, skipping...`);
+            if (cashmail.markForDeletion) {
+                LoggerService.log('This is known NOT to be a cashmail, DELETING...');
+                await this.mailClient.deleteMail(cashmail.id);
+            }
             return;
         }
         let page = await this.browser.newPage();
         LoggerService.log(`\nTrying to open the link '${cashmail.cashUrl.full}' from ${cashmail.from}`);
+        const handler = cashmail.handler;
         await page.goto(cashmail.cashUrl.full, { timeout: 15000 }).then(async () => {
-            const handler = cashmail.handler;
             this.stateService.text = `Clicking cashmail from ${handler.name}`;
             await handler.performCustomAction(page, cashmail.cashUrl, this.browser);
             await this.checkRedirection(page, cashmail);

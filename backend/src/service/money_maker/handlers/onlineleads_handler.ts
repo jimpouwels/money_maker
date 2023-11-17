@@ -1,3 +1,4 @@
+import Mail from "../../../domain/mail";
 import Url from "../../../domain/url";
 import ThreadUtil from "../../../util/thread_util";
 import LoggerService from "../../logger_service";
@@ -73,6 +74,10 @@ export default class OnlineLeadsHandler extends Handler {
 
     protected getSkipSubjects(): string[] {
         return [];
+    }
+    
+    public isNoCashmail(mail: Mail): boolean {
+        return false;
     }
 
 }

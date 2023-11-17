@@ -10,6 +10,7 @@ export default class Mail {
     private _subject: string;
     private _cashUrl: Url;
     private _handler: Handler;
+    private _markForDeletion: boolean;
 
     constructor(id: string, from: string, account: string, body: string, subject: string) {
         this.id = id;
@@ -73,6 +74,14 @@ export default class Mail {
 
     public set handler(handler: Handler) {
         this._handler = handler;
+    }
+
+    public get markForDeletion(): boolean {
+        return this._markForDeletion;
+    }
+
+    public set markForDeletion(markForDeletion: boolean) {
+        this._markForDeletion = markForDeletion;
     }
 
 }

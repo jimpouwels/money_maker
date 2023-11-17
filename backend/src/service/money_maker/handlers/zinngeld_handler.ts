@@ -1,3 +1,4 @@
+import Mail from "../../../domain/mail";
 import Url from "../../../domain/url";
 import Handler from "./handler";
 
@@ -22,6 +23,10 @@ export default class ZinnGeldHandler extends Handler {
 
     protected getSkipSubjects(): string[] {
         return this.skipSubjects;
+    }
+    
+    public isNoCashmail(mail: Mail): boolean {
+        return false;
     }
 
 }

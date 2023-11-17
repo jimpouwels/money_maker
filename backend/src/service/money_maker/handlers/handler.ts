@@ -35,6 +35,8 @@ export default abstract class Handler {
         return this.getSkipSubjects().find(subject => mail.subject.toLowerCase().includes(subject.toLowerCase())) != null;
     }
 
+    public abstract isNoCashmail(mail: Mail): boolean;
+
     public abstract matchUrl(url: Url): boolean;
 
     public abstract performCustomAction(page: any, _url: Url, browser: any): Promise<void>;

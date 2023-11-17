@@ -1,8 +1,9 @@
+import Mail from "../../../domain/mail";
 import Url from "../../../domain/url";
 import Handler from "./handler";
 
 export default class EuroClixHandler extends Handler {
-
+   
     public constructor(name: string) {
         super(name);
     }
@@ -21,6 +22,10 @@ export default class EuroClixHandler extends Handler {
 
     protected getSkipSubjects(): string[] {
         return ['Jouw Clix zijn beschikbaar'];
+    }
+    
+    public isNoCashmail(mail: Mail): boolean {
+        return false;
     }
 
 }

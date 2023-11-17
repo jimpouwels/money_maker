@@ -26,5 +26,9 @@ export default class GeldraceHandler extends Handler {
     protected getSkipSubjects(): string[] {
         return [];
     }
+    
+    public isNoCashmail(mail: Mail): boolean {
+        return false;
+    }
 
 }

@@ -1,3 +1,4 @@
+import Mail from "../../../domain/mail";
 import Url from "../../../domain/url";
 import Handler from "./handler";
 
@@ -20,6 +21,10 @@ export default class QassaHandler extends Handler {
 
     protected getSkipSubjects(): string[] {
         return [];
+    }
+    
+    public isNoCashmail(mail: Mail): boolean {
+        return mail.body.toLowerCase().includes('je ontvangt geen qoins');
     }
 
 }

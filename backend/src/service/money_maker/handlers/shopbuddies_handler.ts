@@ -1,3 +1,4 @@
+import Mail from "../../../domain/mail";
 import Url from "../../../domain/url";
 import Handler from "./handler";
 
@@ -8,7 +9,7 @@ export default class ShopBuddiesHandler extends Handler {
     }
 
     public matchUrl(url: Url): boolean {
-        return url.host.includes('shopbuddies') && url.path.includes('newsletter_exit');
+        return url.hasParam('linkId') && url.getParam('linkId').includes('storeId') && !url.getParam('linkId').includes('vouhcer');
     }
 
     public async performCustomAction(_page: any, _url: Url, _browser: any): Promise<void> {
@@ -20,6 +21,10 @@ export default class ShopBuddiesHandler extends Handler {
 
     protected getSkipSubjects(): string[] {
         return ['ledenactie'];
+    }
+    
+    public isNoCashmail(mail: Mail): boolean {
+        return false;
     }
 
 }
