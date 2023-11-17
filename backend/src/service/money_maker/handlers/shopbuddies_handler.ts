@@ -14,8 +14,8 @@ export default class ShopBuddiesHandler extends Handler {
     public async performCustomAction(_page: any, _url: Url, _browser: any): Promise<void> {
     }
     
-    public hasRedirected(url: Url): boolean {
-        return super.hasRedirected(url) && !url.host.includes('shopbuddies.nl');
+    public hasRedirected(url: Url, attempts: number): boolean {
+        return super.hasRedirected(url, attempts) && !url.host.includes('shopbuddies.nl');
     }
 
     protected getSkipSubjects(): string[] {

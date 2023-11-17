@@ -85,12 +85,14 @@ export default class MailClicker {
     private async checkRedirection(page: any, cashmail: Mail) {
         LoggerService.log(`Checking for redirection`);
         let startLoop = Date.now();
-        while (!cashmail.handler.hasRedirected(Url.parse(page.url()))) {
+        let attempts = 0;
+        while (!cashmail.handler.hasRedirected(Url.parse(page.url()), attempts)) {
             LoggerService.log(`Waiting for page to redirect to target from ${page.url()}`);
             await(ThreadUtil.sleep(1000));
             if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
                 throw new ClickNavigationTimedOutError();
             }
+            attempts++;
         }
         await this.resolveClick(page, cashmail);
     }

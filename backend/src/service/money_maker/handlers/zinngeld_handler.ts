@@ -16,8 +16,8 @@ export default class ZinnGeldHandler extends Handler {
     public async performCustomAction(_page: any, _url: Url, _browser: any): Promise<void> {
     }
     
-    public hasRedirected(url: Url): boolean {
-        return super.hasRedirected(url) && true;
+    public hasRedirected(url: Url, attempts: number): boolean {
+        return super.hasRedirected(url, attempts) && true;
     }
 
     protected getSkipSubjects(): string[] {

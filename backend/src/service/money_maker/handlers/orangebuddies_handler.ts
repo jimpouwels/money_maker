@@ -19,16 +19,16 @@ export default class OrangeBuddiesHandler extends Handler {
     }
 
     public matchUrl(url: Url): boolean {
-        return url.host.includes(this.identifier) && url.path.includes('cm-l') && !url.hasParam('sid');
+        return url.host.includes(this.identifier) && url.hasParam('linkId') && !url.getParam('linkId').includes('bannerId');
     }
 
     public async performCustomAction(_page: any, _url: Url, _browser: any): Promise<void> {
     }
     
-    public hasRedirected(url: Url): boolean {
-        return super.hasRedirected(url) && 
+    public hasRedirected(url: Url, attempts: number): boolean {
+        return super.hasRedirected(url, attempts) && 
             (!url.host.includes(this.identifier) || 
-            (url.host.includes(this.identifier) && url.path.includes('login.php'))) ||
+            (url.host.includes(this.identifier) && url.path.includes('login'))) ||
             url.path.includes('404.php');
     }
 

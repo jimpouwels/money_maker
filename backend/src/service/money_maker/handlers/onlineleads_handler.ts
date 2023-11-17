@@ -64,11 +64,11 @@ export default class OnlineLeadsHandler extends Handler {
         }
     }
     
-    public hasRedirected(url: Url): boolean {
+    public hasRedirected(url: Url, attempts: number): boolean {
         // after the final cash url has been clicked, its link opens in a new tab. As a result, the original 
         // tab redirects to 'https://www.${hostname}/gebruiker/. When that happens, we consider the
         // redirect to be successful.
-        return super.hasRedirected(url) && url.path.startsWith('/gebruiker');
+        return super.hasRedirected(url, attempts) && url.path.startsWith('/gebruiker');
     }
 
     protected getSkipSubjects(): string[] {

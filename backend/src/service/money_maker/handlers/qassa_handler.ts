@@ -14,8 +14,8 @@ export default class QassaHandler extends Handler {
     public async performCustomAction(_page: any, _url: Url, _browser: any): Promise<void> {
     }
     
-    public hasRedirected(url: Url): boolean {
-        return super.hasRedirected(url) && !url.path.includes('/klik/');
+    public hasRedirected(url: Url, attempts: number): boolean {
+        return super.hasRedirected(url, attempts) && !url.path.includes('/klik/');
     }
 
     protected getSkipSubjects(): string[] {
