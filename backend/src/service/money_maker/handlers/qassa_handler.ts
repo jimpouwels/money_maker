@@ -8,7 +8,7 @@ export default class QassaHandler extends Handler {
     }
 
     public matchUrl(url: Url): boolean {
-        return url.path.includes('/klik/');
+        return url.path.includes('/mailing/');
     }
 
     public async performCustomAction(_page: any, _url: Url, _browser: any): Promise<void> {
