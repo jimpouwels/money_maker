@@ -18,6 +18,9 @@ export default class ZinnGeldHandler extends Handler {
     }
     
     public hasRedirected(url: Url, attempts: number): boolean {
+        if  (attempts >= 10 && url.full.includes('chrome-error://chromewebdata')) {
+            return true;
+        }
         return super.hasRedirected(url, attempts) && true;
     }
 
