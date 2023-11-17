@@ -1,5 +1,6 @@
 import Mail from "../../../domain/mail";
 import Url from "../../../domain/url";
+import LoggerService from "../../logger_service";
 
 export default abstract class Handler {
 
@@ -20,9 +21,6 @@ export default abstract class Handler {
     public hasRedirected(url: Url | null, attempts: number): boolean {
         if (!url) {
             return false;
-        }
-        if (attempts >= 10 && url.full.includes('about:blank')) {
-            return true;
         }
         return !url.full.includes('chrome-error') && !url.full.includes('about:blank');
     }   

@@ -96,6 +96,12 @@ export default class MailClicker {
             if ((Date.now() - startLoop) > MailClicker.CLICK_NAVIGATION_TIMEOUT) {
                 throw new ClickNavigationTimedOutError();
             }
+            
+            let url = Url.parse(page.url());
+            if (attempts >= 10 && (url.full.includes('about:blank') || url.full.includes('chrome-error://chromewebdata') || url.host.toLowerCase().includes(cashmail.handler.name.toLocaleLowerCase()))) {
+                LoggerService.log("After 10 attempts, the URL is still " + url.full + ", giving up...");
+                break;
+            }
             attempts++;
         }
         await this.resolveClick(page, cashmail);
