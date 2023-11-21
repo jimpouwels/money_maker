@@ -9,7 +9,7 @@ export default class ShopBuddiesHandler extends Handler {
     }
 
     public matchUrl(url: Url): boolean {
-        return url.hasParam('linkId') && url.getParam('linkId').includes('storeId') && !url.getParam('linkId').includes('vouhcer');
+        return (url.hasParam('linkId') && url.getParam('linkId').includes('storeId') && !url.getParam('linkId').includes('vouhcer')) || url.path.includes('visit/');
     }
 
     public async performCustomAction(_page: any, _url: Url, _browser: any): Promise<void> {
